@@ -7,7 +7,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "heroku-postbuild": "ng build --prod &amp;&amp; npm install -g http-server-spa",
+    "heroku-postbuild": "ng build --prod && npm install -g http-server-spa",
     "start": "http-server-spa dist/WebEnterpriseDevFrontEnd index.html $PORT"
   },
   "private": true,
