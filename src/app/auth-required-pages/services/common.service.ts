@@ -13,7 +13,7 @@ export class CommonService {
     const payload: any = {
       body
     };
-    return this.http.post(`${environment.apiUrlLocal}/user/get-my-info`, payload);
+    return this.http.post(`${environment.apiUrl}/user/get-my-info`, payload);
   }
 
   // ${environment.apiUrl}
