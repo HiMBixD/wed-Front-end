@@ -1,29 +1,33 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {AppComponent} from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
-import { FooterComponent } from './footer/footer.component';
-import { HeaderComponent } from './header/header.component';
-import { HomepageComponent } from './homepage/homepage.component';
-import { Error404Component } from './error404/error404.component';
-import { LoginComponent } from './login/login.component';
+import '../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
+import {CommonModule} from '@angular/common';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {TokenInterceptor} from './core/interceptors/token.interceptor';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FooterComponent,
-    HeaderComponent,
-    HomepageComponent,
-    Error404Component,
-    LoginComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    CommonModule,
+    AppRoutingModule,
+    ToastrModule.forRoot({})
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
