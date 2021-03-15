@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../service/auth.service';
-import {Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../service/auth.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -17,10 +17,10 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder,
-              // private translate: @ngx-translate/core
-              private authService: AuthService,
-              private router: Router,
-              private toastrService: ToastrService,
+    // private translate: @ngx-translate/core
+    private authService: AuthService,
+    private router: Router,
+    private toastrService: ToastrService,
   ) { }
 
   ngOnInit(): void {

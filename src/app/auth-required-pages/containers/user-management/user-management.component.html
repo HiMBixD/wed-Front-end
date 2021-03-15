@@ -1,0 +1,198 @@
+<main class="container">
+    <app-header></app-header>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Your Activity</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User Management</li>
+        </ol>
+    </nav>
+    <h2>Manage User</h2>
+    <form>
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input class="form-control" id="username" placeholder="Username" [formControl]="username">
+            <div id="usernameHelp" class="form-text">Username must be less than 30 characters long. Username of existing
+                users cannot be
+                changed</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input class="form-control" id="firstName" placeholder="First Name" [formControl]="firstName">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input class="form-control" id="lastName" placeholder="Last Name" [formControl]="lastName">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input class="form-control" id="phoneNumber" placeholder="Phone Number" [formControl]="phoneNumber">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" id="email" placeholder="Email" [formControl]="email">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Role</label>
+            <select class="form-select" id="role-select" aria-label="role select">
+                <option *ngFor="let r of role" value="{{r.role_id}}">{{r.role_id}} - {{r.role_name}}
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Faculty</label>
+            <select class="form-select" id="faculty-select" aria-label="role select">
+                <option *ngFor="let f of faculty" value="{{f.faculty_id}}">{{f.faculty_id}} - {{f.faculty_name}}
+                </option>
+            </select>
+        </div>
+
+        <!-- Buttons -->
+        <button type="button" class="btn btn-primary" (click)="clearInput()">Clear</button><small
+            style="color:white">-</small>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmAddModal"
+            (click)="addNewUser()">Add</button><small style="color:white">-</small>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmDeletionModal"
+            (click)="confirmDeletion()">
+            Delete</button><small style="color:white">-</small>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
+            (click)="confirmUpdate()">
+            Update
+        </button>
+        <!-- ./ Buttons -->
+    </form>
+    <hr>
+    <h2>User List</h2>
+    <h3>Search</h3>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="search by username" aria-label="search by username"
+            aria-describedby="button-addon2" id="searchUser">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="onSearch()">Search</button>
+    </div>
+    <!-- search result -->
+    <div id="searchMessage"></div>
+    <div id="searchResult" *ngIf="searchResult[0]">
+        <h3>Search Result</h3>
+        <div class="table-responsive-md">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Faculty</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr scope="row" *ngFor="let user of searchResult">
+                        <td>{{user.username}}</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.phone}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.role_id}}</td>
+                        <td>{{user.faculty_id}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" (click)="getSelectedUser(user.username)">
+                                    Select</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- main table -->
+    <h3>All Users</h3>
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Faculty</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr scope="row" *ngFor="let user of user | paginate: { itemsPerPage: 5, currentPage: p }">
+                    <td>{{user.username}}</td>
+                    <td>{{user.firstName}}</td>
+                    <td>{{user.lastName}}</td>
+                    <td>{{user.phone}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.role_id}}</td>
+                    <td>{{user.faculty_id}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary"
+                            (click)="getSelectedUser(user.username)">Select</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+    <!-- Update Entry modal -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Entry</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmUpdateMessage">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Confirm Action</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation -->
+    <div class="modal fade" id="confirmDeletionModal" tabindex="-1" aria-labelledby="confirmDeletionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeletionModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmDeletionMessage">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Confirm Action</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add Confirmation modal -->
+    <div class="modal fade" id="confirmAddModal" tabindex="-1" aria-labelledby="confirmAddModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmAddModalLabel">Confirm New Entry</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmAddMessage">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Confirm Action</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
