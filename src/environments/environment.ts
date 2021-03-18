@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://wed-be.herokuapp.com/api',
+  url: 'https://wed-be.herokuapp.com',
   // apiUrlLocal: 'http://localhost:8080'
 };
 

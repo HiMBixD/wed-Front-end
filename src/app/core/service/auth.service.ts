@@ -14,7 +14,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   login(user: { username: string, password: string }): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/auth`, user)
+    return this.http.post<any>(`${environment.url}/auth`, user)
       .pipe(
         tap(token => {
           localStorage.setItem(this.JWT_TOKEN, token.data);
