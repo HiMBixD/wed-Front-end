@@ -7,6 +7,8 @@ import { NewAssignmentComponent } from './containers/new-assignment/new-assignme
 import { AccountSettingsComponent } from './containers/account-settings/account-settings.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FrontPageComponent } from './containers/front-page/front-page.component';
+import { YourActivitiesComponent } from './containers/your-activities/your-activities.component';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ...fromComponents.components,
     ...fromContainers.containers,
     NewAssignmentComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+    FrontPageComponent,
+    YourActivitiesComponent
   ],
   imports: [
     CommonModule,
