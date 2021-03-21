@@ -23,6 +23,7 @@
     "@angular/router": "~11.2.3",
     "@types/jscodeshift": "^0.11.0",
     "bootstrap": "^5.0.0-beta2",
+    "ngx-dropzone": "^3.0.0",
     "ngx-pagination": "^5.0.0",
     "ngx-toastr": "^13.2.0",
     "rxjs": "~6.6.0",
