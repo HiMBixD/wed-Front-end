@@ -10,6 +10,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FrontPageComponent } from './containers/front-page/front-page.component';
 import { YourActivitiesComponent } from './containers/your-activities/your-activities.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { ManagementDashboardComponent } from './containers/management-dashboard/management-dashboard.component';
+import { ChartsModule } from 'ng2-charts';
+import { SelectedSubmissionBrowserComponent } from './containers/selected-submission-browser/selected-submission-browser.component';
 
 
 @NgModule({
@@ -19,14 +22,17 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     NewAssignmentComponent,
     AccountSettingsComponent,
     FrontPageComponent,
-    YourActivitiesComponent
+    YourActivitiesComponent,
+    ManagementDashboardComponent,
+    SelectedSubmissionBrowserComponent
   ],
   imports: [
     CommonModule,
     AuthRequiredPagesRoutingModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    ChartsModule
   ]
 })
 export class AuthRequiredPagesModule { }

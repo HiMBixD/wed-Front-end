@@ -1,0 +1,72 @@
+<main class="container">
+    <h2>Management Dashboard</h2>
+    <hr>
+    <h3>General Information</h3>
+    <div style="display: block;">
+        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+            [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+        </canvas>
+    </div>
+<hr>
+    <h3>Exceptional Report</h3>
+    <h4 class="text-muted">Submissions without a comment after 14 days:</h4>
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Assignment</th>
+                    <th scope="col">Faculty</th>
+                    <th scope="col">Creator</th>
+                    <th scope="col">Student Username</th>
+                    <th scope="col">Submission date</th>
+                    <th scope="col">Days overdue</th>
+                    <th scope="col" style="text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr scope="row" *ngFor="let r of exReport | paginate: { itemsPerPage: 5, currentPage: p }">
+                    <td>{{r.assignment}}</td>
+                    <td>{{r.faculty}}</td>
+                    <td>{{r.creator}}</td>
+                    <td>{{r.studentUsername}}</td>
+                    <td>{{r.submissionDate}}</td>
+                    <td>{{r.daysOverdue}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary"
+                            (click)="sendReminderEmail()">Send Reminder</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h4 class="text-muted">Submissions currently without comment:</h4>
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Assignment</th>
+                    <th scope="col">Faculty</th>
+                    <th scope="col">Creator</th>
+                    <th scope="col">Student Username</th>
+                    <th scope="col">Submission date</th>
+                    <th scope="col">Days since submission</th>
+                    <th scope="col" style="text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr scope="row" *ngFor="let r of noCommentYet | paginate: { itemsPerPage: 5, currentPage: p }">
+                    <td>{{r.assignment}}</td>
+                    <td>{{r.faculty}}</td>
+                    <td>{{r.creator}}</td>
+                    <td>{{r.studentUsername}}</td>
+                    <td>{{r.submissionDate}}</td>
+                    <td>{{r.daysOverdue}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" (click)="sendReminderEmail()">Send Reminder</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
