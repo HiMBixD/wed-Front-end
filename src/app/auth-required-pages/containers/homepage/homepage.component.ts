@@ -8,10 +8,17 @@ import {CommonService} from '../../services/common.service';
 })
 export class HomepageComponent implements OnInit {
 
+  val;
   constructor(private commonService: CommonService) { }
 
   ngOnInit(): void {
-    this.commonService.getMyInfo({}).subscribe(val => console.log(val));
+    this.commonService.getMyInfo({}).subscribe(val => {
+      if (val) {
+        this.val = val;
+        console.log(this.val);
+        console.log(val.data.userName)
+      }
+    });
   }
 
 }

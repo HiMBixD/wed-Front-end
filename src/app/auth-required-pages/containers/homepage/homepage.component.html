@@ -1,7 +1,8 @@
 <div class="container">
     <!-- Header -->
-    <app-header></app-header>
+    <app-header [userData] = "val"></app-header>
     <!-- ./Header -->
+    <!-- {{val.data.userName}} -->
 </div>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
