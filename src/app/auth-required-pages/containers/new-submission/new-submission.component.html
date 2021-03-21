@@ -27,6 +27,12 @@
     <hr>
     <h5>Your Submission</h5>
     <p></p>
+    <ngx-dropzone (change)="onSelect($event)">
+        <ngx-dropzone-label>Drag and drop images and document that you want to upload here</ngx-dropzone-label>
+        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        </ngx-dropzone-preview>
+    </ngx-dropzone>
     <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
         <label class="form-check-label" for="flexCheckDefault">
@@ -40,7 +46,7 @@
 
     <section class="comments row mt-4">
         <div class="col-1">
-            <img class="img-fluid" src="https://via.placeholder.com/100" alt="">
+            <img class="img-fluid img-thumbnail" src="https://via.placeholder.com/100" alt="">
         </div>
         <div class="col-11">
             <div class="card">
@@ -62,6 +68,5 @@
         <div>
             <button type="button" class="btn btn-primary">Post Comment</button><br>
         </div>
-
     </form>
 </main>

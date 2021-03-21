@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FrontPageComponent } from './containers/front-page/front-page.component';
 import { YourActivitiesComponent } from './containers/your-activities/your-activities.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { YourActivitiesComponent } from './containers/your-activities/your-activ
     CommonModule,
     AuthRequiredPagesRoutingModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxDropzoneModule
   ]
 })
 export class AuthRequiredPagesModule { }
