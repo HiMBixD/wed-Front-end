@@ -1,13 +1,51 @@
 <main class="container">
-<p>selected-submission-browser works!</p>
-<h2>All selected submission <small class="text-muted">from Department of [placeholder]</small></h2>
-<h3>View by issues:</h3>
+    <p>selected-submission-browser works!</p>
+    <h2>All selected submission <small class="text-muted">from Department of [placeholder]</small></h2>
+    <h3>View by issues:</h3>
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Enter Issue Number" aria-label="Issue Number"
             aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
     </div>
-<hr>
-<h3>File Info</h3>
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Assignment Topic</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Submission date</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr scope="row" *ngFor="let s of mockSelected | paginate: { itemsPerPage: 5, currentPage: p }">
+                    <td>{{s.topic}}</td>
+                    <td>{{s.username}}</td>
+                    <td>{{s.date}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary">View</button>
+                        <small style="color: white">-</small>
+                        <button type="button" class="btn btn-primary">Download</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+    <hr>
+    <h3>Submission Info</h3>
+    <p>Please choose a submission to view all files</p>
+    <p>All files submitted by [mimi123]</p>
+    <div class="card" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><a href="#">submission.doc</a></li>
+            <li class="list-group-item"><a href="#">image01.jpeg</a></li>
+            <li class="list-group-item"><a href="#">image02.png</a></li>
+        </ul>
+    </div>
+    <hr>
+    <h3>File Info</h3>
+    /------------iframe Preview file here----------/
 
 </main>
