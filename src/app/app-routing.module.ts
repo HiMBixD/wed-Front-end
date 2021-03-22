@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./core/core.module').then(m => m.CoreModule),
+  },
+  {
+    path: '',
+    loadChildren: () => import('./other-pages-da/other-pages-da.module').then(m => m.OtherPagesDaModule)
   }
 ];
 
