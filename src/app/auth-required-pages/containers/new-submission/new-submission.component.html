@@ -26,11 +26,31 @@
     </p>
     <hr>
     <h5>Your Submission</h5>
+    <h6>Submitted files</h6>
+    <div>
+        <div>
+            <div *ngFor="let file of filesGot?.data || []">
+                <span>{{file.fileName}}</span>
+                <span><span (click)="fileIdViewed = file.fileId">View</span></span>
+            </div>
+        </div>
+    </div>
+    <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed"
+        [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')"></iframe>
     <p></p>
-    <ngx-dropzone (change)="onSelect($event)">
-        <ngx-dropzone-label>Drag and drop images and document that you want to upload here</ngx-dropzone-label>
+    <ngx-dropzone (change)="onSelect($event)" [accept]="'image/*,.doc, .docx'">
+        <ngx-dropzone-label>Drag and drop images (png/jpeg/etc..) and documents (doc/docx) that you want to upload here
+        </ngx-dropzone-label>
         <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})
+                <div class="progress" *ngIf="fileProgress[f.name] > 0">
+                    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                        [attr.aria-valuenow]="fileProgress[f.name]" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: fileProgress[f.name] + '%' }">
+                        {{fileProgress[f.name] + '%'}}
+                    </div>
+                </div>
+            </ngx-dropzone-label>
         </ngx-dropzone-preview>
     </ngx-dropzone>
     <div class="form-check">
@@ -39,7 +59,7 @@
             I agree to the <a href="#">Terms and Conditions</a>
         </label>
     </div>
-    <button type="button" class="btn btn-primary">Submit</button><br>
+    <button type="button" class="btn btn-primary" (click)="submit()">Submit</button><br>
 
     <hr>
     <h5>Feedback</h5>
