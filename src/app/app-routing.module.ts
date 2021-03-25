@@ -14,7 +14,7 @@ const routes: Routes = [
     loadChildren: () => import('./core/core.module').then(m => m.CoreModule),
   },
   {
-    path: '',
+    path: 'other',
     loadChildren: () => import('./other-pages-da/other-pages-da.module').then(m => m.OtherPagesDaModule)
   }
 ];

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
 import { OtherPagesDaRoutingModule } from './other-pages-da-routing.module';
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 
 @NgModule({
@@ -10,9 +11,10 @@ import { OtherPagesDaRoutingModule } from './other-pages-da-routing.module';
     ...fromComponents.components,
     ...fromContainers.containers
   ],
-  imports: [
-    CommonModule,
-    OtherPagesDaRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        OtherPagesDaRoutingModule,
+        NgxDropzoneModule
+    ]
 })
 export class OtherPagesDaModule { }

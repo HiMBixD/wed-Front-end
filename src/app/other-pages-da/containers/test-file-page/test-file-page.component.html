@@ -1,0 +1,130 @@
+<!--<div *ngIf="currentFile" class="progress">-->
+<!--  <div-->
+<!--    class="progress-bar progress-bar-info progress-bar-striped"-->
+<!--    role="progressbar"-->
+<!--    attr.aria-valuenow="{{ progress }}"-->
+<!--    aria-valuemin="0"-->
+<!--    aria-valuemax="100"-->
+<!--    [ngStyle]="{ width: progress + '%' }"-->
+<!--  >-->
+<!--    {{ progress }}%-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<label class="btn btn-default">-->
+<!--  <input type="file" (change)="selectFile($event)" />-->
+<!--</label>-->
+
+<!--<button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">-->
+<!--  Upload-->
+<!--</button>-->
+
+<!--<div class="alert alert-light" role="alert">{{ message }}</div>-->
+
+<main class="container">
+  <h2>Issue [placeholder] <small class="text-muted">[Title of Assignment]</small></h2>
+  <h5>Description:</h5>
+  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+  </p>
+  <p>
+    Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+    ultricies nec,
+    pellentesque eu, pretium quis, sem.</p>
+  <p>
+    Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+    justo,
+    rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.
+    Cras
+    dapibu
+  </p>
+  <hr>
+  <h5>Your Submission</h5>
+  <p></p>
+  <ngx-dropzone (change)="onSelect($event)">
+    <ngx-dropzone-label>Drag and drop images and document that you want to upload here</ngx-dropzone-label>
+    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+      <ngx-dropzone-label>
+          {{ f.name }} ({{ f.type }})
+        <div *ngIf="fileProgress[f.name] < 0">Upload Failed</div>
+        <div class="progress" *ngIf="fileProgress[f.name] > 0">
+          <div
+            class="progress-bar progress-bar-info progress-bar-striped"
+            role="progressbar"
+            [attr.aria-valuenow]="fileProgress[f.name]"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [ngStyle]="{ width: fileProgress[f.name] + '%' }"
+          >
+            {{fileProgress[f.name] + '%'}}
+          </div>
+        </div>
+      </ngx-dropzone-label>
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+    <label class="form-check-label" for="flexCheckDefault">
+      I agree to the <a href="#">Terms and Conditions</a>
+    </label>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="submit()">Submit</button><br>
+
+  <hr>
+  <h5>Feedback</h5>
+
+  <section class="comments row mt-4">
+    <div class="col-1 d-none d-lg-block">
+      <img class="img-fluid img-thumbnail" src="https://via.placeholder.com/100" alt="">
+    </div>
+    <div class="col-lg-11 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <b>[placeholder]</b> left a comment at [time]
+        </div>
+        <div class="card-body">
+          Yeah...This is some text within a card body.
+        </div>
+      </div>
+    </div>
+  </section><br>
+  <h6>New Comment</h6>
+  <form>
+        <textarea rows="5" class="form-control" id="assignment-description" placeholder="Write a comment..."
+                  maxlength="850">
+        </textarea>
+    <div id='commentHelp' class="form-text">Comment must be less than 850 characters and contains no bad words.
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary">Post Comment</button><br>
+    </div>
+  </form>
+</main>
+<div>
+  <div>
+    <div *ngFor="let file of filesGot?.data || []">
+      <span>{{file.fileName}}</span>
+      <span><span (click)="fileIdViewed = file.fileId">View</span></span>
+    </div>
+  </div>
+</div>
+<iframe
+  width="100%" height="300" frameborder="0"
+  *ngIf="fileIdViewed" [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')"></iframe>
+
+<!-- Modal -->
+<!--<div *ngIf="fileIdViewed" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="exampleModalLabel">View File</h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        <iframe [src]="'https://docs.google.com/gview?url='+url+fileIdViewed"></iframe>-->
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+<!--        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #cancelButton>Cancel</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
