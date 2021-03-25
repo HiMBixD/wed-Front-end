@@ -37,13 +37,16 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(loginForm: FormGroup) {
+    this.isLoading = true;
     this.authService.login(loginForm.value).pipe().subscribe(value => {
       if (value) {
         if (value.success) {
+          this.isLoading = false;
           this.toastrService.success('Login success');
           this.router.navigate(['/']);
 
         } else {
+          this.isLoading = false;
           const message = 'User ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
           this.toastrService.error(message);
         }

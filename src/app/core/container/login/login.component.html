@@ -20,7 +20,11 @@
             <a href="javascript:void(0)" data-bs-toggle="modal"  data-bs-target="#exampleModal">Forget password?</a>
           </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="isLoading">
+          <span *ngIf="isLoading" style="vertical-align: baseline;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span *ngIf="isLoading"> Signing in</span>
+          <span *ngIf="!isLoading">Sign in</span>
+        </button>
         <p class="mt-5 mb-3 text-muted">&copy; 2020–2021</p>
       </form>
     </main>
@@ -50,7 +54,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #cancelButton>Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="requestNewPass(cancelButton)">Send</button>
+        <button [disabled]="isLoading" type="button" class="btn btn-primary" (click)="requestNewPass(cancelButton)">
+          <span *ngIf="isLoading" style="vertical-align: baseline;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          {{' Send'}}
+        </button>
       </div>
     </div>
   </div>

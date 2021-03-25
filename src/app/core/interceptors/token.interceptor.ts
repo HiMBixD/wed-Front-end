@@ -28,8 +28,10 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && (+error.status === 403 || +error.status === 401)) {
+      if (error instanceof HttpErrorResponse && +error.status === 401) {
         return this.handle401Error(error);
+      } else if (error instanceof HttpErrorResponse && +error.status === 403) {
+        return this.handle403Error(error);
       } else {
         return throwError(error);
       }
@@ -38,6 +40,11 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private handle401Error(error) {
     this.authService.clearJwtToken();
+    this.router.navigate(['/login']);
+    return throwError(error);
+  }
+
+  private handle403Error(error) {
     this.router.navigate(['/login']);
     return throwError(error);
   }
