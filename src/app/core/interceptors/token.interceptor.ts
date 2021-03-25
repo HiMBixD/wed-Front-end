@@ -45,7 +45,7 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   private handle403Error(error) {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/403']);
     return throwError(error);
   }
 }
