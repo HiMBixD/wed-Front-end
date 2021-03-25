@@ -6,6 +6,7 @@ import { NewSubmissionComponent } from './containers/new-submission/new-submissi
 import { AccountSettingsComponent } from './containers/account-settings/account-settings.component';
 import { FrontPageComponent } from './containers/front-page/front-page.component';
 import { YourActivitiesComponent } from './containers/your-activities/your-activities.component';
+import { Error403Component } from './containers/error403/error403.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,9 @@ const routes: Routes = [
       },
       {
         path: '', redirectTo: '/frontPage', pathMatch: 'full'
+      },
+      {
+        path:'403', component: Error403Component,
       }
     ]
   },

@@ -13,6 +13,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ManagementDashboardComponent } from './containers/management-dashboard/management-dashboard.component';
 import { ChartsModule } from 'ng2-charts';
 import { SelectedSubmissionBrowserComponent } from './containers/selected-submission-browser/selected-submission-browser.component';
+import { Error403Component } from './containers/error403/error403.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { SelectedSubmissionBrowserComponent } from './containers/selected-submis
     FrontPageComponent,
     YourActivitiesComponent,
     ManagementDashboardComponent,
-    SelectedSubmissionBrowserComponent
+    SelectedSubmissionBrowserComponent,
+    Error403Component
   ],
   imports: [
     CommonModule,

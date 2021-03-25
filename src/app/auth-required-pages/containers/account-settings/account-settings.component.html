@@ -2,7 +2,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active"><a href="#">Account Settings</a></li>
+            <li class="breadcrumb-item active">Account Settings</li>
         </ol>
     </nav>
 
@@ -10,27 +10,27 @@
     <form>
         <div class="mb-3">
             <label for="disabledUsername" class="form-label">Username</label>
-            <input type="text" id="disabledUsername" class="form-control" placeholder="Username from db" disabled>
+            <input type="text" id="disabledUsername" class="form-control" placeholder="{{user.data.userName}}" disabled>
         </div>
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
-            <input class="form-control" id="firstName" placeholder="get First Name from db">
+            <input class="form-control" id="firstName" placeholder="{{user.data.firstName}}">
         </div>
         <div class="mb-3">
             <label class="form-label">Last Name</label>
-            <input class="form-control" id="lastName" placeholder="get Last Name from db">
+            <input class="form-control" id="lastName" placeholder="{{user.data.lastName}}">
         </div>
         <div class="mb-3">
             <label class="form-label">Phone Number</label>
-            <input class="form-control" id="phoneNumber" placeholder="get Phone Number from db">
+            <input class="form-control" id="phoneNumber" placeholder="{{user.data.phone}}">
         </div>
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input class="form-control" id="email" placeholder="get Email from db" disabled>
+            <input class="form-control" id="email" placeholder="{{user.data.email}}" disabled>
         </div>
         <div class="mb-3">
             <label for="disabledAccountType" class="form-label">Account Type:</label>
-            <input type="text" id="disabledAccountType" class="form-control" placeholder="Faculty Name from db"
+            <input type="text" id="disabledAccountType" class="form-control" placeholder="{{user.data.role.roleName}}"
                 disabled>
         </div>
         <div class="mb-3">
