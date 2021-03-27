@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {Error404Component, HomepageComponent, UserManagementComponent} from './containers';
+import {Error404Component, HomepageComponent, NewAssignmentComponent, UserManagementComponent} from './containers';
 import {AuthGuardService} from '../core/guards/auth.guard';
 import { NewSubmissionComponent } from './containers/new-submission/new-submission.component';
 import { AccountSettingsComponent } from './containers/account-settings/account-settings.component';
 import { FrontPageComponent } from './containers/front-page/front-page.component';
 import { YourActivitiesComponent } from './containers/your-activities/your-activities.component';
 import { Error403Component } from './containers/error403/error403.component';
+import { ManagementDashboardComponent } from './containers/management-dashboard/management-dashboard.component';
+import { DefaultComponentComponent } from './containers/default-component/default-component.component';
+import { ClosureManagementComponent } from './containers/closure-management/closure-management.component';
+import { SelectedSubmissionBrowserComponent } from './containers/selected-submission-browser/selected-submission-browser.component';
+import { AssignmentListComponent } from './containers/assignment-list/assignment-list.component';
+import { MySubmissionComponent } from './containers/my-submission/my-submission.component';
 
 const routes: Routes = [
   {
@@ -49,7 +55,10 @@ const routes: Routes = [
         path: 'userManagement', component: UserManagementComponent,
       },
       {
-        path: '', redirectTo: '/yourActivities', pathMatch: 'full'
+        path: '', component: DefaultComponentComponent,
+      },
+      {
+        path: 'yourActivities', redirectTo: '/yourActivities', pathMatch: 'full'
       },
       {
         path:'frontPage', redirectTo: '/frontPage', pathMatch: 'full'
@@ -58,8 +67,27 @@ const routes: Routes = [
         path: 'accountSettings', redirectTo: '/accountSettings', pathMatch: 'full'
       },
       {
+        path: 'dashboard', component: ManagementDashboardComponent,
+      },
+      {
+        path: 'closureManagement', component: ClosureManagementComponent,
+      },
+      {
+        path: 'selectedSubmissions', component: SelectedSubmissionBrowserComponent,
+      },
+      {
+        path: 'assignmentList', component: AssignmentListComponent,
+      },
+      {
+        path: 'newAssignment', component: NewAssignmentComponent,
+      },
+      {
+        path:'submissionPortal',component: MySubmissionComponent,
+      },
+      {
         path: '**', component: Error404Component
       },
+
     ]
   }
 ];

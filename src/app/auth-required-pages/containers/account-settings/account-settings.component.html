@@ -10,32 +10,33 @@
     <form>
         <div class="mb-3">
             <label for="disabledUsername" class="form-label">Username</label>
-            <input type="text" id="disabledUsername" class="form-control" placeholder="{{user.data.userName}}" disabled>
+            <input type="text" id="disabledUsername" class="form-control" placeholder="{{user.data.userName}}" value="{{user.data.userName}}" disabled>
         </div>
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
-            <input class="form-control" id="firstName" placeholder="{{user.data.firstName}}">
+            <input class="form-control" id="firstName" placeholder="{{user.data.firstName}}" value="{{user.data.firstName}}">
         </div>
         <div class="mb-3">
             <label class="form-label">Last Name</label>
-            <input class="form-control" id="lastName" placeholder="{{user.data.lastName}}">
+            <input class="form-control" id="lastName" placeholder="{{user.data.lastName}}"
+            value="{{user.data.lastName}}">
         </div>
         <div class="mb-3">
             <label class="form-label">Phone Number</label>
-            <input class="form-control" id="phoneNumber" placeholder="{{user.data.phone}}">
+            <input class="form-control" id="phoneNumber" placeholder="{{user.data.phone}}" value ="{{user.data.phone}}">
         </div>
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input class="form-control" id="email" placeholder="{{user.data.email}}" disabled>
+            <input class="form-control" id="email" placeholder="{{user.data.email}}" disabled value="{{user.data.email}}">
         </div>
         <div class="mb-3">
             <label for="disabledAccountType" class="form-label">Account Type:</label>
-            <input type="text" id="disabledAccountType" class="form-control" placeholder="{{user.data.role.roleName}}"
+            <input type="text" id="disabledAccountType" class="form-control" placeholder="{{user.data.role.roleName}}" value="{{user.data.role.roleName}}"
                 disabled>
         </div>
         <div class="mb-3">
             <label for="disabledFaculty" class="form-label">Faculty:</label>
-            <input type="text" id="disabledFaculty" class="form-control" placeholder="Faculty Name from db" disabled>
+            <input type="text" id="disabledFaculty" class="form-control" placeholder="Faculty Name from db" value="{{user.data.facultyId}}" disabled>
         </div>
         <button class="btn btn-primary">Save Changes</button>
     </form>

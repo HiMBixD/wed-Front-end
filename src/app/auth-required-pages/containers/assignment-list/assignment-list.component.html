@@ -1,0 +1,48 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item" routerLink='/yourActivities'><a href="/yourActivities">Your Activity</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Assignment Management</li>
+        </ol>
+    </nav>
+</div>
+<main class="container">
+    <h1>Assignment management</h1>
+    <hr>
+    <h2>New Assignment</h2>
+    Current Issue: 2. Duration: [start date] - [end date].<br>
+    <app-new-assignment></app-new-assignment> 
+    <hr>
+    <h2>All Assignment</h2>
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Issues no.</th>
+                    <th>Topic</th>
+                    <th>Creator</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Total Submissions</th>
+                    <th>Evaluated?</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Tech trends</td>
+                    <td>User1</td>
+                    <td>20/11/2020</td>
+                    <td>31/12/2020</td>
+                    <td>20</td>
+                    <td style="color: red">15/20</td>
+                    <td>
+                        <button type="button" class="btn btn-primary">View Submissions</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>

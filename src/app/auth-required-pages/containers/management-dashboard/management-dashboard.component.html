@@ -1,3 +1,12 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item" routerLink='/yourActivities'><a href="/yourActivities">Your Activity</a></li>
+            <li class="breadcrumb-item active" aria-current="page">View Dashboard</li>
+        </ol>
+    </nav>
+</div>
 <main class="container">
     <h2>Management Dashboard</h2>
     <hr>
@@ -7,7 +16,7 @@
             [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
         </canvas>
     </div>
-<hr>
+    <hr>
     <h3>Exceptional Report</h3>
     <h4 class="text-muted">Submissions without a comment after 14 days:</h4>
     <div class="table-responsive-md">
@@ -32,8 +41,8 @@
                     <td>{{r.submissionDate}}</td>
                     <td>{{r.daysOverdue}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary"
-                            (click)="sendReminderEmail()">Send Reminder</button>
+                        <button type="button" class="btn btn-primary" (click)="sendReminderEmail()">Send
+                            Reminder</button>
                     </td>
                 </tr>
             </tbody>
@@ -63,7 +72,8 @@
                     <td>{{r.submissionDate}}</td>
                     <td>{{r.daysOverdue}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" (click)="sendReminderEmail()">Send Reminder</button>
+                        <button type="button" class="btn btn-primary" (click)="sendReminderEmail()">Send
+                            Reminder</button>
                     </td>
                 </tr>
             </tbody>

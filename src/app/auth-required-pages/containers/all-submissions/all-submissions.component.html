@@ -1,14 +1,6 @@
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item" routerLink='/yourActivities'><a href="/yourActivities">Your Activity</a></li>
-            <li class="breadcrumb-item active" aria-current="page">View Selected Submissions</li>
-        </ol>
-    </nav>
-</div>
 <main class="container">
-    <h2>All selected submission <small class="text-muted">from Department of [placeholder]</small></h2>
+    <p>all-submissions</p>
+    <h2>All submission <small class="text-muted">from Department of [placeholder], Issues [placeholder]</small></h2>
     <h3>View by issues:</h3>
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Enter Issue Number" aria-label="Issue Number"
@@ -22,7 +14,9 @@
                     <th scope="col">Assignment Topic</th>
                     <th scope="col">Username</th>
                     <th scope="col">Submission date</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" style="text-align: center;">Comments</th>
+                    <th scope="col" style="text-align: center;">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,7 +24,9 @@
                     <td>{{s.topic}}</td>
                     <td>{{s.username}}</td>
                     <td>{{s.date}}</td>
-                    <td>
+                    <td>{{s.status}}</td>
+                    <td style="text-align: center;">{{s.comments}}</td>
+                    <td style="text-align: center;">
                         <button type="button" class="btn btn-primary">View</button>
                         <small style="color: white">-</small>
                         <button type="button" class="btn btn-primary">Download</button>
@@ -44,11 +40,8 @@
     <hr>
     <h3>Submission Info</h3>
     <p>Please choose a submission to view all files</p>
-    <!-- <p>All files submitted by [mimi123]</p> -->
+    <p>All files submitted by [mimi123]</p>
     <div class="card" style="width: 18rem;">
-        <div class="card-header">
-            All files submitted by [mimi123]
-        </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><a href="#">submission.doc</a></li>
             <li class="list-group-item"><a href="#">image01.jpeg</a></li>
@@ -57,6 +50,6 @@
     </div>
     <hr>
     <h3>File Info</h3>
-    Please click on a file to preview it.
+    /------------iframe Preview file here----------/
 
 </main>
