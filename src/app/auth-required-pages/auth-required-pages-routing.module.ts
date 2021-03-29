@@ -13,6 +13,7 @@ import { ClosureManagementComponent } from './containers/closure-management/clos
 import { SelectedSubmissionBrowserComponent } from './containers/selected-submission-browser/selected-submission-browser.component';
 import { AssignmentListComponent } from './containers/assignment-list/assignment-list.component';
 import { MySubmissionComponent } from './containers/my-submission/my-submission.component';
+import { SubmissionPortalComponent } from './containers/submission-portal/submission-portal.component';
 
 const routes: Routes = [
   {
@@ -23,9 +24,6 @@ const routes: Routes = [
     children: [
       {
         path: '404', component: Error404Component
-      },
-      {
-        path: 'newSubmission', component: NewSubmissionComponent,
       },
       {
         path: 'userManagement', component: UserManagementComponent,
@@ -81,10 +79,21 @@ const routes: Routes = [
           },
           {
             path: 'submissionPortal', component: MySubmissionComponent,
+            children: [
+              {
+                path: '',
+                component: SubmissionPortalComponent
+              },
+              {
+                path: 'newSubmission', component: NewSubmissionComponent,
+              },
+            ]
           },
-          {
-            path: 'newSubmission', redirectTo: '/newSubmission', pathMatch: 'full'
-          },
+          
+          // {
+          //   path: 'newSubmission', redirectTo: '/newSubmission', pathMatch: 'full'
+          // },
+
           {
             path: '**', component: Error404Component
           },
