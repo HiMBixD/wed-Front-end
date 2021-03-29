@@ -4,13 +4,14 @@ import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly JWT_TOKEN = 'JWT_TOKEN';
-
+  jwtHelper = new JwtHelperService();
   constructor(private http: HttpClient, private router: Router) {}
 
   login(user: { username: string, password: string }): Observable<any> {
@@ -35,7 +36,7 @@ export class AuthService {
   }
 
   isLoggedIn(): any {
-    return !!this.getJwtToken();
+    return !!this.getJwtToken() && !this.jwtHelper.isTokenExpired(this.getJwtToken());
   }
 
   getJwtToken(): any {
