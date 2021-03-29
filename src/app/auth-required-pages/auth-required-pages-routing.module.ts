@@ -83,6 +83,9 @@ const routes: Routes = [
             path: 'submissionPortal', component: MySubmissionComponent,
           },
           {
+            path: 'newSubmission', redirectTo: '/newSubmission', pathMatch: 'full'
+          },
+          {
             path: '**', component: Error404Component
           },
         ]

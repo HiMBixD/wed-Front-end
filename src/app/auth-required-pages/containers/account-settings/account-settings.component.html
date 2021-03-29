@@ -7,64 +7,65 @@
     </nav>
 
     <h2>Account Settings</h2>
-    <form>
+    <form ngNativeValidate>
         <div class="mb-3">
             <label for="disabledUsername" class="form-label">Username</label>
-            <input type="text" id="disabledUsername" class="form-control" placeholder="{{user.data.userName}}" value="{{user.data.userName}}" disabled>
+            <input type="text" id="disabledUsername" class="form-control" placeholder="{{user.data.userName}}" disabled/>
         </div>
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
-            <input class="form-control" id="firstName" placeholder="{{user.data.firstName}}" value="{{user.data.firstName}}">
+            <input type="text" class="form-control" id="firstName" placeholder="First Name" value = "{{user.data.firstName}}" required/>
         </div>
         <div class="mb-3">
             <label class="form-label">Last Name</label>
-            <input class="form-control" id="lastName" placeholder="{{user.data.lastName}}"
-            value="{{user.data.lastName}}">
+            <input  type="text" class="form-control" id="lastName" placeholder="Last Name"
+            value="{{user.data.lastName}}" required/>
         </div>
         <div class="mb-3">
             <label class="form-label">Phone Number</label>
-            <input class="form-control" id="phoneNumber" placeholder="{{user.data.phone}}" value ="{{user.data.phone}}">
+            <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" value ="{{user.data.phone}}" required/>
         </div>
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input class="form-control" id="email" placeholder="{{user.data.email}}" disabled value="{{user.data.email}}">
+            <input class="form-control" id="email" placeholder="{{user.data.email}}" disabled>
         </div>
         <div class="mb-3">
             <label for="disabledAccountType" class="form-label">Account Type:</label>
-            <input type="text" id="disabledAccountType" class="form-control" placeholder="{{user.data.role.roleName}}" value="{{user.data.role.roleName}}"
-                disabled>
+            <input type="text" id="disabledAccountType" class="form-control" placeholder="{{user.data.role.roleName}}"
+                disabled/>
         </div>
         <div class="mb-3">
             <label for="disabledFaculty" class="form-label">Faculty:</label>
-            <input type="text" id="disabledFaculty" class="form-control" placeholder="Faculty Name from db" value="{{user.data.facultyId}}" disabled>
+            <input type="text" id="disabledFaculty" class="form-control" placeholder="{{user.data.facultyId}}" disabled/>
         </div>
-        <button class="btn btn-primary">Save Changes</button>
+        <button class="btn btn-primary" (click)="updateUserInfo()">Save Changes</button>
     </form>
 
     <hr>
     <h2>Change Password</h2>
     <!-- <div *ngIf="currentPassword.errors.required">Please enter current password</div> -->
-    <form>
+    <form ngNativeValidate>
         <div class="mb-3">
             <label for="currentPassword" class="form-label">Current Password</label>
             <input type="password" id="currnetPassword" class="form-control" placeholder="Current Password"
-                formControlName="currentPassword">
+                [formControl]="currentPassword" required>
         </div>
         <div class="mb-3">
             <label for="newPassword" class="form-label">New Password</label>
             <input type="password" id="newPassword" class="form-control" placeholder="New Password"
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$">
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" required>
+                <span id="passwordHelpInline" class="form-text" required>
+                    Password must be 8-20 characters long, contains at least one number and one special character.
+                </span>
         </div>
         <div class="mb-3">
             <label for="newPassword" id="confirmPassword" class="form-label">
                 Confirm Password
             </label>
             <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password"
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$">
-            <span id="passwordHelpInline" class="form-text">
-                Must be 8-20 characters long.
-            </span>
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" required>
         </div>
+        <div id="errorMessage"></div>
         <button class="btn btn-primary" type="submit">Save Changes</button>
     </form>
 </main>
