@@ -70,7 +70,7 @@
     </div>
     <!-- search result -->
     <div id="searchMessage"></div>
-    <div id="searchResult" *ngIf="searchResult[0]">
+    <div id="searchResult" *ngIf="searchResult.length >0">
         <h3>Search Result</h3>
         <div class="table-responsive-md">
             <table class="table table-striped">
@@ -121,14 +121,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr scope="row" *ngFor="let user of user | paginate: { itemsPerPage: 5, currentPage: p }">
-                    <td>{{user.username}}</td>
+                <tr scope="row" *ngFor="let user of userList | paginate: { itemsPerPage: 5, currentPage: p }">
+                    <td>{{user.userName}}</td>
                     <td>{{user.firstName}}</td>
                     <td>{{user.lastName}}</td>
                     <td>{{user.phone}}</td>
                     <td>{{user.email}}</td>
-                    <td>{{user.role_id}}</td>
-                    <td>{{user.faculty_id}}</td>
+                    <td>{{user.role.roleName}}</td>
+                    <td>{{getFacultyName(user?.facultyId)?.facultyName}}</td>
                     <td>
                         <button type="button" class="btn btn-primary"
                             (click)="getSelectedUser(user.username)">Select</button>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpEvent, HttpHeaders} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
+import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +25,24 @@ export class CommonService {
         reportProgress: true,
         observe: 'events',
       });
+  }
+  // searchUser(body: {username: string}): Observable<any> {
+  // }
+  changePassword(data: { username: string, oldPassword: string, newPassword: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/change-password`, data);
+  }
+
+  updateInfo(info: { username: string, firstName: string, lastName: string, phone: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/update-my-info`, info);
+  }
+
+  getUser(userName: { username: string }): Observable<any>{
+    return this.http.post(`${environment.apiUrl}/admin/search-users`, userName);
+  }
+
+  getFaculties(): Observable<any>{
+    const temp ={};
+    return this.http.post(`${environment.apiUrl}/get-Faculties`,temp)
   }
 
   getFilesBySub(body): Observable<any> {

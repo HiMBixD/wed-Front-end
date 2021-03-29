@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { CommonService } from '../../services/common.service';
 import { mockFaculty } from '../interface mock data/faculty';
 import { mockRoles } from '../interface mock data/roles';
 import { mockUser } from '../interface mock data/user';
@@ -11,13 +12,34 @@ import { mockUser } from '../interface mock data/user';
 })
 export class UserManagementComponent implements OnInit {
 
-  constructor() { }
+  constructor(private commonService: CommonService) {  }
 
+  userList;
+  facultyList = [];
   ngOnInit(): void {
+    this.commonService.getUser({ username: `` }).subscribe(user => {
+      if (user?.success)
+      {
+        this.userList = user.data;
+        // console.log(user);
+      }
+      else {
+        console.log('damn its broken')
+      }
+    });
+    this.commonService.getFaculties().subscribe(
+      f => {
+        if (f?.success) {
+          this.facultyList = f.data;
+          // console.log(f);
+        }
+      }
+    )
   }
   p: number = 1;
-  s: number = 1;
+  searchPagination: number = 1;
   user = mockUser;
+  // user = this.userList;
   role = mockRoles;
   faculty = mockFaculty;
 
@@ -29,8 +51,9 @@ export class UserManagementComponent implements OnInit {
   userRole = new FormControl('');
   userFaculty = new FormControl('');
 
-  getRoleName(roleId: number) {
-    this.role.find(role => role.role_id == roleId)
+
+  getFacultyName(facultyId) {
+    return this.facultyList.find(faculty => +faculty.facultyId === +facultyId);
   }
 
   getSelectedUser(username: string) {

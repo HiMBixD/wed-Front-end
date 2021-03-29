@@ -38,13 +38,13 @@
             <label for="disabledFaculty" class="form-label">Faculty:</label>
             <input type="text" id="disabledFaculty" class="form-control" placeholder="{{user?.data.facultyId}}" disabled/>
         </div>
-        <button class="btn btn-primary" (click)="updateUserInfo()">Save Changes</button>
+        <button class="btn btn-primary" type="button" (click)="updateUserInfo()">Save Changes</button>
     </form>
 
     <hr>
     <h2>Change Password</h2>
     <!-- <div *ngIf="currentPassword.errors.required">Please enter current password</div> -->
-    <form ngNativeValidate>
+    <form ngNativeValidate action="javascript:void(0)">
         <div class="mb-3">
             <label for="currentPassword" class="form-label">Current Password</label>
             <input type="password" id="currnetPassword" class="form-control" placeholder="Current Password"
@@ -52,10 +52,10 @@
         </div>
         <div class="mb-3">
             <label for="newPassword" class="form-label">New Password</label>
-            <input type="password" id="newPassword" class="form-control" placeholder="New Password"
+            <input type="password" id="newPassword" class="form-control" placeholder="New Password" [formControl]="newPassword"
                 pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" required>
                 <span id="passwordHelpInline" class="form-text" required>
-                    Password must be 8-20 characters long, contains at least one number and one special character.
+                    Password must be 8-20 characters, contains at least one Upper case letter, one number and one special character.
                 </span>
         </div>
         <div class="mb-3">
@@ -66,6 +66,6 @@
                 pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" required>
         </div>
         <div id="errorMessage"></div>
-        <button class="btn btn-primary" type="submit">Save Changes</button>
+        <button class="btn btn-primary" type="submit" (click)="checkPassword()">Save Changes</button>
     </form>
 </main>

@@ -29,7 +29,6 @@
                     <th scope="col">Student Username</th>
                     <th scope="col">Submission date</th>
                     <th scope="col">Days overdue</th>
-                    <th scope="col" style="text-align: center;">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,10 +39,6 @@
                     <td>{{r.studentUsername}}</td>
                     <td>{{r.submissionDate}}</td>
                     <td>{{r.daysOverdue}}</td>
-                    <td>
-                        <button type="button" class="btn btn-primary" (click)="sendReminderEmail()">Send
-                            Reminder</button>
-                    </td>
                 </tr>
             </tbody>
         </table>
@@ -60,7 +55,6 @@
                     <th scope="col">Student Username</th>
                     <th scope="col">Submission date</th>
                     <th scope="col">Days since submission</th>
-                    <th scope="col" style="text-align: center;">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,10 +65,6 @@
                     <td>{{r.studentUsername}}</td>
                     <td>{{r.submissionDate}}</td>
                     <td>{{r.daysOverdue}}</td>
-                    <td>
-                        <button type="button" class="btn btn-primary" (click)="sendReminderEmail()">Send
-                            Reminder</button>
-                    </td>
                 </tr>
             </tbody>
         </table>
