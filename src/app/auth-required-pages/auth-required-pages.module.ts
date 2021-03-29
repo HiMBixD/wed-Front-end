@@ -14,6 +14,12 @@ import { ManagementDashboardComponent } from './containers/management-dashboard/
 import { ChartsModule } from 'ng2-charts';
 import { SelectedSubmissionBrowserComponent } from './containers/selected-submission-browser/selected-submission-browser.component';
 import { Error403Component } from './containers/error403/error403.component';
+import { ClosureManagementComponent } from './containers/closure-management/closure-management.component';
+import { AllSubmissionsComponent } from './containers/all-submissions/all-submissions.component';
+import { AssignmentListComponent } from './containers/assignment-list/assignment-list.component';
+import { DefaultComponentComponent } from './containers/default-component/default-component.component';
+import { MySubmissionComponent } from './containers/my-submission/my-submission.component';
+import { SubmissionPortalComponent } from './containers/submission-portal/submission-portal.component';
 
 
 @NgModule({
@@ -26,7 +32,13 @@ import { Error403Component } from './containers/error403/error403.component';
     YourActivitiesComponent,
     ManagementDashboardComponent,
     SelectedSubmissionBrowserComponent,
-    Error403Component
+    Error403Component,
+    ClosureManagementComponent,
+    AllSubmissionsComponent,
+    AssignmentListComponent,
+    DefaultComponentComponent,
+    MySubmissionComponent,
+    SubmissionPortalComponent
   ],
   imports: [
     CommonModule,

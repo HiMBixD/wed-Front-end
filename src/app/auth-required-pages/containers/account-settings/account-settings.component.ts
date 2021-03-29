@@ -21,22 +21,36 @@ export class AccountSettingsComponent implements OnInit {
       }
     });
   }
-  
-  firstName = new FormControl('');
-  lastName = new FormControl('');
 
+  // firstName = new FormControl();
+  // lastName = new FormControl();
+  // phoneNumber = new FormControl();
 
   currentPassword = new FormControl('');
   newPassword = new FormControl('');
   confirmPassword = new FormControl('');
 
-  checkPassword() {
-    //check if current password match
+  newPasswordValidation: boolean;
+  errorMessage: string;
 
-    //check if newPassword match RegEx
+  checkPassword() {
+    //check if current password match the one from db
 
     //check if newPassword and Confirm password is the same
-
+    this.errorMessage = ""
   }
 
+  updateUserInfo() {
+    let account = this.user.data.userName; //keep username the same
+    // let newFirstName = this.firstName.value; //get from input
+    // let newLastName = this.lastName.value; //get from input
+    // let phoneNumber = this.phoneNumber.value;
+    let newFirstName = (<HTMLInputElement>document.getElementById('firstName')).value;
+    let newLastName = (<HTMLInputElement>document.getElementById(`lastName`)).value;
+    let phoneNumber = (<HTMLInputElement>document.getElementById(`phoneNumber`)).value;
+    let email = this.user.data.email;
+    let accountType = this.user.data.role.roleName;
+    let facultyId = this.user.data.facultyId;
+    console.log(account, newFirstName, newLastName, phoneNumber, email, accountType, facultyId);
+  }
 }

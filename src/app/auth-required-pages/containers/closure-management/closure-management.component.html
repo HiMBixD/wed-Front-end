@@ -1,0 +1,59 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink='/frontPage' routerLinkActive="active">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink='/yourActivities' routerLinkActive="active">Your Activity</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Deadline Management</li>
+        </ol>
+    </nav>
+</div>
+<main class="container">
+    <h2>Closure date management</h2>
+    <hr>
+    <h3>New Issue</h3>
+    Issue number: get from db + Auto increment
+    <form>
+        <div class="mb-3">
+            <label class="form-label">Issue number</label>
+            <input class="form-control" id="issuesNo" placeholder="Issues Number" disabled>
+        </div>
+        <div class="mb-3">
+            <label for="date">Start Date</label>
+            <input class="form-control" type="date" id="startDate">
+        </div>
+        <div class="mb-3">
+            <label for="date">End Date</label>
+            <input class="form-control" type="date" id="endDate">
+        </div>
+        <button type="button" class="btn btn-primary">Submit</button>
+    </form>
+    <hr>
+    <h3>All issues</h3>
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Issues no.</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>20/11/2020</td>
+                    <td>31/12/2020</td>
+                    <td>
+                        <button type="button" class="btn btn-primary">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Table show all magazine start and end date
+    with select button.
+    make it like the user management page. -->
+</main>

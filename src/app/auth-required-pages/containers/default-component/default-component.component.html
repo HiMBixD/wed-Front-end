@@ -1,0 +1,65 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink='/frontPage' routerLinkActive="active">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Your Activity</li>
+        </ol>
+    </nav>
+</div>
+<main class="container mb-5">
+    <!-- <p>lấy role id từ db => ngIf role = match div nào thì show div đấy</p> -->
+    <div>
+        <h2>Student Activities</h2>
+        <div style="text-align:center;">
+            <button type="button" class="btn btn-primary" routerLink='submissionPortal'>My Submissions</button>
+        </div>
+    </div>
+
+    <hr>
+    <div>
+        <h2>Marketing Coordinator Activities</h2>
+        <!-- <div style="text-align:center;" class="row">
+            <div class="col-6" style="text-align:center;"> -->
+        <div style="text-align:center;">
+            <button type="button" class="btn btn-primary" routerLink="assignmentList">Assignment Management</button>
+        </div>
+        <!-- </div> -->
+        <!-- <div class="col-6" style="text-align:center;">
+                <button type="button" class="btn btn-primary" routerLink="newAssignment">New Assignment</button>
+            </div> -->
+        <!-- </div> -->
+    </div>
+
+    <hr>
+    <div>
+        <h2>Marketing Manager</h2>
+        <div class="row">
+            <div class="col-6" style="text-align:center;">
+                <button type="button" class="btn btn-primary" routerLink="dashboard">View Dashboard</button>
+            </div>
+            <div class="col-6" style="text-align:center;">
+                <button type="button" class="btn btn-primary" routerLink="selectedSubmissions">View Selected
+                    Submissions</button>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div>
+        <h2>Administrator Activities</h2>
+        <div class="row" style="text-align:center;">
+            <div class="col-4">
+                <button type="button" class="btn btn-primary" routerLink="userManagement">Users Management</button>
+            </div>
+
+            <div class="col-4">
+                <button type="button" class="btn btn-primary" routerLink="closureManagement">Deadline
+                    Management</button>
+            </div>
+
+            <div class="col-4">
+                <button type="button" class="btn btn-primary">System Backup & Restore</button>
+            </div>
+        </div>
+    </div>
+</main>
