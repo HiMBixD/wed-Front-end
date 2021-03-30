@@ -29,19 +29,20 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input class="form-control" id="email" placeholder="Email" [formControl]="email">
+            <input class="form-control"  type="email" id="email" placeholder="Email" [formControl]="email">
         </div>
         <div class="mb-3">
             <label class="form-label">Role</label>
             <select class="form-select" id="role-select" aria-label="role select">
-                <option *ngFor="let r of role" value="{{r.role_id}}">{{r.role_id}} - {{r.role_name}}
+                <option *ngFor="let r of roleList" value="{{r.roleName}}">{{r.roleId}} - {{r.roleName}}
                 </option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Faculty</label>
             <select class="form-select" id="faculty-select" aria-label="role select">
-                <option *ngFor="let f of faculty" value="{{f.faculty_id}}">{{f.faculty_id}} - {{f.faculty_name}}
+                <option value="null">None</option>
+                <option *ngFor="let f of facultyList" value="{{f.facultyId}}">{{f.facultyId}} - {{f.facultyName}}
                 </option>
             </select>
         </div>
@@ -50,7 +51,7 @@
         <button type="button" class="btn btn-primary" (click)="clearInput()">Clear</button><small
             style="color:white">-</small>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmAddModal"
-            (click)="addNewUser()">Add</button><small style="color:white">-</small>
+            (click)="addNewUserCheck()">Add</button><small style="color:white">-</small>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmDeletionModal"
             (click)="confirmDeletion()">
             Delete</button><small style="color:white">-</small>
@@ -65,7 +66,7 @@
     <h3>Search</h3>
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="search by username" aria-label="search by username"
-            aria-describedby="button-addon2" id="searchUser">
+            aria-describedby="button-addon2" id="searchUser" [formControl]="searchUser">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="onSearch()">Search</button>
     </div>
     <!-- search result -->
@@ -88,13 +89,14 @@
                 </thead>
                 <tbody>
                     <tr scope="row" *ngFor="let user of searchResult">
-                        <td>{{user.username}}</td>
+                        <td>{{user.userName}}</td>
                         <td>{{user.firstName}}</td>
                         <td>{{user.lastName}}</td>
                         <td>{{user.phone}}</td>
                         <td>{{user.email}}</td>
-                        <td>{{user.role_id}}</td>
-                        <td>{{user.faculty_id}}</td>
+                        <td>{{user.role.roleName}}</td>
+                        <td *ngIf="user.facultyId">{{getFacultyName(user?.facultyId)?.facultyName}}</td>
+                        <td *ngIf="!user.facultyId"></td>
                         <td>
                             <button type="button" class="btn btn-primary" (click)="getSelectedUser(user.username)">
                                     Select</button>
@@ -128,10 +130,11 @@
                     <td>{{user.phone}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.role.roleName}}</td>
-                    <td>{{getFacultyName(user?.facultyId)?.facultyName}}</td>
+                    <td *ngIf="user.facultyId">{{getFacultyName(user?.facultyId)?.facultyName}}</td>
+                    <td *ngIf = "!user.facultyId"></td>
                     <td>
                         <button type="button" class="btn btn-primary"
-                            (click)="getSelectedUser(user.username)">Select</button>
+                            (click)="getSelectedUser(user.userName)">Select</button>
                     </td>
                 </tr>
             </tbody>
@@ -189,7 +192,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Confirm Action</button>
+                    <button type="button" class="btn btn-primary" *ngIf = "addNewUserCheck()==true">Confirm Action</button>
                 </div>
             </div>
         </div>

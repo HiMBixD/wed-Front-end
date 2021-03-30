@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
 import { mockFaculty } from '../interface mock data/faculty';
 import { mockRoles } from '../interface mock data/roles';
@@ -12,26 +12,37 @@ import { mockUser } from '../interface mock data/user';
 })
 export class UserManagementComponent implements OnInit {
 
-  constructor(private commonService: CommonService) {  }
+  constructor(private commonService: CommonService, private fb: FormBuilder) { }
 
-  userList;
-  facultyList = [];
+  userList: userInterface[];
+  facultyList: facultyInterface[] = [];
+  roleList: roleInterface[] = []
   ngOnInit(): void {
+    //get all users
     this.commonService.getUser({ username: `` }).subscribe(user => {
-      if (user?.success)
-      {
+      if (user?.success) {
         this.userList = user.data;
-        // console.log(user);
+        // console.log(this.userList);
       }
       else {
         console.log('damn its broken')
       }
     });
+    //get all faculties
     this.commonService.getFaculties().subscribe(
       f => {
         if (f?.success) {
           this.facultyList = f.data;
-          // console.log(f);
+          console.log(f);
+        }
+      }
+    )
+    //get all roles
+    this.commonService.getAllRoles().subscribe(
+      r => {
+        if (r?.success) {
+          this.roleList = r.data;
+          // console.log(this.roleList)
         }
       }
     )
@@ -58,15 +69,21 @@ export class UserManagementComponent implements OnInit {
 
   getSelectedUser(username: string) {
     console.log(username);
-    let found = this.user.find(user => user.username == username);
+    let found = this.userList.find(user => user.userName == username);
     console.log(found);
-    this.username.setValue(found.username);
+    this.username.setValue(found.userName);
     this.email.setValue(found.email);
     this.firstName.setValue(found.firstName);
     this.lastName.setValue(found.lastName);
     this.phoneNumber.setValue(found.phone);
-    (<HTMLOptionElement>document.querySelector('#role-select [value="' + found.role_id + '"]')).selected = true;
-    (<HTMLOptionElement>document.querySelector(`#faculty-select [value="${found.faculty_id}"]`)).selected = true;
+    (<HTMLOptionElement>document.querySelector('#role-select [value="' + found.role.roleName + '"]')).selected = true;
+    if (found.facultyId) {
+      (<HTMLOptionElement>document.querySelector(`#faculty-select [value="${found.facultyId}"]`)).selected = true;
+    }
+    else {
+      (<HTMLOptionElement>document.querySelector(`#faculty-select [value="null"]`)).selected = true;
+    }
+
   }
 
   clearInput() {
@@ -95,7 +112,7 @@ export class UserManagementComponent implements OnInit {
       container.innerHTML = `Please make sure that all input fields has data.`
     }
     else {
-      let previous = this.user.find(user => user.username == toBeUpdatedUser);
+      let previous = this.userList.find(user => user.userName == toBeUpdatedUser);
       container.innerHTML = `
       Are you sure you want to update ${toBeUpdatedUser}?<br>
       <div class='row'>
@@ -104,8 +121,8 @@ export class UserManagementComponent implements OnInit {
         Name: ${previous.firstName} ${previous.lastName}<br> 
         Phone: ${previous.phone},<br> 
         Email: ${previous.email},<br> 
-        Role: ${previous.role_id},<br> 
-        Faculty: ${previous.faculty_id} </div>
+        Role: ${previous.role.roleName},<br> 
+        Faculty: ${previous.facultyId} </div>
       <div class='col-6'>
       <b>New data:</b><br>
         Name: ${this.firstName.value} ${this.lastName.value}<br>
@@ -122,33 +139,108 @@ export class UserManagementComponent implements OnInit {
    * Update the user
    */
   updateUser() {
-
+    this.commonService.updateUser({
+      username: this.username.value,
+      firstName: this.firstName.value,
+      lastName: this.lastName.value,
+      phone: this.phoneNumber.value,
+      email: this.email.value,
+      roleId: parseInt(`${(<HTMLOptionElement>document.querySelector('#role-select')).value}`),
+      facultyId: parseInt(`${(<HTMLOptionElement>document.querySelector(`#faculty-select`)).value}`)
+    })
   }
 
   searchResult = [];
+  searchUser = new FormControl('');
   onSearch() {
     this.searchResult.length = 0;
     let container = document.querySelector(`#searchMessage`);
     container.innerHTML = '';
-    let username = (<HTMLInputElement>document.getElementById("searchUser")).value;
-    let found = this.user.find(user => user.username == username);
-    if (found) {
-      this.searchResult.push(found);
-    }
-    else if (username == '') {
+    let username = this.searchUser.value;
+    let found = this.userList.filter(el => el.userName.toLowerCase().indexOf(username.toLowerCase()) !== -1)
+    if (username == '') {
       container.innerHTML = `Please enter something in the search bar.`
     }
-    else {
-      container.innerHTML = `'${username}' not found. Please provide the exact username.`
+    else if (found.length > 0) {
+      found.forEach(element => {
+        this.searchResult.push(element)
+      });
+      console.log(found)
+    }
+    else if (this.searchResult.length ==0) {
+      container.innerHTML = `'${username}' not found. Please provide another keyword.`
     }
   }
 
-  addNewUser() {
-    let container = document.querySelector('#confirmAddMessage');
-    container.innerHTML = `TODO: Check:
-    if user exists in db => cant add user with same db
-    <br> Else if user does not exists => then confirm that admin wants to add the user.`
-    //check if user exists
-    //confirm add if does not exist
+  findUser(username) {
+    let found = this.userList.find(user => user.userName == username);
+    return found;
   }
+
+  inputCheck() {
+    if (this.username.value !== '' &&
+      this.email.value !== '' &&
+      this.firstName.value !== '' &&
+      this.lastName.value !== '' &&
+      this.phoneNumber.value !== '') {
+      return true;
+    }
+    else return false;
+  }
+  addNewUserCheck() {
+    let container = document.querySelector('#confirmAddMessage');
+    if (this.inputCheck() == true) {
+      let input = this.username.value;
+      let result = this.findUser(input);
+      if (result == undefined) {
+        container.innerHTML = `Are you sure you want to add ${this.username.value}?
+        <br>
+        Name: ${this.firstName.value} ${this.lastName.value}<br>
+        Phone: ${this.phoneNumber.value}<br>
+        Email: ${this.email.value}<br>
+        Role: ${(<HTMLOptionElement>document.querySelector('#role-select')).value}<br>
+        Faculty: ${(<HTMLOptionElement>document.querySelector(`#faculty-select`)).value}`
+        return true;
+      }
+      else {
+        container.innerHTML = `Username ${result.userName} already exists!`;
+        return false;
+      }
+    }
+    else {
+      container.innerHTML = `Please make sure that all input fields has data`
+      return false;
+    }
+  }
+  // addNewUser() {
+  //   this.commonService.addNewUser({
+  //     username: this.username.value,
+  //     pass
+  //   })
+  // }
+
+}
+
+
+interface userInterface {
+  userName: string,
+  firstName: string,
+  lastName: string,
+  phone: string,
+  email: string,
+  role: {
+    description: string,
+    roleName: string,
+  },
+  facultyId?: number,
+}
+
+interface facultyInterface {
+  facultyId: number,
+  facultyName: string
+}
+
+interface roleInterface {
+  roleId: number,
+  roleName: string,
 }

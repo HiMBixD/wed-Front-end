@@ -32,10 +32,25 @@ export class CommonService {
     return this.http.post(`${environment.apiUrl}/user/change-password`, data);
   }
 
-  updateInfo(info: { username: string, firstName: string, lastName: string, phone: string }): Observable<any> {
+  /**
+   * Update user's own account info.
+   * @param info 
+   * @returns 
+   */
+  updateInfo(info: {
+    username: string,
+    firstName: string,
+    lastName: string,
+    phone: string
+  }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/user/update-my-info`, info);
   }
 
+  /**
+   * Get user by username.
+   * @param userName user's username, string.
+   * @returns 
+   */
   getUser(userName: { username: string }): Observable<any>{
     return this.http.post(`${environment.apiUrl}/admin/search-users`, userName);
   }
@@ -47,6 +62,36 @@ export class CommonService {
 
   getFilesBySub(body): Observable<any> {
     return this.http.post(`${environment.apiUrl}/file/get-files`, body);
+  }
+
+  getAllRoles(): Observable<any> {
+    const temp = {}
+    return this.http.post(`${environment.apiUrl}/get-Roles`, temp)
+  }
+
+  addNewUser(user: {
+      username: string,
+      password?: string,
+      firstName: string,
+      lastName: string,
+      phone: string,
+      email: string,
+      roleId: number,
+      facultyId?: number
+  }): Observable<any>{
+    return this.http.post(`${environment.apiUrl}/admin/create-user`, user)
+  }
+
+  updateUser(user: {
+    username: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    email: string,
+    roleId: number,
+    facultyId: number
+  }): Observable <any> {
+    return this.http.post(`${environment.apiUrl}/admin/update-user-info`, user)
   }
   // ${environment.apiUrl}
 }
