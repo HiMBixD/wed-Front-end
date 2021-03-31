@@ -93,7 +93,11 @@ export class CommonService {
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/admin/create-user`, user);
   }
-
+/**
+ * Admin: Update user
+ * @param user 
+ * @returns 
+ */
   updateUser(user: {
     username: string,
     firstName: string,

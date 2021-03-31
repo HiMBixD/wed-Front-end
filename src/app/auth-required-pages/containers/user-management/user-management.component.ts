@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../services/common.service';
-import { mockFaculty } from '../interface mock data/faculty';
-import { mockRoles } from '../interface mock data/roles';
-import { mockUser } from '../interface mock data/user';
+import { facultyInterface, roleInterface, userInterface } from '../interface mock data/interfaces';
+
 
 @Component({
   selector: 'app-user-management',
@@ -12,7 +12,7 @@ import { mockUser } from '../interface mock data/user';
 })
 export class UserManagementComponent implements OnInit {
 
-  constructor(private commonService: CommonService, private fb: FormBuilder) { }
+  constructor(private commonService: CommonService, private fb: FormBuilder, private toastrService: ToastrService,) { }
 
   userList: userInterface[];
   facultyList: facultyInterface[] = [];
@@ -49,10 +49,9 @@ export class UserManagementComponent implements OnInit {
   }
   p: number = 1;
   searchPagination: number = 1;
-  user = mockUser;
+
   // user = this.userList;
-  role = mockRoles;
-  faculty = mockFaculty;
+
 
   username = new FormControl('');
   firstName = new FormControl('');
@@ -61,6 +60,7 @@ export class UserManagementComponent implements OnInit {
   email = new FormControl('');
   userRole = new FormControl('');
   userFaculty = new FormControl('');
+  password = new FormControl('');
 
 
   getFacultyName(facultyId) {
@@ -76,7 +76,7 @@ export class UserManagementComponent implements OnInit {
     this.firstName.setValue(found.firstName);
     this.lastName.setValue(found.lastName);
     this.phoneNumber.setValue(found.phone);
-    (<HTMLOptionElement>document.querySelector('#role-select [value="' + found.role.roleName + '"]')).selected = true;
+    (<HTMLOptionElement>document.querySelector('#role-select [id="' + found.role.roleName + '"]')).selected = true;
     if (found.facultyId) {
       (<HTMLOptionElement>document.querySelector(`#faculty-select [value="${found.facultyId}"]`)).selected = true;
     }
@@ -113,7 +113,9 @@ export class UserManagementComponent implements OnInit {
     }
     else {
       let previous = this.userList.find(user => user.userName == toBeUpdatedUser);
-      container.innerHTML = `
+      // console.log(previous)
+      if (previous) {
+        container.innerHTML = `
       Are you sure you want to update ${toBeUpdatedUser}?<br>
       <div class='row'>
       <div class='col-6'>
@@ -132,6 +134,11 @@ export class UserManagementComponent implements OnInit {
         Faculty: ${(<HTMLOptionElement>document.querySelector(`#faculty-select`)).value}
       </div>
       </div>`;
+      }
+      else {
+        container.innerHTML = `${toBeUpdatedUser} cannot found in database.<br> Please make sure that the Username is correct.`
+      }
+
     };
   }
 
@@ -147,6 +154,17 @@ export class UserManagementComponent implements OnInit {
       email: this.email.value,
       roleId: parseInt(`${(<HTMLOptionElement>document.querySelector('#role-select')).value}`),
       facultyId: parseInt(`${(<HTMLOptionElement>document.querySelector(`#faculty-select`)).value}`)
+    }).subscribe(value => {
+      if (value.success) {
+        this.toastrService.success(`User ${this.username.value} updated successfully. Please refresh the page to see changes.`);
+        console.log(value);
+      }
+      else {
+        console.log(parseInt(`${(<HTMLOptionElement>document.querySelector('#role-select')).value}`))
+        const message = 'User ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+        this.toastrService.error(message);
+        console.log(message)
+      }
     })
   }
 
@@ -167,7 +185,7 @@ export class UserManagementComponent implements OnInit {
       });
       console.log(found)
     }
-    else if (this.searchResult.length ==0) {
+    else if (this.searchResult.length == 0) {
       container.innerHTML = `'${username}' not found. Please provide another keyword.`
     }
   }
@@ -212,35 +230,44 @@ export class UserManagementComponent implements OnInit {
       return false;
     }
   }
-  // addNewUser() {
-  //   this.commonService.addNewUser({
-  //     username: this.username.value,
-  //     pass
-  //   })
-  // }
 
+  randomPassword(length) {
+    let result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#$*&';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  addNewUser() {
+    if (this.password.value == '') {
+      this.password.setValue(this.randomPassword(8));
+    }
+    this.commonService.addNewUser({
+      username: this.username.value,
+      password: this.password.value,
+      firstName: this.firstName.value,
+      lastName: this.lastName.value,
+      phone: this.phoneNumber.value,
+      email: this.email.value,
+      roleId: parseInt(`${(<HTMLOptionElement>document.querySelector('#role-select')).value}`),
+      facultyId: parseInt(`${(<HTMLOptionElement>document.querySelector(`#faculty-select`)).value}`)
+    }).subscribe(value => {
+      if (value.success) {
+        this.toastrService.success(`User ${this.username.value} created successfully`);
+        console.log(value);
+        this.clearInput();
+      }
+      else {
+        console.log(parseInt(`${(<HTMLOptionElement>document.querySelector('#role-select')).value}`))
+        const message = 'User ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+        this.toastrService.error(message);
+        console.log(message)
+      }
+    })
+  }
 }
 
 
-interface userInterface {
-  userName: string,
-  firstName: string,
-  lastName: string,
-  phone: string,
-  email: string,
-  role: {
-    description: string,
-    roleName: string,
-  },
-  facultyId?: number,
-}
-
-interface facultyInterface {
-  facultyId: number,
-  facultyName: string
-}
-
-interface roleInterface {
-  roleId: number,
-  roleName: string,
-}

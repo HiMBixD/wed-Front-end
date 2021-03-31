@@ -2,7 +2,10 @@
     <div class="navbar navbar-light bg-light row flex-nowrap justify-content-between align-items-center">
         <div class="row">
             <div class="col-lg-4 col-sm-12 order-xs-2 pt-1">
-                <a class="link-secondary" routerLink = "frontPage">Department of [placeholder]</a>
+                <a *ngIf ="userData?.facultyId !== null" class="link-secondary" routerLink = "frontPage">Department of {{getFacultyName(userData?.facultyId).facultyName}}</a>
+                <a class="link-secondary" *ngIf ="userData?.role.roleName == 'ROLE_ADMIN'" routerLink = "frontPage" style="color: red">ADMINISTRATOR ACCOUNT</a>
+                <a class="link-secondary" *ngIf="userData?.role.roleName == 'ROLE_MANAGER'" routerLink="frontPage"
+                    style="color: red">MARKETING MANAGER</a>
             </div>
             <div class="col-lg-4 col-sm-12 order-xs-1 text-center">
                 <a class="site-header-logo text-dark" routerLink = "frontPage">University of Greenwich</a>

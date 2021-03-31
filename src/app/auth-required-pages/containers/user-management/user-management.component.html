@@ -9,32 +9,32 @@
     <h2>Manage User</h2>
     <form>
         <div class="mb-3">
-            <label class="form-label">Username</label>
+            <label class="form-label">Username <small style="color: red">*</small></label>
             <input class="form-control" id="username" placeholder="Username" [formControl]="username">
             <div id="usernameHelp" class="form-text">Username must be less than 30 characters long. Username of existing
                 users cannot be
                 changed</div>
         </div>
         <div class="mb-3">
-            <label class="form-label">First Name</label>
+            <label class="form-label">First Name <small style="color: red">*</small></label>
             <input class="form-control" id="firstName" placeholder="First Name" [formControl]="firstName">
         </div>
         <div class="mb-3">
-            <label class="form-label">Last Name</label>
+            <label class="form-label">Last Name <small style="color: red">*</small></label>
             <input class="form-control" id="lastName" placeholder="Last Name" [formControl]="lastName">
         </div>
         <div class="mb-3">
-            <label class="form-label">Phone Number</label>
+            <label class="form-label">Phone Number <small style="color: red">*</small></label>
             <input class="form-control" id="phoneNumber" placeholder="Phone Number" [formControl]="phoneNumber">
         </div>
         <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input class="form-control"  type="email" id="email" placeholder="Email" [formControl]="email">
+            <label class="form-label">Email <small style="color: red">*</small></label>
+            <input class="form-control" type="email" id="email" placeholder="Email" [formControl]="email">
         </div>
         <div class="mb-3">
-            <label class="form-label">Role</label>
+            <label class="form-label">Role <small style="color: red">*</small></label>
             <select class="form-select" id="role-select" aria-label="role select">
-                <option *ngFor="let r of roleList" value="{{r.roleName}}">{{r.roleId}} - {{r.roleName}}
+                <option *ngFor="let r of roleList" id="{{r.roleName}}" value="{{r.roleId}}">{{r.roleId}} - {{r.roleName}}
                 </option>
             </select>
         </div>
@@ -46,15 +46,19 @@
                 </option>
             </select>
         </div>
+        <div class="mb-3">
+            <div id="formHelp" class="form-text">Fields marked with red asterisk <small style="color: red">*</small> are required and cannot be left empty.</div>
+        </div>
+
 
         <!-- Buttons -->
         <button type="button" class="btn btn-primary" (click)="clearInput()">Clear</button><small
             style="color:white">-</small>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmAddModal"
             (click)="addNewUserCheck()">Add</button><small style="color:white">-</small>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmDeletionModal"
+        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmDeletionModal"
             (click)="confirmDeletion()">
-            Delete</button><small style="color:white">-</small>
+            Delete</button><small style="color:white">-</small> -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
             (click)="confirmUpdate()">
             Update
@@ -99,7 +103,7 @@
                         <td *ngIf="!user.facultyId"></td>
                         <td>
                             <button type="button" class="btn btn-primary" (click)="getSelectedUser(user.username)">
-                                    Select</button>
+                                Select</button>
                         </td>
                     </tr>
                 </tbody>
@@ -131,7 +135,7 @@
                     <td>{{user.email}}</td>
                     <td>{{user.role.roleName}}</td>
                     <td *ngIf="user.facultyId">{{getFacultyName(user?.facultyId)?.facultyName}}</td>
-                    <td *ngIf = "!user.facultyId"></td>
+                    <td *ngIf="!user.facultyId"></td>
                     <td>
                         <button type="button" class="btn btn-primary"
                             (click)="getSelectedUser(user.userName)">Select</button>
@@ -154,14 +158,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Confirm Action</button>
+                    <button type="button" class="btn btn-primary" (click)="updateUser()">Confirm Action</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Delete Confirmation -->
-    <div class="modal fade" id="confirmDeletionModal" tabindex="-1" aria-labelledby="confirmDeletionModalLabel"
+    <!-- <div class="modal fade" id="confirmDeletionModal" tabindex="-1" aria-labelledby="confirmDeletionModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -177,7 +181,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Add Confirmation modal -->
     <div class="modal fade" id="confirmAddModal" tabindex="-1" aria-labelledby="confirmAddModalLabel"
         aria-hidden="true">
@@ -187,12 +191,20 @@
                     <h5 class="modal-title" id="confirmAddModalLabel">Confirm New Entry</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="confirmAddMessage">
-
+                <div class="modal-body">
+                    <div id="confirmAddMessage"></div>
+                    <div *ngIf="addNewUserCheck() == true" class="mb-3">
+                        <label class="form-label">Set up account password?</label>
+                        <input autocomplete="off" type="password" class="form-control" id="newPassword"
+                            placeholder="Password" [formControl]="password">
+                        <div id="passwordHelp" class="form-text">Set New User's password. Leave blank for random password.
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" *ngIf = "addNewUserCheck()==true">Confirm Action</button>
+                    <button type="button" class="btn btn-primary" *ngIf="addNewUserCheck()==true" (click)="addNewUser()">Confirm
+                        Action</button>
                 </div>
             </div>
         </div>
