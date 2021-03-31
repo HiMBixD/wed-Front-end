@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpEvent, HttpHeaders} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {Observable} from 'rxjs';
+import {retry} from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getMyInfo(body): Observable<any> {
     const payload: any = {
@@ -26,6 +29,7 @@ export class CommonService {
         observe: 'events',
       });
   }
+
   // searchUser(body: {username: string}): Observable<any> {
   // }
   changePassword(data: { username: string, oldPassword: string, newPassword: string }): Observable<any> {
@@ -34,9 +38,10 @@ export class CommonService {
 
   /**
    * Update user's own account info.
-   * @param info 
-   * @returns 
+   * @param info
+   * @returns
    */
+
   updateInfo(info: {
     username: string,
     firstName: string,
@@ -46,18 +51,25 @@ export class CommonService {
     return this.http.post(`${environment.apiUrl}/user/update-my-info`, info);
   }
 
+  // get other user's info
+  getUserInfo(userInfo: {
+    username: string
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/get-user-info`, userInfo);
+  }
+
   /**
    * Get user by username.
    * @param userName user's username, string.
-   * @returns 
+   * @returns
    */
-  getUser(userName: { username: string }): Observable<any>{
+  getUser(userName: { username: string }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/admin/search-users`, userName);
   }
 
-  getFaculties(): Observable<any>{
-    const temp ={};
-    return this.http.post(`${environment.apiUrl}/get-Faculties`,temp)
+  getFaculties(): Observable<any> {
+    const temp = {};
+    return this.http.post(`${environment.apiUrl}/get-Faculties`, temp);
   }
 
   getFilesBySub(body): Observable<any> {
@@ -65,21 +77,21 @@ export class CommonService {
   }
 
   getAllRoles(): Observable<any> {
-    const temp = {}
-    return this.http.post(`${environment.apiUrl}/get-Roles`, temp)
+    const temp = {};
+    return this.http.post(`${environment.apiUrl}/get-Roles`, temp);
   }
 
   addNewUser(user: {
-      username: string,
-      password?: string,
-      firstName: string,
-      lastName: string,
-      phone: string,
-      email: string,
-      roleId: number,
-      facultyId?: number
-  }): Observable<any>{
-    return this.http.post(`${environment.apiUrl}/admin/create-user`, user)
+    username: string,
+    password?: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+    email: string,
+    roleId: number,
+    facultyId?: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/admin/create-user`, user);
   }
 
   updateUser(user: {
@@ -90,8 +102,61 @@ export class CommonService {
     email: string,
     roleId: number,
     facultyId: number
-  }): Observable <any> {
-    return this.http.post(`${environment.apiUrl}/admin/update-user-info`, user)
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/admin/update-user-info`, user);
   }
+
   // ${environment.apiUrl}
+
+  createAssignment(assignment: {
+    assignName: string,
+    description: string,
+    facultyId: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/create-assignment`, assignment);
+  }
+
+  searchAssignment(assignment: {
+    facultyId: number,
+    year: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/search-assignment`, assignment);
+  }
+
+  searchSubmission(submission: {
+    username: string,
+    assignmentId: number,
+    status: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/search-submission`, submission);
+  }
+
+  selectSubmission(submission: {
+    submissionId: number,
+    status: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/select-submission`, submission);
+  }
+
+  // student create submission
+  submitSubmission(submission: {
+    assignmentId: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/student/post-submission`, submission);
+  }
+
+  getComment(comment: {
+    submissionId: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/get-comment`, comment);
+  }
+
+  addComment(comment: {
+    content: string,
+    submissionId: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/add-comment`, comment);
+  }
 }
+
+
