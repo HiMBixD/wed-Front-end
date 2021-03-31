@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpEvent, HttpHeaders} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
-import {retry} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -93,11 +93,11 @@ export class CommonService {
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/admin/create-user`, user);
   }
-/**
- * Admin: Update user
- * @param user 
- * @returns 
- */
+  /**
+   * Admin: Update user
+   * @param user 
+   * @returns 
+   */
   updateUser(user: {
     username: string,
     firstName: string,
@@ -160,6 +160,41 @@ export class CommonService {
     submissionId: number
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/add-comment`, comment);
+  }
+
+  /**
+   * Get deadline by Id
+   * @param deadline 
+   * @returns 
+   */
+  getDeadline(deadline: { deadlineId: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/get-deadline`, deadline);
+  }
+  /**
+   * Get all deadline from a time period
+   * @param deadline 
+   * @returns 
+   */
+  getDeadlinePeriod(deadline: {
+    date: {
+      from: string,
+      to: string
+    }
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/get-list-deadline`, deadline);
+  }
+  /**
+   * Create a new closure date.
+   * @param closure 
+   * @returns 
+   */
+  setClosureDate(closure: {
+    action?: string,
+    id?: string,
+    startDate: Date,
+    endDate: Date,
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/admin/set-closure`, closure);
   }
 }
 

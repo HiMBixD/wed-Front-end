@@ -101,7 +101,7 @@ export class UserManagementComponent implements OnInit {
       container.innerHTML = `Please make sure that all input fields has data.`
     }
     else {
-      container.innerHTML = `Are you sure you want to delete ${user}?`;
+      container.innerHTML = `Are you sure you want to delete "${user}"?`;
     };
   }
 
@@ -116,7 +116,7 @@ export class UserManagementComponent implements OnInit {
       // console.log(previous)
       if (previous) {
         container.innerHTML = `
-      Are you sure you want to update ${toBeUpdatedUser}?<br>
+      Are you sure you want to update "${toBeUpdatedUser}"?<br>
       <div class='row'>
       <div class='col-6'>
       <b>Previous data:</b><br>
@@ -156,7 +156,7 @@ export class UserManagementComponent implements OnInit {
       facultyId: parseInt(`${(<HTMLOptionElement>document.querySelector(`#faculty-select`)).value}`)
     }).subscribe(value => {
       if (value.success) {
-        this.toastrService.success(`User ${this.username.value} updated successfully. Please refresh the page to see changes.`);
+        this.toastrService.success(`User "${this.username.value}" updated successfully. Please refresh the page to see changes.`);
         console.log(value);
       }
       else {
@@ -186,7 +186,7 @@ export class UserManagementComponent implements OnInit {
       console.log(found)
     }
     else if (this.searchResult.length == 0) {
-      container.innerHTML = `'${username}' not found. Please provide another keyword.`
+      container.innerHTML = `"${username}" not found. Please provide another keyword.`
     }
   }
 
@@ -211,7 +211,7 @@ export class UserManagementComponent implements OnInit {
       let input = this.username.value;
       let result = this.findUser(input);
       if (result == undefined) {
-        container.innerHTML = `Are you sure you want to add ${this.username.value}?
+        container.innerHTML = `Are you sure you want to create new user "${this.username.value}"?
         <br>
         Name: ${this.firstName.value} ${this.lastName.value}<br>
         Phone: ${this.phoneNumber.value}<br>

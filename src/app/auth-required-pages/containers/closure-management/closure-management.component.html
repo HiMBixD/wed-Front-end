@@ -11,48 +11,58 @@
     <h2>Closure date management</h2>
     <hr>
     <h3>New Issue</h3>
-    Issue number: get from db + Auto increment
-    <form>
+    <!-- Issue number: get from db + Auto increment -->
+    <form ngNativeValidate action="javascript:void(0)">
         <div class="mb-3">
             <label class="form-label">Issue number</label>
-            <input class="form-control" id="issuesNo" placeholder="Issues Number" disabled>
+            <input class="form-control" id="issuesNo" placeholder="Issues Number" [formControl]="id">
         </div>
-        <!-- <div class="mb-3">
+        <div class="mb-3">
             <label for="date">Start Date</label>
-            <input class="form-control" type="date" id="startDate">
-        </div> -->
+            <input class="form-control" type="date" id="startDate" [formControl]="startDate" required>
+        </div>
         <div class="mb-3">
             <label for="date">End Date</label>
-            <input class="form-control" type="date" id="endDate">
+            <input class="form-control" type="date" id="endDate" [formControl]="endDate" required>
         </div>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" (click)="setClosureDate()">Submit</button><small
+            style="color: white">-</small>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
     <hr>
     <h3>All issues</h3>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">Start Date</span>
+        <input class="form-control inline" type="date" id="filterStartDate" [formControl]="filterStart" required>
+        <span class="input-group-text" id="basic-addon3">End Date</span>
+        <input class="form-control inline" type="date" id="filterEndDate" [formControl]="filterEnd" required>
+    </div>
     <div class="table-responsive-md">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Issues no.</th>
-                    <!-- <th>Start date</th> -->
+                    <th>Start date</th>
                     <th>End date</th>
-                    <th>Action</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr scope="row" *ngFor="let d of deadlineList | paginate: { itemsPerPage: 5, currentPage: p }">
                     <td>
-                        1
+                        {{d.deadlineId}}
                     </td>
-                    <!-- <td>20/11/2020</td> -->
-                    <td>31/12/2020</td>
+                    <td>{{d.startDate}}</td>
+                    <td>{{d.endDate}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary">Edit</button>
+                        <button type="button" class="btn btn-primary"
+                            (click)="editDeadline(d.deadlineId)">Select</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
     <!-- Table show all magazine start and end date
     with select button.
     make it like the user management page. -->
