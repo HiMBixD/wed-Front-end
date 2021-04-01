@@ -120,13 +120,6 @@ export class CommonService {
     return this.http.post(`${environment.apiUrl}/create-assignment`, assignment);
   }
 
-  searchAssignment(assignment: {
-    facultyId: number,
-    year: number
-  }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/search-assignment`, assignment);
-  }
-
   searchSubmission(submission: {
     username: string,
     assignmentId: number,
@@ -177,8 +170,8 @@ export class CommonService {
    */
   getDeadlinePeriod(deadline: {
     date: {
-      from: string,
-      to: string
+      from: any,
+      to: any
     }
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/user/get-list-deadline`, deadline);
@@ -195,6 +188,20 @@ export class CommonService {
     endDate: Date,
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/admin/set-closure`, closure);
+  }
+  /**
+   * search assignment by faculty id and deadlineId
+   * @param assignment: 
+   * { facultyId: number, 
+   * deadlineId?: number }
+   * @returns 
+   */
+  searchAssignment(assignment: {
+    facultyId: any,
+    deadlineId?: any,
+    username: any
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/search-assignment`, assignment)
   }
 }
 

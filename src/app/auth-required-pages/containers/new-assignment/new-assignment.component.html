@@ -8,7 +8,21 @@
         </ol>
     </nav> -->
     <!-- <h1>New Assignment <small class="text-muted">for Issues #[number here]</small></h1> -->
-    <form>
+    <h2>New Assignment</h2>
+    Current Issue: 2. Duration: [start date] - [end date].<br>
+    <!-- get all closure date from db  -->
+    <form ngNativeValidate action="javascript:void(0)">
+        <!-- <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon3">Start Date</span>
+            <input class="form-control inline" type="date" id="filterStartDate" [formControl]="filterStart" required>
+            <span class="input-group-text" id="basic-addon3">End Date</span>
+            <input class="form-control inline" type="date" id="filterEndDate" [formControl]="filterEnd" required>
+            <button class="btn btn-outline-primary" type="submit" (click)="onSearch()">Search</button>
+        </div> -->
+        <div class="mb-3">
+            <label class="form-label">Deadline</label>
+            <option></option>
+        </div>
         <div class="mb-3">
             <label class="form-label">Title</label>
             <input class="form-control" id="assignment-title" placeholder="Assignment Title" maxlength="100">

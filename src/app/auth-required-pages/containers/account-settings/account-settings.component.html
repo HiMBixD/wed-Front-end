@@ -10,33 +10,33 @@
     <form ngNativeValidate>
         <div class="mb-3">
             <label for="disabledUsername" class="form-label">Username</label>
-            <input type="text" id="disabledUsername" class="form-control" placeholder="{{user?.data.userName}}" disabled/>
+            <input type="text" id="disabledUsername" class="form-control" placeholder="{{user?.userName}}" disabled/>
         </div>
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="firstName" placeholder="First Name" value = "{{user?.data.firstName}}" required/>
+            <input type="text" class="form-control" id="firstName" placeholder="First Name" value = "{{user?.firstName}}" required/>
         </div>
         <div class="mb-3">
             <label class="form-label">Last Name</label>
             <input  type="text" class="form-control" id="lastName" placeholder="Last Name"
-            value="{{user?.data.lastName}}" required/>
+            value="{{user?.lastName}}" required/>
         </div>
         <div class="mb-3">
             <label class="form-label">Phone Number</label>
-            <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" value ="{{user?.data.phone}}" required/>
+            <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" value ="{{user?.phone}}" required/>
         </div>
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input class="form-control" id="email" placeholder="{{user?.data.email}}" disabled>
+            <input class="form-control" id="email" placeholder="{{user?.email}}" disabled>
         </div>
         <div class="mb-3">
             <label for="disabledAccountType" class="form-label">Account Type:</label>
-            <input type="text" id="disabledAccountType" class="form-control" placeholder="{{user?.data.role.roleName}}"
+            <input type="text" id="disabledAccountType" class="form-control" placeholder="{{user?.role.roleName}}"
                 disabled/>
         </div>
         <div class="mb-3">
             <label for="disabledFaculty" class="form-label">Faculty:</label>
-            <input type="text" id="disabledFaculty" class="form-control" placeholder="{{user?.data.facultyId}}" disabled/>
+            <input type="text" id="disabledFaculty" class="form-control" placeholder="{{user?.facultyId}}" disabled/>
         </div>
         <button class="btn btn-primary" type="button" (click)="updateUserInfo()">Save Changes</button>
     </form>

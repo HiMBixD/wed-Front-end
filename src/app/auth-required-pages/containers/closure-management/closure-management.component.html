@@ -12,31 +12,36 @@
     <hr>
     <h3>New Issue</h3>
     <!-- Issue number: get from db + Auto increment -->
-    <form ngNativeValidate action="javascript:void(0)">
+    <form [formGroup]="closureForm" ngNativeValidate action="javascript:void(0)">
         <div class="mb-3">
             <label class="form-label">Issue number</label>
-            <input class="form-control" id="issuesNo" placeholder="Issues Number" [formControl]="id">
+            <input class="form-control" id="issuesNo" placeholder="Issues Number" formControlName = "id">
         </div>
         <div class="mb-3">
-            <label for="date">Start Date</label>
-            <input class="form-control" type="date" id="startDate" [formControl]="startDate" required>
+            <label for="startDate">Start Date</label>
+            <input class="form-control" type="date" id="startDate" formControlName="startDate">
         </div>
         <div class="mb-3">
-            <label for="date">End Date</label>
-            <input class="form-control" type="date" id="endDate" [formControl]="endDate" required>
+            <label for="endDate">End Date</label>
+            <input class="form-control" type="date" id="endDate" formControlName="endDate">
+
         </div>
-        <button type="submit" class="btn btn-primary" (click)="setClosureDate()">Submit</button><small
+        <button type="submit" class="btn btn-primary" (click)="setClosureDate()" [disabled]="closureForm.invalid">Submit</button><small
             style="color: white">-</small>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary" [disabled]="closureForm.invalid" (click)="modifyClosureDate()">Update</button><small style="color: white">-</small>
+        <button class="btn btn-primary" type="reset" >Clear</button>
     </form>
     <hr>
     <h3>All issues</h3>
+    <form ngNativeValidate action="javascript:void(0)">
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon3">Start Date</span>
         <input class="form-control inline" type="date" id="filterStartDate" [formControl]="filterStart" required>
         <span class="input-group-text" id="basic-addon3">End Date</span>
         <input class="form-control inline" type="date" id="filterEndDate" [formControl]="filterEnd" required>
+        <button class="btn btn-outline-primary" type="submit"(click)="onSearch()">Search</button>
     </div>
+    </form>
     <div class="table-responsive-md">
         <table class="table table-striped">
             <thead>
@@ -52,16 +57,17 @@
                     <td>
                         {{d.deadlineId}}
                     </td>
-                    <td>{{d.startDate}}</td>
-                    <td>{{d.endDate}}</td>
+                    <td>{{d.startDate | date: 'dd-MM-YYYY'}}</td>
+                    <td>{{d.endDate | date: 'dd-MM-YYYY'}}</td>
                     <td>
                         <button type="button" class="btn btn-primary"
-                            (click)="editDeadline(d.deadlineId)">Select</button>
+                            (click)="editDeadline(d)">Select</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <div style="text-align: center;" *ngIf="deadlineList.length ==0" class="text-muted py-5">Please specify a time period to view all deadlines</div>
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
     <!-- Table show all magazine start and end date
     with select button.

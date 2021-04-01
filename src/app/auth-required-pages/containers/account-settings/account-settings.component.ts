@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../services/common.service';
+import { UserDetailsService } from '../../services/user-details.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -11,18 +12,17 @@ import { CommonService } from '../../services/common.service';
 export class AccountSettingsComponent implements OnInit {
 
   constructor(private commonService: CommonService,
-    private toastrService: ToastrService,) { }
+    private toastrService: ToastrService, private userDetails : UserDetailsService) { }
 
   user;
   isLoading = false;
   ngOnInit(): void {
-    this.commonService.getMyInfo({}).subscribe(val => {
-      if (val) {
-        this.user = val;
-        // console.log(this.user);
-        // console.log(val.data.userName);
-      }
-    });
+    // this.commonService.getMyInfo({}).subscribe(val => {
+    //   if (val) {
+    //     this.user = val;
+    //   }
+    // });
+    this.user = this.userDetails.getUserDetails()
   }
 
 
@@ -37,7 +37,7 @@ export class AccountSettingsComponent implements OnInit {
     //check if current password match the one from db
     // this.currentPassword.value
     this.commonService.changePassword({
-      username: this.user.data.userName,
+      username: this.user.userName,
       oldPassword: this.currentPassword.value,
       newPassword: this.newPassword.value,
     }).subscribe(value => {
@@ -58,7 +58,7 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   updateUserInfo() {
-    let account = this.user.data.userName;
+    let account = this.user.userName;
     let newFirstName = (<HTMLInputElement>document.getElementById('firstName')).value;
     let newLastName = (<HTMLInputElement>document.getElementById(`lastName`)).value;
     let phoneNumber = (<HTMLInputElement>document.getElementById(`phoneNumber`)).value;
