@@ -67,18 +67,18 @@ export class UserManagementComponent implements OnInit {
     return this.facultyList.find(faculty => +faculty.facultyId === +facultyId);
   }
 
-  getSelectedUser(username: string) {
-    console.log(username);
-    let found = this.userList.find(user => user.userName == username);
-    console.log(found);
-    this.username.setValue(found.userName);
-    this.email.setValue(found.email);
-    this.firstName.setValue(found.firstName);
-    this.lastName.setValue(found.lastName);
-    this.phoneNumber.setValue(found.phone);
-    (<HTMLOptionElement>document.querySelector('#role-select [id="' + found.role.roleName + '"]')).selected = true;
-    if (found.facultyId) {
-      (<HTMLOptionElement>document.querySelector(`#faculty-select [value="${found.facultyId}"]`)).selected = true;
+  getSelectedUser(user) {
+    // console.log(username);
+    // let found = this.userList.find(user => user.userName == username);
+    console.log(user);
+    this.username.setValue(user.userName);
+    this.email.setValue(user.email);
+    this.firstName.setValue(user.firstName);
+    this.lastName.setValue(user.lastName);
+    this.phoneNumber.setValue(user.phone);
+    (<HTMLOptionElement>document.querySelector('#role-select [id="' + user.role.roleName + '"]')).selected = true;
+    if (user.facultyId) {
+      (<HTMLOptionElement>document.querySelector(`#faculty-select [value="${user.facultyId}"]`)).selected = true;
     }
     else {
       (<HTMLOptionElement>document.querySelector(`#faculty-select [value="null"]`)).selected = true;

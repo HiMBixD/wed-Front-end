@@ -5,7 +5,7 @@ import * as fromContainers from './containers';
 import { AuthRequiredPagesRoutingModule } from './auth-required-pages-routing.module';
 import { NewAssignmentComponent } from './containers/new-assignment/new-assignment.component';
 import { AccountSettingsComponent } from './containers/account-settings/account-settings.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FrontPageComponent } from './containers/front-page/front-page.component';
 import { YourActivitiesComponent } from './containers/your-activities/your-activities.component';
@@ -46,7 +46,8 @@ import { SubmissionPortalComponent } from './containers/submission-portal/submis
     ReactiveFormsModule,
     NgxPaginationModule,
     NgxDropzoneModule,
-    ChartsModule
+    ChartsModule,
+    FormsModule
   ]
 })
 export class AuthRequiredPagesModule { }

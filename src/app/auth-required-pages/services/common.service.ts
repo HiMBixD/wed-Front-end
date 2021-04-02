@@ -115,7 +115,8 @@ export class CommonService {
   createAssignment(assignment: {
     assignName: string,
     description: string,
-    facultyId: number
+    facultyId: number,
+    deadlineId: number,
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/create-assignment`, assignment);
   }

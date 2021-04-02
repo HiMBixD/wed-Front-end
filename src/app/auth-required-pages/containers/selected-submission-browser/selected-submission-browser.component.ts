@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-selected-submission-browser',
@@ -7,11 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectedSubmissionBrowserComponent implements OnInit {
 
-  constructor() { }
+  constructor(private commonService: CommonService) { }
 
+  selectedSubmissions = []
   ngOnInit(): void {
+    this.commonService.searchSubmission({
+      username: '',
+      assignmentId: null,
+      status: 1
+    }).subscribe(value => {
+      if (value) {
+        this.selectedSubmissions = value.data;
+        console.log(this.selectedSubmissions)
+      }
+    })
   }
-  p : number = 1
+  p: number = 1
 
   mockSelected: selectedSubmission[] = [
     {
@@ -36,7 +48,7 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
     },
   ]
 }
-interface selectedSubmission  {
+interface selectedSubmission {
   topic: string,
   username: string,
   date: string,

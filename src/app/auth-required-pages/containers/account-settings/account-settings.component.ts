@@ -17,12 +17,11 @@ export class AccountSettingsComponent implements OnInit {
   user;
   isLoading = false;
   ngOnInit(): void {
-    // this.commonService.getMyInfo({}).subscribe(val => {
-    //   if (val) {
-    //     this.user = val;
-    //   }
-    // });
-    this.user = this.userDetails.getUserDetails()
+    this.commonService.getMyInfo({}).subscribe(val => {
+      if (val) {
+        this.user = val.data;
+      }
+    });
   }
 
 

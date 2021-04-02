@@ -102,7 +102,7 @@
                         <td *ngIf="user.facultyId">{{getFacultyName(user?.facultyId)?.facultyName}}</td>
                         <td *ngIf="!user.facultyId"></td>
                         <td>
-                            <button type="button" class="btn btn-primary" (click)="getSelectedUser(user.username)">
+                            <button type="button" class="btn btn-primary" (click)="getSelectedUser(user)">
                                 Select</button>
                         </td>
                     </tr>
@@ -138,7 +138,7 @@
                     <td *ngIf="!user.facultyId"></td>
                     <td>
                         <button type="button" class="btn btn-primary"
-                            (click)="getSelectedUser(user.userName)">Select</button>
+                            (click)="getSelectedUser(user)">Select</button>
                     </td>
                 </tr>
             </tbody>
