@@ -26,7 +26,14 @@ user
   description = new FormControl('');
   // deadlineSelect = new FormControl('');
   
-  deadlineSelected ;
+  // onDeadlineSet(event: any) {
+  //   let deadlineId = event.target.value;
+  //   console.log(deadlineId)
+  //   console.log(this.deadlineSelected)
+  //   return deadlineId;
+  // }
+
+  deadlineSelected;
   onSearch() {
     console.log(this.filterEnd.value)
     this.commonService.getDeadlinePeriod({
@@ -45,15 +52,17 @@ user
       assignName: this.assignmentName.value,
       description: this.description.value,
       facultyId: this.user.facultyId,
-      deadlineId: parseInt(`${(<HTMLOptionElement>document.querySelector(`#deadline-select`)).value}`)
-      // deadlineId: this.deadlineSelected
+      // deadlineId: parseInt(`${(<HTMLOptionElement>document.querySelector(`#deadline-select`)).value}`)
+      deadlineId: this.deadlineSelected
       //TODO: this currently doesn't return a value.
     }).subscribe(value => {
       if (value.success) {
         console.log('added!')
       }
       else {
-        console.log('well that failed')
+        const message = 'Failed. ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+
+        console.log(message)
       }
     })
   }
