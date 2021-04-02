@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
 import * as moment from 'moment'
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-closure-management',
   templateUrl: './closure-management.component.html',
@@ -9,7 +10,7 @@ import * as moment from 'moment'
 })
 export class ClosureManagementComponent implements OnInit {
 
-  constructor(private commonService: CommonService, private fb: FormBuilder) { }
+  constructor(private commonService: CommonService, private fb: FormBuilder, private toastrService: ToastrService) { }
 
   p = 1;
   deadlineList = []
@@ -51,9 +52,6 @@ export class ClosureManagementComponent implements OnInit {
 
   filterStart = new FormControl('');
   filterEnd = new FormControl('');
-  // id = new FormControl('');
-  // startDate = new FormControl('');
-  // endDate = new FormControl('');
 
   setClosureDate() {
     // console.log(this.id.value, this.startDate.value, this.endDate.value)
@@ -119,8 +117,13 @@ export class ClosureManagementComponent implements OnInit {
         to: this.filterEnd.value
       }
     }).subscribe(value => {
-      this.deadlineList = value.data;
-      console.log(value)
+      if (value.data.length > 0) {
+        this.deadlineList = value.data;
+        console.log(value)
+      }
+      else {
+        this.toastrService.error(`Found no deadline found that start and end during ${this.filterStart.value} and ${this.filterEnd.value}. Please try a wider search range.`)
+      }
     })
   }
 }

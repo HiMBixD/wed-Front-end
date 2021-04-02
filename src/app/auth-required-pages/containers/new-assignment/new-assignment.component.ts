@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-assignment',
@@ -10,7 +11,7 @@ import { CommonService } from '../../services/common.service';
 export class NewAssignmentComponent implements OnInit {
   deadlineList = [];
 
-  constructor(private commonService: CommonService) { }
+  constructor(private commonService: CommonService, private toastrService: ToastrService) { }
 user
   ngOnInit(): void {
     this.commonService.getMyInfo({}).subscribe(val => {
@@ -57,11 +58,12 @@ user
       //TODO: this currently doesn't return a value.
     }).subscribe(value => {
       if (value.success) {
+        this.toastrService.success(`Assignment "${this.assignmentName.value}" added!`);
         console.log('added!')
       }
       else {
-        const message = 'Failed. ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
-
+        const message = `Failed to create "${this.assignmentName.value}". Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+        this.toastrService.error(message)
         console.log(message)
       }
     })
