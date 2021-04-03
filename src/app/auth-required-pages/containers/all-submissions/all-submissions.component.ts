@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-all-submissions',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllSubmissionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private commonService: CommonService) { }
 
+  // faculty: string = 'AAAAAAAAAA'
+  userDetails;
   ngOnInit(): void {
+    this.commonService.getMyInfo({}).subscribe(val => {
+      if (val) {
+        this.userDetails = val.data;
+        console.log(this.userDetails)
+      }
+    });
   }
   p: number = 1
 

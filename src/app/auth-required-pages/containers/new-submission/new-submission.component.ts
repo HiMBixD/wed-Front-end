@@ -1,8 +1,12 @@
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { AssignmentDetailsService } from '../../services/assignment-details.service';
 import { CommonService } from '../../services/common.service';
 
 @Component({
@@ -19,11 +23,33 @@ export class NewSubmissionComponent implements OnInit {
   url = `${environment.apiUrl}/file/read/`;
   fileIdViewed;
 
-  constructor(private uploadService: CommonService, private sanitizer: DomSanitizer) { }
+  asmId$: Observable<any>
+  constructor(private uploadService: CommonService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private asmDetails: AssignmentDetailsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getFiles(2);
+    this.assignment = this.asmDetails.getAssignment();
+    if (this.assignment.length == 0) {
+      this.toastr.error("You aren't supposed to be here!");
+      // this.router.navigate(['/submissionPortal'])
+    }
+    else {
+      console.log(this.assignment)
+    }
+    // this.asmId$ = this.route.paramMap.pipe(
+    //   switchMap((params: ParamMap) =>
+    //     // this.uploadService.searchAssignment({
+    //     //   facultyId: '',
+    //     //   deadlineId: '',
+
+    //     // })
+    //     //GET ASSIGNMENT BY ID
+    //     // this.service.getHero(params.get('id')))
+    // );
   }
+  assignment;
+  
+  
 
   onSelect(event) {
     console.log(event);

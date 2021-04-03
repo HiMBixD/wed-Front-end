@@ -20,6 +20,7 @@ import { AssignmentListComponent } from './containers/assignment-list/assignment
 import { DefaultComponentComponent } from './containers/default-component/default-component.component';
 import { MySubmissionComponent } from './containers/my-submission/my-submission.component';
 import { SubmissionPortalComponent } from './containers/submission-portal/submission-portal.component';
+import { SubmissionHomeComponent } from './containers/submission-home/submission-home.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { SubmissionPortalComponent } from './containers/submission-portal/submis
     AssignmentListComponent,
     DefaultComponentComponent,
     MySubmissionComponent,
-    SubmissionPortalComponent
+    SubmissionPortalComponent,
+    SubmissionHomeComponent
   ],
   imports: [
     CommonModule,

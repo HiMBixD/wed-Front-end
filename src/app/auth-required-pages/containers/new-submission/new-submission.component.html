@@ -8,10 +8,11 @@
         </ol>
     </nav>
 </div>
-<main class="container">
-    <h2>Issue [placeholder] <small class="text-muted">[Title of Assignment]</small></h2>
+<main class="container" *ngIf ="assignment.length !=0">
+    <h2>{{assignment?.assignmentName}} <small class="text-muted">[{{assignment?.deadline.startDate | date: 'dd-MM-YYYY'}} → {{assignment?.deadline.endDate | date: 'dd-MM-YYYY'}}]</small></h2>
     <h5>Description:</h5>
-    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+    <p>{{assignment.description}}</p>
+    <!-- <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
     </p>
     <p>
         Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
@@ -23,10 +24,11 @@
         rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.
         Cras
         dapibu
-    </p>
+    </p> -->
     <hr>
     <h5>Your Submission</h5>
     <h6>Submitted files</h6>
+    <button class="btn btn-primary" (click) = "getFiles(2)">Synchronize</button>
     <div>
         <div>
             <div *ngFor="let file of filesGot?.data || []">
@@ -96,4 +98,8 @@
             <button type="button" class="btn btn-primary">Post Comment</button><br>
         </div>
     </form>
+</main>
+<main class="container" *ngIf="assignment.length ==0">
+    <p>Oops, there seems to be an error!</p>
+    <p>Please go back to the previous page.</p>
 </main>

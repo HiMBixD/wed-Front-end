@@ -1,0 +1,62 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink='/frontPage' routerLinkActive="active">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink='/yourActivities' routerLinkActive="active">Your Activity</a></li>
+            <li class="breadcrumb-item active" aria-current="page">My Submissions</li>
+        </ol>
+    </nav>
+</div>
+<main class="container">
+    <h1>Submission Portal</h1>
+    <hr>
+    <h2>Currently Opening</h2>
+    <h6 class="title">Current Activities</h6>
+    <div class="row-cols-1">
+        <div class="col" style="margin-top: 5px;" *ngFor="let a of availableAssignment">
+            <div class="card card-news">
+                <div class="card-body inline-block">
+                    <a (click)="this.asmDetails.setAssignment(a.assignment)" routerLink="mySubmission" value="a.assignment.assignmentId" class="stretched-link">[{{a.assignment.deadline.startDate | date: 'dd-MM-YYYY'}} → {{a.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}] 
+                        {{a.assignment.assignmentName}}
+                        <!-- Celebrating 20 years of Computer Science
+                        Department  -->
+                        <i class="bi bi-arrow-right" style="align-self: flex-end;"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- loop some card here -->
+    <hr>
+    <h2>My Submissions</h2>
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Issues no.</th>
+                    <th>Topic</th>
+                    <th>Submitted On</th>
+                    <th>Deadline</th>
+                    <th>Final Closure</th>
+                    <th>Comments</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Tech trends</td>
+                    <td>30/11/2020</td>
+                    <td>20/11/2020</td>
+                    <td>3/12/2020</td>
+                    <td>5</td>
+                    <td>Accepted</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" routerLink="mySubmission">View
+                            Submissions</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>

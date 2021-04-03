@@ -14,6 +14,7 @@ import { SelectedSubmissionBrowserComponent } from './containers/selected-submis
 import { AssignmentListComponent } from './containers/assignment-list/assignment-list.component';
 import { MySubmissionComponent } from './containers/my-submission/my-submission.component';
 import { SubmissionPortalComponent } from './containers/submission-portal/submission-portal.component';
+import { SubmissionHomeComponent } from './containers/submission-home/submission-home.component';
 
 const routes: Routes = [
   {
@@ -82,10 +83,13 @@ const routes: Routes = [
             children: [
               {
                 path: '',
-                component: SubmissionPortalComponent
+                component: SubmissionHomeComponent
               },
+              // {
+              //   path: 'mySubmission/:asmId', component: NewSubmissionComponent,
+              // },
               {
-                path: 'newSubmission', component: NewSubmissionComponent,
+                path: 'mySubmission', component: NewSubmissionComponent,
               },
             ]
           },
