@@ -12,7 +12,6 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
 
   constructor(private commonService: CommonService) { }
 
-  selectedSubmissions = []
   ngOnInit(): void {
     // this.commonService.getMyInfo({}).subscribe(val => {
     //   if (val) {
@@ -23,7 +22,7 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
 
     this.commonService.getFaculties().subscribe(
       f => {
-        if (f?.success) {
+        if (f.success) {
           this.facultyList = f.data;
           // console.log(f);
         }
@@ -45,16 +44,19 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
   p: number = 1
   assignmentPage: number = 1;
   submissionPage: number = 1;
+  currentUser: string;
 
+  selectedSubmissions = []
   assignmentList = [];
   submissionList = [];
+  filesList = [];
   ////////////////////////////////////////////////
 
   getFacultyName(facultyId) {
     let found = this.facultyList.find(faculty => +faculty.facultyId === +facultyId);
-    return found.facultyName 
+    return found.facultyName
   }
-//this.userDetails.facultyId
+  //this.userDetails.facultyId
   /**
    * Show all assignments 
    */
@@ -74,7 +76,7 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
   }
 
   /**
-   * Show submissions by Id
+   * Show submissions by AssignmentId
    * @param assId Assignment's Id
    */
   showAllSubmissions(assId: any) {
@@ -88,6 +90,21 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
         console.log(value)
       }
     })
+  }
+  getFiles(submissionId, username) {
+    this.commonService.getFilesBySub({ submissionId }).subscribe(
+      value => {
+        if (value.success) {
+          this.filesList = value.data;
+          console.log(this.filesList);
+        }
+      }
+    );
+    this.currentUser = username;
+  }
+
+  viewFiles() {
+    
   }
 }
 interface selectedSubmission {

@@ -36,6 +36,11 @@ export class NewSubmissionComponent implements OnInit {
     else {
       console.log(this.assignment)
     }
+    this.uploadService.getComment({ submissionId: 2 }).subscribe(
+      value => {
+        console.log(value)
+      }
+    )
     // this.asmId$ = this.route.paramMap.pipe(
     //   switchMap((params: ParamMap) =>
     //     // this.uploadService.searchAssignment({
@@ -61,7 +66,7 @@ export class NewSubmissionComponent implements OnInit {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
-  getFiles(submissionId) {
+  getFiles(submissionId: number) {
     this.uploadService.getFilesBySub({ submissionId }).subscribe(file => {
       this.filesGot = file;
       console.log('https://docs.google.com/a/WedPj/viewer?url=' + this.url + file.data[0].fileId);

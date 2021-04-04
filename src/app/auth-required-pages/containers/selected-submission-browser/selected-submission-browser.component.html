@@ -81,7 +81,10 @@
                         <td>{{s.username}}</td>
                         <td>{{s.submissionDate}}</td>
                         <td>
-                            <button type="button" class="btn btn-primary">View Files</button>
+                            <button type="button" class="btn btn-primary"
+                                (click)="getFiles(s.submissionId, s.username)">
+                                View Files
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -96,22 +99,29 @@
         <hr>
     </div>
     <h3>Submission Info</h3>
-    <p>Please choose a submission to view all files</p>
+    <div *ngIf="submissionList.length ==0" style="text-align: center;" class="text-muted py-5">Please choose a
+        submission to view all files</div>
     <!-- <p>All files submitted by [mimi123]</p> -->
-    <p>Data ở dưới này đang Fake lòi nhé~</p>
-    <div class="card" style="width: 18rem;">
+    <div class="card" style="width: 18rem;" *ngIf="filesList.length >0">
         <div class="card-header">
-            All files submitted by [mimi123]
+            All files submitted by "{{currentUser}}"
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="#">submission.doc</a></li>
-            <li class="list-group-item"><a href="#">image01.jpeg</a></li>
-            <li class="list-group-item"><a href="#">image02.png</a></li>
+            <li class="list-group-item" *ngFor="let f of filesList">
+                <a (click)="viewFiles">{{f.fileName}}</a>
+            </li>
         </ul>
     </div>
     <div style="background-color:#F5F5F5">
         <hr>
-        <h3>File Info</h3>
-        <div>Please click on a file to preview it.</div>
+        <h3>Preview</h3>
+        <!-- <div style="text-align: center;" class="text-muted py-5" *ngIf="!currentUser && filesList.length >0">Please
+            choose a
+            file to preview</div> -->
+        <div style="text-align: center;" class="text-muted py-5">Please
+            choose a file to preview</div>
+        <!-- <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed"
+            [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">
+        </iframe> -->
     </div>
 </main>

@@ -38,7 +38,8 @@
                     <td>{{l.totalSub}}</td>
                     <td style="color: red">{{l.selectedSub}}/{{l.totalSub}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary">View Submissions</button>
+                        <button type="button" class="btn btn-primary">View Submissions</button>-
+                        <button type="button" class="btn btn-primary" (click)="getAssignmentDetails(l)">Edit</button>
                     </td>
                 </tr>
             </tbody>

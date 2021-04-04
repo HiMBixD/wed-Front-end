@@ -41,7 +41,6 @@ export class CommonService {
    * @param info
    * @returns
    */
-
   updateInfo(info: {
     username: string,
     firstName: string,
@@ -72,10 +71,19 @@ export class CommonService {
     return this.http.post(`${environment.apiUrl}/get-Faculties`, temp);
   }
 
-  getFilesBySub(body): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/file/get-files`, body);
+  /**
+   * Get Files by Submission Id
+   * @param body 
+   * @returns 
+   */
+  getFilesBySub(submission: { submissionId: number}): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/file/get-files`, submission);
   }
 
+  /**
+   * Get all user roles
+   * @returns 
+   */
   getAllRoles(): Observable<any> {
     const temp = {};
     return this.http.post(`${environment.apiUrl}/get-Roles`, temp);
@@ -166,7 +174,7 @@ export class CommonService {
   }
   /**
    * Get all deadline from a time period
-   * @param deadline 
+   * @param deadline {date: {from: any, to: any}}
    * @returns 
    */
   getDeadlinePeriod(deadline: {
@@ -191,10 +199,8 @@ export class CommonService {
     return this.http.post(`${environment.apiUrl}/admin/set-closure`, closure);
   }
   /**
-   * search assignment by faculty id and deadlineId
-   * @param assignment: 
-   * { facultyId: number, 
-   * deadlineId?: number }
+   * Search for assignment using faculty id and deadlineId
+   * @param assignment: { facultyId: number, deadlineId?: number }
    * @returns 
    */
   searchAssignment(assignment: {

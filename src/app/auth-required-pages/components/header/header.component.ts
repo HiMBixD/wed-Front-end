@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/service/auth.service';
-import { facultyInterface } from '../../containers/interface mock data/interfaces';
+import { facultyInterface } from '../../containers/interfaces/interfaces';
 import { CommonService } from '../../services/common.service';
 
 @Component({

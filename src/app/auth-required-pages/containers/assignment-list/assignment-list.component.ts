@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AssignmentDetailsService } from '../../services/assignment-details.service';
 import { CommonService } from '../../services/common.service';
 import { UserDetailsService } from '../../services/user-details.service';
 
@@ -9,7 +10,9 @@ import { UserDetailsService } from '../../services/user-details.service';
 })
 export class AssignmentListComponent implements OnInit {
 
-  constructor(private commonService: CommonService, private userDetails : UserDetailsService) { }
+  constructor(private commonService: CommonService,
+    private userDetails: UserDetailsService,
+    private assignmentDetails: AssignmentDetailsService) { }
 
   ngOnInit(): void {
     //get user faculty id
@@ -31,4 +34,31 @@ export class AssignmentListComponent implements OnInit {
   }
   assignmentList = [];
   userInfo = []
+
+  getAssignmentDetails(asm: assignmentDetails) {
+    this.assignmentDetails.setAssignment(asm)
+    // console.log(this.assignmentDetails.getAssignment())
+  }
+}
+
+interface assignmentDetails {
+  assignment: assignment
+  selectedSub: number
+  totalSub: number
+}
+
+interface assignment {
+  assignmentId: number,
+  assignmentName: string,
+  create_by: string,
+  deadline: deadline,
+  deadlineId: number,
+  description: string,
+  facultyId: number,
+}
+
+interface deadline {
+  deadlineId: number,
+  endDate: string,
+  startDate: string,
 }

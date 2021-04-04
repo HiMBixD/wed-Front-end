@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../services/common.service';
-import { facultyInterface, roleInterface, userInterface } from '../interface mock data/interfaces';
+import { facultyInterface, roleInterface, userInterface } from '../interfaces/interfaces';
 
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
-import { mockExReport, mockNoCommentYet } from '../interface mock data/exReport';
+import { mockExReport, mockNoCommentYet } from '../interfaces/exReport';
 
 @Component({
   selector: 'app-management-dashboard',
