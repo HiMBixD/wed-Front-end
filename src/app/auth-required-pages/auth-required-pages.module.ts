@@ -21,6 +21,7 @@ import { DefaultComponentComponent } from './containers/default-component/defaul
 import { MySubmissionComponent } from './containers/my-submission/my-submission.component';
 import { SubmissionPortalComponent } from './containers/submission-portal/submission-portal.component';
 import { SubmissionHomeComponent } from './containers/submission-home/submission-home.component';
+import { GuestPortalComponent } from './containers/guest-portal/guest-portal.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { SubmissionHomeComponent } from './containers/submission-home/submission
     DefaultComponentComponent,
     MySubmissionComponent,
     SubmissionPortalComponent,
-    SubmissionHomeComponent
+    SubmissionHomeComponent,
+    GuestPortalComponent
   ],
   imports: [
     CommonModule,

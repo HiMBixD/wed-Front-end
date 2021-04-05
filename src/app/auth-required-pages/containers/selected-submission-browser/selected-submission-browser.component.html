@@ -8,10 +8,11 @@
     </nav>
 </div>
 <main class="container">
-    <h2 *ngIf="userDetails">All Assignments and Selected Submissions
+    <h2>All Assignments and Selected Submissions
         <!-- <small class="text-muted">from Department of
             {{getFacultyName(userDetails.facultyId)}}</small> -->
     </h2>
+    <hr>
     <h3>View by issues:</h3>
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Enter Issue Number" aria-label="Issue Number"
@@ -99,8 +100,9 @@
         <hr>
     </div>
     <h3>Submission Info</h3>
-    <div *ngIf="submissionList.length ==0" style="text-align: center;" class="text-muted py-5">Please choose a
+    <div *ngIf="filesList.length ==0 && !currentUser" style="text-align: center;" class="text-muted py-5">Please choose a
         submission to view all files</div>
+    <div *ngIf="filesList.length ==0 && currentUser" style="text-align: center;" class="text-muted py-5">No files found for this user. Please contact Administrator regarding this problem.</div>
     <!-- <p>All files submitted by [mimi123]</p> -->
     <div class="card" style="width: 18rem;" *ngIf="filesList.length >0">
         <div class="card-header">
