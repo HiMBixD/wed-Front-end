@@ -27,8 +27,8 @@ export class NewSubmissionComponent implements OnInit {
   constructor(private uploadService: CommonService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private asmDetails: AssignmentDetailsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.getFiles(2);
     this.assignment = this.asmDetails.getAssignment();
+    this.getFiles(2);
     if (this.assignment.length == 0) {
       this.toastr.error("You aren't supposed to be here!");
       // this.router.navigate(['/submissionPortal'])
@@ -76,7 +76,7 @@ export class NewSubmissionComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
-  upload(file: File, submissionId): void {
+  upload(file: File, submissionId: number): void {
     this.fileProgress[file.name] = 0;
     this.uploadService.uploadFile({ file, submissionId })
       .subscribe(

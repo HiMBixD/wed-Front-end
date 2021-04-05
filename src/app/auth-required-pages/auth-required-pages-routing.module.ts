@@ -15,6 +15,7 @@ import { AssignmentListComponent } from './containers/assignment-list/assignment
 import { MySubmissionComponent } from './containers/my-submission/my-submission.component';
 import { SubmissionPortalComponent } from './containers/submission-portal/submission-portal.component';
 import { SubmissionHomeComponent } from './containers/submission-home/submission-home.component';
+import { GuestPortalComponent } from './containers/guest-portal/guest-portal.component';
 
 const routes: Routes = [
   {
@@ -97,7 +98,9 @@ const routes: Routes = [
           // {
           //   path: 'newSubmission', redirectTo: '/newSubmission', pathMatch: 'full'
           // },
-
+          {
+            path: 'guestPortal', component: GuestPortalComponent
+          },
           {
             path: '**', component: Error404Component
           },
