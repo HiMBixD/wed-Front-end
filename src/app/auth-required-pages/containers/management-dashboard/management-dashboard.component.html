@@ -11,7 +11,8 @@
     <h2>Management Dashboard</h2>
     <hr>
     <h3>General Information</h3>
-    <div style="display: block;">
+    <!-- chartJS pie chart -->
+    <div style="min-height: 500px">
         <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
             [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
         </canvas>

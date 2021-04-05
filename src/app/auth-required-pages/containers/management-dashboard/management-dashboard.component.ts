@@ -3,6 +3,7 @@ import { ChartOptions, ChartType } from 'chart.js';
 import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
 import { CommonService } from '../../services/common.service';
 import { mockExReport, mockNoCommentYet } from '../interfaces/exReport';
+import { facultyInterface } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-management-dashboard',
@@ -38,7 +39,7 @@ export class ManagementDashboardComponent implements OnInit {
    * to pieChartLabels
    * @param facultyList 
    */
-  getLabels(facultyList: Array<facultyDetails>) {
+  getLabels(facultyList: Array<facultyInterface>) {
     facultyList.forEach(element => {
       let name = element.facultyName;
       // console.log(name);
@@ -55,16 +56,13 @@ export class ManagementDashboardComponent implements OnInit {
       display: true
     },
     responsive: true,
+    maintainAspectRatio: false,
   };
-  public pieChartLabels: Label[] = [['Department of', 'Computer Science'],
-    ['Department of', 'Finance'], ['Department of', 'Arts']];
+  // public pieChartLabels: Label[] = [['Department of', 'Computer Science'],
+  //   ['Department of', 'Finance'], ['Department of', 'Arts']];
+  public pieChartLabels: Label[] = [];
   public pieChartData: SingleDataSet = [25, 30, 17];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
-}
-
-interface facultyDetails {
-  facultyId: number,
-  facultyName: string,
 }
