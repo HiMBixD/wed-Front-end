@@ -39,7 +39,7 @@
             </select>
         </div>
         <div class="mb-3">
-            <label class="form-label">Faculty</label>
+            <label class="form-label">Faculty Access</label>
             <select class="form-select" id="faculty-select" aria-label="role select">
                 <option value="null">None</option>
                 <option *ngFor="let f of facultyList" value="{{f.facultyId}}">{{f.facultyId}} - {{f.facultyName}}
@@ -56,9 +56,6 @@
             style="color:white">-</small>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmAddModal"
             (click)="addNewUserCheck()">Add</button><small style="color:white">-</small>
-        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmDeletionModal"
-            (click)="confirmDeletion()">
-            Delete</button><small style="color:white">-</small> -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"
             (click)="confirmUpdate()">
             Update
@@ -87,7 +84,7 @@
                         <th scope="col">Phone Number</th>
                         <th scope="col">Email</th>
                         <th scope="col">Role</th>
-                        <th scope="col">Faculty</th>
+                        <th scope="col">Faculty Access</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -99,7 +96,9 @@
                         <td>{{user.phone}}</td>
                         <td>{{user.email}}</td>
                         <td>{{user.role.roleName}}</td>
-                        <td *ngIf="user.facultyId">{{getFacultyName(user?.facultyId)?.facultyName}}</td>
+                        <td *ngIf="user.facultyId">
+                            {{getFacultyName(user?.facultyId).facultyName}}
+                        </td>
                         <td *ngIf="!user.facultyId"></td>
                         <td>
                             <button type="button" class="btn btn-primary" (click)="getSelectedUser(user)">
@@ -111,7 +110,7 @@
         </div>
     </div>
     <!-- main table -->
-    <h3>All Users</h3>
+    <h3>All Users</h3><button type="button" class="btn btn-primary" style="display: inline-block;" (click)="syncResult()">Synchronise</button>
     <div class="table-responsive-md">
         <table class="table table-striped">
             <thead>
@@ -163,25 +162,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Delete Confirmation -->
-    <!-- <div class="modal fade" id="confirmDeletionModal" tabindex="-1" aria-labelledby="confirmDeletionModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeletionModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="confirmDeletionMessage">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Confirm Action</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <!-- Add Confirmation modal -->
     <div class="modal fade" id="confirmAddModal" tabindex="-1" aria-labelledby="confirmAddModalLabel"
         aria-hidden="true">

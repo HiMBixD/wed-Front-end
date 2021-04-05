@@ -7,6 +7,7 @@ export class UserDetailsService {
 
   constructor() { }
   userDetails = [];
+  facultyName: string;
   
   setUserDetails(details : any){
     this.userDetails = details;
@@ -18,5 +19,13 @@ export class UserDetailsService {
 
   clearUserDetails(){
     this.userDetails.length = 0
+  }
+  setFacultyName(fName: string) {
+    this.facultyName = fName;
+    console.log('current user faculty ' + fName);
+  }
+  getFacultyName() {
+    console.log(this.facultyName)
+    return this.facultyName;
   }
 }

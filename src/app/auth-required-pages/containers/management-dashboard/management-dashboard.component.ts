@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet } from 'ng2-charts';
 import { CommonService } from '../../services/common.service';
-import { mockExReport, mockNoCommentYet } from '../interfaces/exReport';
-import { facultyInterface } from '../interfaces/interfaces';
+import { mockExReport, mockNoCommentYet } from '../../interfaces/exReport';
+import { facultyInterface } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-management-dashboard',

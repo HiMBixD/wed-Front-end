@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { assignmentStatus } from '../../interfaces/assignment';
 import { AssignmentDetailsService } from '../../services/assignment-details.service';
 import { CommonService } from '../../services/common.service';
 
@@ -9,7 +10,8 @@ import { CommonService } from '../../services/common.service';
 })
 export class SubmissionHomeComponent implements OnInit {
 
-  constructor(private commonService: CommonService, private asmDetails: AssignmentDetailsService) { }
+  constructor(private commonService: CommonService,
+    private asmDetails: AssignmentDetailsService) { }
 
   ngOnInit(): void {
     this.commonService.getMyInfo({}).subscribe(
@@ -30,6 +32,20 @@ export class SubmissionHomeComponent implements OnInit {
               }
             }
           )
+          this.commonService.searchSubmission({
+            username: this.userDetails.userName,
+            assignmentId: null,
+            status: null
+          }).subscribe(value => {
+            if (value.success) {
+              console.log('submitted assignments: ')
+              console.log(value.data);
+              this.mySubmittedAssignment = value.data;
+            }
+            else {
+              console.log('well something went wrong')
+            }
+          });
         }
       }
     )
@@ -38,7 +54,19 @@ export class SubmissionHomeComponent implements OnInit {
 
   userDetails;
   availableAssignment;
+  mySubmittedAssignment;
 
+  mockASM;
+
+  findAssignment() {
+    this.commonService.searchAssignment({
+      facultyId: null,
+      deadlineId: null, username: this.userDetails.userName
+    }).subscribe(value => {
+      this.mockASM = value;
+      console.log(this.mockASM)
+    })
+  }
   //handle available assignment: 
 
 

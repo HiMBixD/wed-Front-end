@@ -18,9 +18,8 @@
                 <div class="card-body inline-block">
                     <a (click)="this.asmDetails.setAssignment(a.assignment)" routerLink="mySubmission" value="a.assignment.assignmentId" class="stretched-link">[{{a.assignment.deadline.startDate | date: 'dd-MM-YYYY'}} → {{a.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}] 
                         {{a.assignment.assignmentName}}
-                        <!-- Celebrating 20 years of Computer Science
-                        Department  -->
-                        <i class="bi bi-arrow-right" style="align-self: flex-end;"></i></a>
+                        <i class="bi bi-arrow-right" style="align-self: flex-end;"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -33,7 +32,7 @@
             <thead>
                 <tr>
                     <th>Issues no.</th>
-                    <th>Topic</th>
+                    <th>Title</th>
                     <th>Submitted On</th>
                     <th>Deadline</th>
                     <th>Final Closure</th>
@@ -42,18 +41,25 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Tech trends</td>
-                    <td>30/11/2020</td>
-                    <td>20/11/2020</td>
-                    <td>3/12/2020</td>
-                    <td>5</td>
-                    <td>Accepted</td>
+            <tbody *ngIf='mySubmittedAssignment?.length >0'>
+                <tr *ngFor='let m of mySubmittedAssignment'>
+                    <td>{{m.assignmentId}}</td>
+                    <!-- <td>{{m.assignmentName}}</td> -->
+                    <!-- <td>{{m.deadline.startDate}}</td> -->
+                    <!-- <td>{{m.deadline.endDate}}}</td> -->
+                    <!-- <td>3/12/2020 MOCK</td> -->
+                    <!-- <td>5</td> -->
+                    <td style="color: red">No info</td>
+                    <td>{{m.submissionDate | date: 'dd-MM-YYYY'}}</td>
+                    <td style="color: red">No info</td>
+                    <td style="color: red">No info</td>
+                    <td style="color: red">No info</td>
+                    <td>{{this.asmDetails.statusDecoder(m.status)}}</td>
+                    <!-- <td>{{m.submissionId}}</td> -->
                     <td>
-                        <button type="button" class="btn btn-primary" routerLink="mySubmission">View
-                            Submissions</button>
+                        <button type="button" class="btn btn-primary"  (click)="findAssignment()">
+                            View Submissions
+                        </button>
                     </td>
                 </tr>
             </tbody>

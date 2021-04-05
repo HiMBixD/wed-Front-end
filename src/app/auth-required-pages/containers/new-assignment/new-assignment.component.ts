@@ -68,4 +68,8 @@ user
       }
     })
   }
+  
+  logDescription() {
+    console.log(this.description.value)
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { assignmentStatus } from '../../interfaces/assignment';
 import { CommonService } from '../../services/common.service';
 
 @Component({
@@ -111,10 +112,4 @@ interface selectedSubmission {
   topic: string,
   username: string,
   date: string,
-}
-enum assignmentStatus {
-  noAction = 0,
-  selected = 1,
-  denied = 2,
-  noCommentNotEval = 3
 }

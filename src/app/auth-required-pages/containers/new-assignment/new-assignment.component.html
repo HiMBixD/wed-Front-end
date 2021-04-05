@@ -38,7 +38,7 @@
     <div class="mb-3">
         <label class="form-label">Description</label>
         <textarea rows="5" class="form-control" id="assignment-description"
-            placeholder="Short description about what student should write about, words limit...etc." maxlength="850"
+            placeholder="Short description about what student should write about, words limit...etc." maxlength="850" [formControl] ="description"
             required></textarea>
         <div id="descriptionHelp" class="form-text">Description must be less than 850 characters long.</div>
     </div>
@@ -47,7 +47,7 @@
     <div>
         <button type="submit" type="button" class="btn btn-primary" (click)="newAssignment()">Submit</button><small
             style="color:white">-</small>
-        <button type="button" class="btn btn-secondary">Clear</button>
+        <button type="button" class="btn btn-secondary" (click)="logDescription()">Clear</button>
     </div>
 </form>
 <!-- </main> -->

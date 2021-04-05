@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../services/common.service';
-import { facultyInterface, roleInterface, userInterface } from '../interfaces/interfaces';
+import { facultyInterface, roleInterface, userInterface } from '../../interfaces/interfaces';
 
 
 @Component({
@@ -94,17 +94,6 @@ export class UserManagementComponent implements OnInit {
     this.phoneNumber.setValue('');
   }
 
-  confirmDeletion() {
-    let container = document.querySelector('#confirmDeletionMessage');
-    let user = (<HTMLInputElement>document.getElementById("username")).value
-    if (user == '') {
-      container.innerHTML = `Please make sure that all input fields has data.`
-    }
-    else {
-      container.innerHTML = `Are you sure you want to delete "${user}"?`;
-    };
-  }
-
   confirmUpdate() {
     let container = document.querySelector('#confirmUpdateMessage');
     let toBeUpdatedUser = (<HTMLInputElement>document.getElementById("username")).value
@@ -156,7 +145,8 @@ export class UserManagementComponent implements OnInit {
       facultyId: parseInt(`${(<HTMLOptionElement>document.querySelector(`#faculty-select`)).value}`)
     }).subscribe(value => {
       if (value.success) {
-        this.toastrService.success(`User "${this.username.value}" updated successfully. Please refresh the page to see changes.`);
+        this.toastrService.success(`User "${this.username.value}" updated successfully. <br>
+        Please synchronise or refresh the page to see changes.`);
         console.log(value);
       }
       else {
@@ -258,7 +248,6 @@ export class UserManagementComponent implements OnInit {
       if (value.success) {
         this.toastrService.success(`User ${this.username.value} created successfully`);
         console.log(value);
-        this.clearInput();
       }
       else {
         console.log(parseInt(`${(<HTMLOptionElement>document.querySelector('#role-select')).value}`))
@@ -267,6 +256,16 @@ export class UserManagementComponent implements OnInit {
         console.log(message)
       }
     })
+  }
+  syncResult() {
+    this.commonService.getUser({ username: `` }).subscribe(user => {
+      if (user?.success) {
+        this.userList = user.data;
+      }
+      else {
+        console.log('damn its broken')
+      }
+    });
   }
 }
 
