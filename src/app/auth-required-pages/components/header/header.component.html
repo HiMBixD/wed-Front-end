@@ -1,29 +1,31 @@
 <header class="blog-header py-3">
-    <div class="navbar navbar-light bg-light row flex-nowrap justify-content-between align-items-center">
-        <div class="row">
-            <div class="col-lg-4 col-sm-12 order-xs-2 pt-1">
-                <a *ngIf ="userData?.facultyId !== null" class="link-secondary" routerLink = "frontPage">Department of {{getFacultyName(userData?.facultyId).facultyName}}</a>
-                <a class="link-secondary" *ngIf ="userData?.role.roleName == 'ROLE_ADMIN'" routerLink = "frontPage" style="color: red">ADMINISTRATOR ACCOUNT</a>
-                <a class="link-secondary" *ngIf="userData?.role.roleName == 'ROLE_MANAGER'" routerLink="frontPage"
-                    style="color: red">MARKETING MANAGER</a>
+    <div class="navbar navbar-light bg-light row flex justify-content-between align-items-center">
+        <div class="d-flex mb-3">
+            <div class="me-auto">
+                <p *ngIf="userData?.facultyId !== null" class="link-secondary" routerLink="frontPage">
+                    {{getFacultyName(userData?.facultyId).facultyName}} Department</p>
+                <p class="link-secondary" *ngIf="userData?.role.roleName == 'ROLE_ADMIN'" routerLink="frontPage"
+                    style="color: red">ADMINISTRATOR ACCOUNT</p>
+                <p class="link-secondary" *ngIf="userData?.role.roleName == 'ROLE_MANAGER'" routerLink="frontPage"
+                    style="color: red">MARKETING MANAGER</p>
             </div>
-            <div class="col-lg-4 col-sm-12 order-xs-1 text-center">
-                <a class="site-header-logo text-dark" routerLink = "frontPage">University of Greenwich</a>
-            </div>
-            <div class="col-lg-4 col-sm-12 order-xs-3 d-flex justify-content-end align-items-center">
+            <div>
                 <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    <button class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-person" viewBox="0 0 16 16">
                             <path
                                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                         </svg>
-                    </a>
+                        <span class="ms-1 d-none d-lg-inline-block d-inline" style="display: inline">{{userData?.userName}}</span>
+                    </button>
 
                     <ul class="dropdown-menu dropdown-menu-wide dropdown-menu-end" aria-labelledby="dropdownMenuLink">
                         <li>
-                            <h6 class="dropdown-header" *ngIf="userData">Welcome, {{userData.userName}}</h6>
+                            <h6 class="dropdown-header" *ngIf="userData">
+                                Welcome, {{userData?.userName}}
+                            </h6>
                         </li>
                         <li>
                             <a class="dropdown-item" routerLink="yourActivities">
@@ -37,23 +39,9 @@
                                 Your Activities
                             </a>
                         </li>
-                        <!-- ngIf Marketing Coordinator -->
-                        <!-- <div>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-file-earmark-check" viewBox="0 0 16 16">
-                                    <path
-                                        d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
-                                    <path
-                                        d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
-                                </svg>
-                                Assignment Management
-                            </a>
-                        </li>
-                    </div> -->
-                        <li><a class="dropdown-item" routerLink="accountSettings"> <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                    height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                        <li><a class="dropdown-item" routerLink="accountSettings"> <svg
+                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-gear" viewBox="0 0 16 16">
                                     <path
                                         d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
                                     <path
@@ -62,7 +50,8 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li (click)="onLogOut()"><a class="dropdown-item" href="#">
+                        <li (click)="onLogOut()">
+                            <a class="dropdown-item" href="#">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -70,23 +59,31 @@
                                     <path fill-rule="evenodd"
                                         d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
                                 </svg>
-                                Logout</a></li>
+                                Logout
+                            </a>
+                        </li>
                     </ul>
                 </div>
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="col-12 text-center">
+                <p class="site-header-logo text-dark" routerLink="frontPage">University of Greenwich</p>
             </div>
         </div>
     </div>
 
-    <div class="navbar navbar-light bg-light row flex-nowrap align-items-center nav-scroller py-1 mb-2">
+    <div class="navbar navbar-light bg-light row flex-wrap align-items-center nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-center">
             <li class="nav-item">
-                <a class="nav-link p-2 link-secondary" routerLink = "frontPage">Home</a>
+                <a class="nav-link p-2 link-secondary" routerLink="frontPage">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link p-2 link-secondary" routerLink = "yourActivities">Your Activities</a>
+                <a class="nav-link p-2 link-secondary" routerLink="yourActivities">Your Activities</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link p-2 link-secondary" routerLink = "accountSettings">Account Settings</a>
+                <a class="nav-link p-2 link-secondary" routerLink="accountSettings">Account Settings</a>
             </li>
         </nav>
     </div>
