@@ -60,10 +60,10 @@ export class LoginComponent implements OnInit {
     this.authService.resetPass(this.resetPasswordForm.value).pipe(takeUntil(unsub$)).subscribe(val => {
       if (val?.success) {
         cancelButton.click();
-        this.toastrService.success('Send request success', 'Request reset password');
+        this.toastrService.success('Send request success', 'Please check your Email for more details');
       } else {
         const message = val.responseMessage.message + ' ' + val.responseMessage.errorCode;
-        this.toastrService.error('Fail: ' + message, 'Request reset password');
+        this.toastrService.error('Error: ' + message, 'Request reset password');
       }
       this.isLoading = false;
     });

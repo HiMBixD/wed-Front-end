@@ -3,12 +3,12 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink='/frontPage' routerLinkActive="active">Home</a></li>
             <li class="breadcrumb-item"><a routerLink='/yourActivities' routerLinkActive="active">Your Activity</a></li>
-            <li class="breadcrumb-item active" aria-current="page">View Selected Submissions</li>
+            <li class="breadcrumb-item active" aria-current="page">Selected Submissions</li>
         </ol>
     </nav>
 </div>
 <main class="container">
-    <h2>All Assignments and Selected Submissions
+    <h2><!--<i class="fas fa-table"></i>--> All Assignments and Selected Submissions
         <!-- <small class="text-muted">from Department of
             {{getFacultyName(userDetails.facultyId)}}</small> -->
     </h2>
@@ -21,14 +21,16 @@
         <button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="showAllAssignments()">Show
             all</button>
     </div>
-    <h3>Assignment List</h3>
+    <hr>
+    <h3><i class="fas fa-list-ul"></i> 
+        Assignment List</h3>
     <div class="table-responsive-md">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Issues no.</th>
                     <th>Assignment ID</th>
-                    <th>Assignment Name</th>
+                    <th>Assignment Title</th>
                     <th>Faculty</th>
                     <th>Creator</th>
                     <th>Start date</th>
@@ -65,7 +67,7 @@
 
     <div style="background-color:#F5F5F5">
         <hr>
-        <h3>Submissions List</h3>
+        <h3><i class="fas fa-list-ol"></i> Submissions List</h3>
         <div class="table-responsive-md">
             <table class="table table-striped">
                 <thead>
@@ -99,7 +101,7 @@
 
         <hr>
     </div>
-    <h3>Submission Info</h3>
+    <h3><i class="fas fa-folder-open"></i> Files</h3>
     <div *ngIf="filesList.length ==0 && !currentUser" style="text-align: center;" class="text-muted py-5">Please choose a
         submission to view all files</div>
     <div *ngIf="filesList.length ==0 && currentUser" style="text-align: center;" class="text-muted py-5">No files found for this user. Please contact Administrator regarding this problem.</div>
@@ -116,7 +118,7 @@
     </div>
     <div style="background-color:#F5F5F5">
         <hr>
-        <h3>Preview</h3>
+        <h3><i class="fas fa-file"></i> Preview</h3>
         <!-- <div style="text-align: center;" class="text-muted py-5" *ngIf="!currentUser && filesList.length >0">Please
             choose a
             file to preview</div> -->
