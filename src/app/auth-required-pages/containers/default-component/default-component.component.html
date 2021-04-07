@@ -7,41 +7,97 @@
     </nav>
 </div>
 <main class="container mb-5">
+    <h1><i class="fas fa-list-alt"></i> Your Activities</h1>
+    <hr>
+    <!-- <div class="border border-primary rounded-bottom " style="background-color: grey; height: 50px; width: 100%;"></div> -->
     <div>
         <h2>Guest Activities</h2>
-        <div style="text-align:center;">
+        <div class="row mb-3">
+            <div class="col-sm-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-tasks"></i> Selected Submission</h5>
+                        <p class="card-text">View Selected Submission of your Faculty.</p>
+                        <button type="button" class="btn btn-primary" routerLink="selectedSubmissions">View Selected
+                            Submissions</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="text-align:center;">
             <button type="button" class="btn btn-primary" routerLink="guestPortal">View Selected
                 Submissions
             </button>
-        </div>
+        </div> -->
     </div>
     <!-- <p>lấy role id từ db => ngIf role = match div nào thì show div đấy</p> -->
+    <hr>
     <div>
         <h2>Student Activities</h2>
-        <div style="text-align:center;">
-            <button type="button" class="btn btn-primary" routerLink='submissionPortal'>My Submissions</button>
+        <div class="row mb-3">
+            <div class="col-sm-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-tasks"></i> Submission Portal</h5>
+                        <p class="card-text">View Assignments available for submission and user's Previous Submissions.</p>
+                        <button type="button" class="btn btn-primary" routerLink='submissionPortal'>Submission Portal</button>
+                    </div>
+                </div>
+            </div>
         </div>
+        <!-- <div style="text-align:center;">
+            <button type="button" class="btn btn-primary" routerLink='submissionPortal'>My Submissions</button>
+        </div> -->
     </div>
 
     <hr>
     <div>
         <h2>Marketing Coordinator Activities</h2>
-        <!-- <div style="text-align:center;" class="row">
-            <div class="col-6" style="text-align:center;"> -->
-        <div style="text-align:center;">
-            <button type="button" class="btn btn-primary" routerLink="assignmentList">Assignment Management</button>
+        <div class="row mb-3">
+            <div class="col-sm-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-tasks"></i> Assignment Management</h5>
+                        <p class="card-text">View a List of all Assignments created by this account, Create new
+                            Assignment and Grade Submissions.</p>
+                        <button type="button" class="btn btn-primary" routerLink="assignmentList">Assignment
+                            Management</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- </div> -->
-        <!-- <div class="col-6" style="text-align:center;">
-                <button type="button" class="btn btn-primary" routerLink="newAssignment">New Assignment</button>
-            </div> -->
-        <!-- </div> -->
+
+        <!-- <div style="text-align:center;">
+            <button type="button" class="btn btn-primary" routerLink="assignmentList">Assignment Management</button>
+        </div> -->
     </div>
 
     <hr>
     <div>
         <h2>Marketing Manager</h2>
-        <div class="row">
+        <div class="row mb-3">
+            <div class="col-sm-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-tachometer-alt"></i> Management Dashboard</h5>
+                        <p class="card-text">View System Statistics & Exceptional Reports</p>
+                        <button type="button" class="btn btn-primary" routerLink="dashboard">View Dashboard</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-tasks"></i> Selected Submission</h5>
+                        <p class="card-text"> View Selected Submission of all Faculties.</p>
+                        <!-- <p class="card-text">View Selected Submission of your Faculty.</p> -->
+                        <button type="button" class="btn btn-primary" routerLink="selectedSubmissions">View Selected
+                            Submissions</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
             <div class="col-6" style="text-align:center;">
                 <button type="button" class="btn btn-primary" routerLink="dashboard">View Dashboard</button>
             </div>
@@ -49,13 +105,44 @@
                 <button type="button" class="btn btn-primary" routerLink="selectedSubmissions">View Selected
                     Submissions</button>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <hr>
     <div>
         <h2>Administrator Activities</h2>
-        <div class="row" style="text-align:center;">
+        <div class="row mb-3">
+            <div class="col-sm-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-users"></i> User Management</h5>
+                        <p class="card-text">View, Add and Edit and Search system users</p>
+                        <button type="button" class="btn btn-primary" routerLink="userManagement"><i class="fas fa-user"></i> Users
+                            Management</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Deadline Management</h5>
+                        <p class="card-text">Set and Edit deadlines (closure date).</p>
+                        <button type="button" class="btn btn-primary" routerLink="closureManagement">Deadline
+                            Management</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-database"></i> System Backup & Restore</h5>
+                        <p class="card-text">Export or Import backup data.</p>
+                        <button type="button" class="btn btn-primary">System Backup & Restore</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row" style="text-align:center;">
             <div class="col-4">
                 <button type="button" class="btn btn-primary" routerLink="userManagement">Users Management</button>
             </div>
@@ -68,6 +155,6 @@
             <div class="col-4">
                 <button type="button" class="btn btn-primary">System Backup & Restore</button>
             </div>
-        </div>
+        </div> -->
     </div>
 </main>

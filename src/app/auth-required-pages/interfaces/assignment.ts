@@ -1,10 +1,10 @@
-interface assignmentDetails {
+export interface assignmentDetails {
     assignment: assignment
     selectedSub: number
     totalSub: number
 }
 
-interface assignment {
+export interface assignment {
     assignmentId: number,
     assignmentName: string,
     create_by: string,
@@ -14,7 +14,7 @@ interface assignment {
     facultyId: number,
 }
 
-interface deadline {
+export interface deadline {
     deadlineId: number,
     endDate: string,
     startDate: string,
