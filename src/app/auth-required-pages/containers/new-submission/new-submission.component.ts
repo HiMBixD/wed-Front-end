@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -24,7 +25,12 @@ export class NewSubmissionComponent implements OnInit {
   fileIdViewed;
 
   asmId$: Observable<any>
-  constructor(private uploadService: CommonService, private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private asmDetails: AssignmentDetailsService, private toastr: ToastrService) { }
+  constructor(private uploadService: CommonService,
+    private sanitizer: DomSanitizer,
+    private route: ActivatedRoute, private router: Router,
+    private asmDetails: AssignmentDetailsService,
+    private toastr: ToastrService,
+    private locationService: Location) { }
 
   ngOnInit(): void {
     this.assignment = this.asmDetails.getAssignment();
@@ -53,8 +59,6 @@ export class NewSubmissionComponent implements OnInit {
     // );
   }
   assignment;
-  
-  
 
   onSelect(event) {
     console.log(event);
@@ -102,5 +106,8 @@ export class NewSubmissionComponent implements OnInit {
 
   getProgress(progress): any {
     return progress > 0 ? progress + '%' : null;
+  }
+  goBack() {
+    this.locationService.back();
   }
 }
