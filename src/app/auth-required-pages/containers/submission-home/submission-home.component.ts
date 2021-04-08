@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { assignmentStatus } from '../../interfaces/assignment';
 import { AssignmentDetailsService } from '../../services/assignment-details.service';
 import { CommonService } from '../../services/common.service';
@@ -11,7 +12,8 @@ import { CommonService } from '../../services/common.service';
 export class SubmissionHomeComponent implements OnInit {
 
   constructor(private commonService: CommonService,
-    private asmDetails: AssignmentDetailsService) { }
+    private asmDetails: AssignmentDetailsService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.commonService.getMyInfo({}).subscribe(
@@ -19,7 +21,7 @@ export class SubmissionHomeComponent implements OnInit {
         if (value.data) {
           this.userDetails = value.data;
           console.log(this.userDetails);
-          //get all available 
+          //get all available assignments
           this.commonService.searchAssignment({
             facultyId: this.userDetails.facultyId,
             deadlineId: '',
@@ -31,7 +33,8 @@ export class SubmissionHomeComponent implements OnInit {
                 console.log(this.availableAssignment);
               }
             }
-          )
+          );
+
           this.commonService.searchSubmission({
             username: this.userDetails.userName,
             assignmentId: null,
@@ -56,18 +59,17 @@ export class SubmissionHomeComponent implements OnInit {
   availableAssignment;
   mySubmittedAssignment;
 
-  mockASM;
-
-  findAssignment() {
-    this.commonService.searchAssignment({
-      facultyId: null,
-      deadlineId: null, username: this.userDetails.userName
-    }).subscribe(value => {
-      this.mockASM = value;
-      console.log(this.mockASM)
-    })
+  findAssignment(asmId: number) {
+    let foundAssignment
+    this.commonService.getAssignmentById({ assignmentId: asmId }).subscribe(
+      value => {
+        if (value.success) {
+          foundAssignment = value.data;
+          this.asmDetails.setAssignment(foundAssignment);
+          this.router.navigate(['/yourActivities/submissionPortal/mySubmission']);
+          return foundAssignment;
+        }
+      }
+    )
   }
-  //handle available assignment: 
-
-
 }

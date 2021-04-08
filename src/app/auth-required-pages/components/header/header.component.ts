@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ///////////////////////////////////////////
-  @Input() userData;
+  @Input() userData?;
   // facultyName;
   /////////////////////////////////////////////
   ngOnInit(): void {

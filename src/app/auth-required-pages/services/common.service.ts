@@ -214,6 +214,9 @@ export class CommonService {
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/search-assignment`, assignment);
   }
+  getAssignmentById(asmId: { assignmentId: number }): Observable<any>{
+    return this.http.post(`${environment.apiUrl}/get-assignment-by-id`, asmId)
+  }
 }
 
 

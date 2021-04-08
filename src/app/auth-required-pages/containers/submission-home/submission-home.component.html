@@ -11,12 +11,15 @@
     <h1>Submission Portal</h1>
     <hr>
     <h2>Currently Opening</h2>
-    <h6 class="title">Current Activities</h6>
+    <!-- <h6 class="title">Current Activities</h6> -->
     <div class="row-cols-1">
         <div class="col" style="margin-top: 5px;" *ngFor="let a of availableAssignment">
             <div class="card card-news">
                 <div class="card-body inline-block">
-                    <a (click)="this.asmDetails.setAssignment(a.assignment)" routerLink="mySubmission" value="a.assignment.assignmentId" class="stretched-link">[{{a.assignment.deadline.startDate | date: 'dd-MM-YYYY'}} → {{a.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}] 
+                    <a (click)="this.asmDetails.setAssignment(a.assignment)" routerLink="mySubmission"
+                        value="a.assignment.assignmentId" class="stretched-link">
+                        [{{a.assignment.deadline.startDate |
+                        date: 'dd-MM-YYYY'}} → {{a.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}]
                         {{a.assignment.assignmentName}}
                         <i class="bi bi-arrow-right" style="align-self: flex-end;"></i>
                     </a>
@@ -58,8 +61,8 @@
                     <td>{{this.asmDetails.statusDecoder(m.status)}}</td>
                     <!-- <td>{{m.submissionId}}</td> -->
                     <td>
-                        <button type="button" class="btn btn-primary"  (click)="findAssignment()">
-                            View Submissions
+                        <button type="button" class="btn btn-primary" (click)="findAssignment(m.assignmentId);">
+                            View Submission
                         </button>
                     </td>
                 </tr>
