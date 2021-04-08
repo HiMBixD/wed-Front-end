@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ChartOptions, ChartType} from 'chart.js';
 import {Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet} from 'ng2-charts';
-import {mockExReport, mockNoCommentYet} from '../../interfaces/exReport';
+import {mockNoCommentYet} from '../../interfaces/exReport';
 import {CommonService} from '../../services/common.service';
+import {exReport} from '../../interfaces/exReport';
 
 @Component({
   selector: 'app-management-dashboard',
@@ -14,15 +15,16 @@ export class ManagementDashboardComponent implements OnInit {
   private selectedSubmissions: any;
   private assignmentList: any;
   private submissionList: any;
+  private deadlineId: any;
 
 
-  constructor(private  commonService: CommonService) {
+  constructor(private commonService: CommonService) {
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
   }
 
   p = 1;
-  exReport = mockExReport;
+  exReport: exReport;
   noCommentYet = mockNoCommentYet;
   facultyList: any;
   currentYear = new Date().getFullYear();
@@ -41,6 +43,7 @@ export class ManagementDashboardComponent implements OnInit {
   public pieChartLegend = true;
   public pieChartPlugins = [];
 
+
   getFacultyLabel(): any {
     if (this.facultyList) {
       this.pieChartLabels = this.facultyList.map(faculty => {
@@ -50,8 +53,23 @@ export class ManagementDashboardComponent implements OnInit {
     }
   }
 
-  getDataSet(): any {
+  getReport() {
 
+  }
+
+  getDaySinceSub(): any {
+    this.selectedSubmissions.forEach(el => {
+      console.log(el.submissionDate);
+      const a = new Date(el.submissionDate);
+      console.log(a);
+      const b = new Date();
+      console.log(b);
+      const c = Math.floor((b.getTime() - a.getTime()) / (1000 * 3600 * 24));
+      console.log(c);
+    });
+  }
+
+  getDataSet(): any {
   }
 
 
@@ -60,8 +78,8 @@ export class ManagementDashboardComponent implements OnInit {
       faculty => {
         if (faculty.success) {
           this.facultyList = faculty.data;
-          console.log(this.facultyList);
         }
+        console.log(this.facultyList);
         this.getFacultyLabel();
       });
 
@@ -73,32 +91,29 @@ export class ManagementDashboardComponent implements OnInit {
       if (value) {
         this.selectedSubmissions = value.data;
         console.log(this.selectedSubmissions);
-        this.selectedSubmissions.forEach(el => {
-          console.log(el.submissionDate);
-          const a = new Date(el.submissionDate);
-          console.log(a);
-          const b = new Date();
-          console.log(b);
-          const c = Math.floor((b.getTime() - a.getTime()) / (1000 * 3600 * 24));
-          console.log(c);
-        });
       }
     });
 
     this.commonService.searchAssignment({
-      facultyId: '',
+      facultyId: null,
       username: '',
-      deadlineId: ''
+      deadlineId: null
     }).subscribe(assignment => {
       if (assignment) {
         this.assignmentList = assignment.data;
+        this.exReport = this.assignmentList.map(a => {
+          return a.assignment;
+        });
       }
+      console.log(this.exReport);
+      console.log(this.assignmentList);
     });
 
     this.commonService.getDeadline({
-      deadlineId: ''
+      deadlineId: this.deadlineId
     }).subscribe(response => {
       console.log(response.data);
     });
+    this.getDaySinceSub();
   }
 }
