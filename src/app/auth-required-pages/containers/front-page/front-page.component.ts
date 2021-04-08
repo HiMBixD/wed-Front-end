@@ -29,7 +29,17 @@ export class FrontPageComponent implements OnInit {
             subs => {
               if (subs.data) {
                 this.availableAssignment = subs.data;
+                let today = new Date()
+                console.log(today);
+                // console.log(this.availableAssignment[3].assignment.deadline.endDate)
+                this.availableAssignment = this.availableAssignment.filter(
+                  element => {
+                    let m = new Date(element.assignment.deadline.endDate);
+                    // element.assignment.deadline.endDate > today
+                    m > today;
+                  })
                 console.log(this.availableAssignment);
+                // console.log(this.availableAssignment[0].assignment.deadline.endDate)
               }
             })
         }
