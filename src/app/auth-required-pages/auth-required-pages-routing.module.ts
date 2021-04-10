@@ -16,6 +16,7 @@ import { MySubmissionComponent } from './containers/my-submission/my-submission.
 import { SubmissionPortalComponent } from './containers/submission-portal/submission-portal.component';
 import { SubmissionHomeComponent } from './containers/submission-home/submission-home.component';
 import { GuestPortalComponent } from './containers/guest-portal/guest-portal.component';
+import { SubmissionsEvaluationComponent } from './containers/submissions-evaluation/submissions-evaluation.component';
 
 const routes: Routes = [
   {
@@ -75,6 +76,11 @@ const routes: Routes = [
           },
           {
             path: 'assignmentList', component: AssignmentListComponent,
+            children: [
+              {
+                path: 'submissionEvaluation', component: SubmissionsEvaluationComponent
+              }
+            ]
           },
           {
             path: 'newAssignment', component: NewAssignmentComponent,
@@ -86,12 +92,12 @@ const routes: Routes = [
                 path: '',
                 component: SubmissionHomeComponent
               },
-              // {
-              //   path: 'mySubmission/:asmId', component: NewSubmissionComponent,
-              // },
               {
-                path: 'mySubmission', component: NewSubmissionComponent,
+                path: 'mySubmission/:asmId', component: NewSubmissionComponent,
               },
+              // {
+              //   path: 'mySubmission', component: NewSubmissionComponent,
+              // },
             ]
           },
           

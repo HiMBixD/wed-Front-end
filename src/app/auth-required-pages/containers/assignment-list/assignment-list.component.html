@@ -19,7 +19,8 @@
             <thead>
                 <tr>
                     <th>Issues no.</th>
-                    <th>Assignment ID</th>
+                    <!-- <th>Assignment ID</th> -->
+                    <th>Assignment Name</th>
                     <th>Creator</th>
                     <th>Start date</th>
                     <th>End date</th>
@@ -31,7 +32,8 @@
             <tbody>
                 <tr *ngFor ="let l of assignmentList">
                     <td>{{l.assignment.deadline.deadlineId}}</td>
-                    <td>{{l.assignment.assignmentId}}</td>
+                    <!-- <td>{{l.assignment.assignmentId}}</td> -->
+                    <td>{{l.assignment.assignmentName}}</td>
                     <td>{{l.assignment.create_by}}</td>
                     <td>{{l.assignment.deadline.startDate | date: 'dd-MM-YYYY'}}</td>
                     <td>{{l.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}</td>

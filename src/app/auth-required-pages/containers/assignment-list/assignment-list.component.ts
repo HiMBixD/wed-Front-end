@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AssignmentDetailsService } from '../../services/assignment-details.service';
 import { CommonService } from '../../services/common.service';
 import { UserDetailsService } from '../../services/user-details.service';
@@ -34,11 +34,14 @@ export class AssignmentListComponent implements OnInit {
   }
   assignmentList = [];
   userInfo = []
+  @Output() asmDetails = new EventEmitter<assignmentDetails>();
 
   getAssignmentDetails(asm: assignmentDetails) {
-    this.assignmentDetails.setAssignment(asm)
+    this.assignmentDetails.setAssignment(asm);
+    this.asmDetails.emit(asm)
     // console.log(this.assignmentDetails.getAssignment())
   }
+
 }
 
 interface assignmentDetails {
