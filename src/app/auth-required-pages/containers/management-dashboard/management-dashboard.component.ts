@@ -4,6 +4,7 @@ import {Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSe
 import {mockNoCommentYet} from '../../interfaces/exReport';
 import {CommonService} from '../../services/common.service';
 import {exReport} from '../../interfaces/exReport';
+import {assignment} from '../../interfaces/assignment';
 
 @Component({
   selector: 'app-management-dashboard',
@@ -16,6 +17,7 @@ export class ManagementDashboardComponent implements OnInit {
   private assignmentList: any;
   private submissionList: any;
   private deadlineId: any;
+  private assignment: assignment;
 
 
   constructor(private commonService: CommonService) {
@@ -53,59 +55,28 @@ export class ManagementDashboardComponent implements OnInit {
     }
   }
 
-  getReport() {
 
-  }
+  /**getDaySinceSub(): any {
 
-  getDaySinceSub(): any {
-    this.selectedSubmissions.forEach(el => {
-      console.log(el.submissionDate);
-      const a = new Date(el.submissionDate);
-      console.log(a);
-      const b = new Date();
-      console.log(b);
-      const c = Math.floor((b.getTime() - a.getTime()) / (1000 * 3600 * 24));
-      console.log(c);
-    });
-  }
+    console.log(this.assignmentList[0]);
+    const a = new Date(this.assignmentList[0].assignment.deadline.endDate);
+    console.log(a);
+    const b = new Date();
+    console.log(b);
+    const c = Math.floor((b.getTime() - a.getTime()) / (1000 * 3600 * 24));
+    console.log(c);
+    console.log(b < a);
+  }*/
 
-  getDataSet(): any {
-  }
 
 
   ngOnInit(): void {
-    this.commonService.getFaculties().subscribe(
-      faculty => {
-        if (faculty.success) {
-          this.facultyList = faculty.data;
-        }
-        console.log(this.facultyList);
-        this.getFacultyLabel();
-      });
-
-    this.commonService.searchSubmission({
-      username: '',
-      assignmentId: null,
-      status: 0
-    }).subscribe(value => {
-      if (value) {
-        this.selectedSubmissions = value.data;
-        console.log(this.selectedSubmissions);
-      }
-    });
-
     this.commonService.searchAssignment({
       facultyId: null,
       username: '',
       deadlineId: null
-    }).subscribe(assignment => {
-      if (assignment) {
-        this.assignmentList = assignment.data;
-        this.exReport = this.assignmentList.map(a => {
-          return a.assignment;
-        });
-      }
-      console.log(this.exReport);
+    }).subscribe(el => {
+      this.assignmentList = el.data;
       console.log(this.assignmentList);
     });
 
@@ -114,6 +85,5 @@ export class ManagementDashboardComponent implements OnInit {
     }).subscribe(response => {
       console.log(response.data);
     });
-    this.getDaySinceSub();
   }
 }
