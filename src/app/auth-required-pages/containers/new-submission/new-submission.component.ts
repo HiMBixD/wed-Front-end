@@ -7,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { AssignmentDetailsService } from '../../services/assignment-details.service';
 import { CommonService } from '../../services/common.service';
 
 @Component({
@@ -24,39 +23,43 @@ export class NewSubmissionComponent implements OnInit {
   url = `${environment.apiUrl}/file/read/`;
   fileIdViewed;
 
-  asmId$: Observable<any>
+  asm$: Observable<any>
   constructor(private uploadService: CommonService,
     private sanitizer: DomSanitizer,
-    private route: ActivatedRoute, private router: Router,
-    private asmDetails: AssignmentDetailsService,
+    private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService,
     private locationService: Location) { }
 
   ngOnInit(): void {
-    this.assignment = this.asmDetails.getAssignment();
-    this.getFiles(2);
-    if (this.assignment.length == 0) {
-      this.toastr.error("You aren't supposed to be here!");
-      // this.router.navigate(['/submissionPortal'])
-    }
-    else {
-      console.log(this.assignment)
-    }
+
     this.uploadService.getComment({ submissionId: 2 }).subscribe(
       value => {
         console.log(value)
       }
     )
-    // this.asmId$ = this.route.paramMap.pipe(
-    //   switchMap((params: ParamMap) =>
-    //     // this.uploadService.searchAssignment({
-    //     //   facultyId: '',
-    //     //   deadlineId: '',
-
-    //     // })
-    //     //GET ASSIGNMENT BY ID
-    //     // this.service.getHero(params.get('id')))
-    // );
+    this.asm$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        return this.uploadService.getAssignmentById(
+          {
+            assignmentId: +params.get('asmId')
+          }
+        )
+      }
+      )
+    );
+    this.asm$.subscribe(value => {
+      console.log(value.data);
+      this.assignment = value.data
+    })
+    this.getFiles(2);
+    // if (this.assignment.length == 0) {
+    //   this.toastr.error("You aren't supposed to be here!");
+    //   // this.router.navigate(['/submissionPortal'])
+    // }
+    // else {
+    //   console.log(this.assignment)
+    // };
   }
   assignment;
 

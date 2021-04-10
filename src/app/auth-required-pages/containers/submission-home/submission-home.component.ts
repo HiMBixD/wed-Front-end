@@ -66,7 +66,7 @@ export class SubmissionHomeComponent implements OnInit {
         if (value.success) {
           foundAssignment = value.data;
           this.asmDetails.setAssignment(foundAssignment);
-          this.router.navigate(['/yourActivities/submissionPortal/mySubmission']);
+          this.router.navigate([`/yourActivities/submissionPortal/mySubmission/${asmId}`]);
           return foundAssignment;
         }
       }
