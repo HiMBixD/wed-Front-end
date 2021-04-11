@@ -5,6 +5,7 @@ import {Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSe
 import {mockNoCommentYet} from '../../interfaces/exReport';
 import {CommonService} from '../../services/common.service';
 import {assignment} from '../../interfaces/assignment';
+import {element} from 'protractor';
 
 
 @Component({
@@ -19,8 +20,7 @@ export class ManagementDashboardComponent implements OnInit {
   private assignment: assignment;
   public overDueSub = [];
   public notCommentedYet = [];
-  private SubCount: any;
-
+  private dataSet = [];
 
   constructor(private commonService: CommonService) {
     monkeyPatchChartJsTooltip();
@@ -46,24 +46,24 @@ export class ManagementDashboardComponent implements OnInit {
   public pieChartLegend = true;
   public pieChartPlugins = [];
 
-
   getFacultyChart(): any {
     if (this.facultyList) {
-      this.pieChartLabels = this.facultyList.map(faculty => {
-        return ['Department of', `${faculty.facultyName}`];
-      });
-      console.log(this.pieChartLabels);
-      console.log(this.facultyList);
+      // console.log(this.pieChartLabels);
+      // console.log(this.facultyList);
       this.facultyList.forEach(f => {
         this.commonService.getSubmissionCount({
           facultyId: f.facultyId,
         }).subscribe(response => {
           if (response.success && response.data) {
-            this.pieChartData.push(response.data.length);
+            if (response.data.length !== 0) {
+              this.pieChartData.push(response.data.length);
+              this.pieChartLabels.push([`Department of ${f.facultyName}`]);
+            }
           }
         });
       });
       console.log(this.pieChartData);
+      console.log(this.pieChartLabels);
     }
   }
 
@@ -74,12 +74,12 @@ export class ManagementDashboardComponent implements OnInit {
       deadlineId: null
     }).subscribe(a => {
       this.assignmentList = a.data;
-      console.log(this.assignmentList);
+      // console.log(this.assignmentList);
 
       this.commonService.getFaculties().subscribe(f => {
         this.facultyList = f.data;
         this.getFacultyChart();
-        console.log(this.facultyList);
+        // console.log(this.facultyList);
 
         this.commonService.searchSubmission({
           username: '',
@@ -87,7 +87,7 @@ export class ManagementDashboardComponent implements OnInit {
           status: null
         }).subscribe(s => {
           this.submissionList = s.data;
-          console.log(this.submissionList);
+          // console.log(this.submissionList);
 
           this.submissionList.forEach(s => {
             this.assignmentList.forEach(a => {
@@ -103,7 +103,7 @@ export class ManagementDashboardComponent implements OnInit {
               }
             });
           });
-          console.log(this.submissionList);
+          // console.log(this.submissionList);
 
           this.submissionList.forEach(s => {
 
@@ -120,8 +120,8 @@ export class ManagementDashboardComponent implements OnInit {
             }
           });
 
-          console.log(this.overDueSub);
-          console.log(this.notCommentedYet);
+          // console.log(this.overDueSub);
+          // console.log(this.notCommentedYet);
         });
       });
     });
