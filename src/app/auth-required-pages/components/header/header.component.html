@@ -2,7 +2,7 @@
     <div class="navbar navbar-light bg-light row flex justify-content-between align-items-center">
         <div class="d-flex mb-3" *ngIf="userData">
             <div class="me-auto">
-                <p *ngIf="userData.facultyId !== null" class="link-secondary" routerLink="frontPage">
+                <p *ngIf="userData" class="link-secondary" routerLink="frontPage">
                     {{getFacultyName(userData.facultyId).facultyName}} Department</p>
                 <p class="link-secondary" *ngIf="userData.role.roleName == 'ROLE_ADMIN'" routerLink="frontPage">
                     Administrator Privilege

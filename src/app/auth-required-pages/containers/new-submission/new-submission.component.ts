@@ -68,9 +68,10 @@ export class NewSubmissionComponent implements OnInit {
                   this.submissionDetails = value.data;
                   //submission details is an Array
                   // console.log(this.submissionDetails[0].submissionId)
-                  if (this.submissionDetails[0] != undefined) {
+                  if (this.submissionDetails[0].submissionId != undefined) {
                     this.submissionId = this.submissionDetails[0].submissionId
                     this.getFiles();
+                    // console.log(this.submissionId)
                   }
                 }
               }
@@ -135,7 +136,8 @@ export class NewSubmissionComponent implements OnInit {
 
   submit() {
     //no submission details found => create new & upload file, else if found, upload files.
-    if (!this.submissionDetails.submissionId) {
+    // console.log(this.submissionId)
+    if (!this.submissionId) {
       this.uploadService.submitSubmission({
         assignmentId: this.assignment.assignmentId
       }).subscribe(value => {

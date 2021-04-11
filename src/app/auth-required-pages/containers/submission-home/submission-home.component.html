@@ -36,6 +36,7 @@
                 <tr>
                     <!-- <th>Issues no.</th> -->
                     <th>Assignment Id</th>
+                    <th>Submission Id</th>
                     <th>Title</th>
                     <th>Submitted On</th>
                     <th>Deadline</th>
@@ -48,6 +49,7 @@
             <tbody *ngIf='mySubmittedAssignment?.length >0'>
                 <tr *ngFor='let m of mySubmittedAssignment'>
                     <td>{{m.assignmentId}}</td>
+                    <td>{{m.submissionId}}</td>
                     <!-- <td>{{m.assignmentName}}</td> -->
                     <!-- <td>{{m.deadline.startDate}}</td> -->
                     <!-- <td>{{m.deadline.endDate}}}</td> -->

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CommonService } from '../../services/common.service';
+import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

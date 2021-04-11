@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
 import { AuthRequiredPagesRoutingModule } from './auth-required-pages-routing.module';
-import { NewAssignmentComponent } from './containers/new-assignment/new-assignment.component';
+import { NewAssignmentComponent } from './containers/assignment-management/new-assignment/new-assignment.component';
 import { AccountSettingsComponent } from './containers/account-settings/account-settings.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -16,13 +16,14 @@ import { SelectedSubmissionBrowserComponent } from './containers/selected-submis
 import { Error403Component } from './containers/error403/error403.component';
 import { ClosureManagementComponent } from './containers/closure-management/closure-management.component';
 import { AllSubmissionsComponent } from './containers/all-submissions/all-submissions.component';
-import { AssignmentListComponent } from './containers/assignment-list/assignment-list.component';
+import { AssignmentListComponent } from './containers/assignment-management/assignment-list/assignment-list.component';
 import { DefaultComponentComponent } from './containers/default-component/default-component.component';
 import { MySubmissionComponent } from './containers/my-submission/my-submission.component';
 import { SubmissionPortalComponent } from './containers/submission-portal/submission-portal.component';
 import { SubmissionHomeComponent } from './containers/submission-home/submission-home.component';
 import { GuestPortalComponent } from './containers/guest-portal/guest-portal.component';
-import { SubmissionsEvaluationComponent } from './containers/submissions-evaluation/submissions-evaluation.component';
+import { SubmissionsEvaluationComponent } from './containers/assignment-management/submissions-evaluation/submissions-evaluation.component';
+import { AssignmentManagementComponent } from './containers/assignment-management/assignment-management.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { SubmissionsEvaluationComponent } from './containers/submissions-evaluat
     SubmissionPortalComponent,
     SubmissionHomeComponent,
     GuestPortalComponent,
-    SubmissionsEvaluationComponent
+    SubmissionsEvaluationComponent,
+    AssignmentManagementComponent
   ],
   imports: [
     CommonModule,

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AssignmentDetailsService } from '../../services/assignment-details.service';
-import { CommonService } from '../../services/common.service';
-import { UserDetailsService } from '../../services/user-details.service';
+import { AssignmentDetailsService } from '../../../services/assignment-details.service';
+import { CommonService } from '../../../services/common.service';
+import { UserDetailsService } from '../../../services/user-details.service';
 
 @Component({
   selector: 'app-assignment-list',
