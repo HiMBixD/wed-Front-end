@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpEvent, HttpHeaders} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
-import {retry} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -73,16 +73,16 @@ export class CommonService {
 
   /**
    * Get Files by Submission Id
-   * @param body
-   * @returns
+   * @param body 
+   * @returns 
    */
-  getFilesBySub(submission: { submissionId: number }): Observable<any> {
+  getFilesBySub(submission: { submissionId: number}): Observable<any> {
     return this.http.post(`${environment.apiUrl}/file/get-files`, submission);
   }
 
   /**
    * Get all user roles
-   * @returns
+   * @returns 
    */
   getAllRoles(): Observable<any> {
     const temp = {};
@@ -101,11 +101,10 @@ export class CommonService {
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/admin/create-user`, user);
   }
-
   /**
    * Admin: Update user
-   * @param user
-   * @returns
+   * @param user 
+   * @returns 
    */
   updateUser(user: {
     username: string,
@@ -167,17 +166,16 @@ export class CommonService {
 
   /**
    * Get deadline by Id
-   * @param deadline
-   * @returns
+   * @param deadline 
+   * @returns 
    */
   getDeadline(deadline: { deadlineId: string }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/user/get-deadline`, deadline);
   }
-
   /**
    * Get all deadline from a time period
    * @param deadline {date: {from: any, to: any}}
-   * @returns
+   * @returns 
    */
   getDeadlinePeriod(deadline: {
     date: {
@@ -187,11 +185,10 @@ export class CommonService {
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/user/get-list-deadline`, deadline);
   }
-
   /**
    * Create a new closure date.
-   * @param closure
-   * @returns
+   * @param closure 
+   * @returns 
    */
   setClosureDate(closure: {
     action?: string,
@@ -201,26 +198,20 @@ export class CommonService {
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/admin/set-closure`, closure);
   }
-
   /**
    * Search for assignment using faculty id and deadlineId
    * @param assignment: { facultyId: number, deadlineId?: number }
-   * @returns
+   * @returns 
    */
   searchAssignment(assignment: {
     facultyId: any,
     deadlineId?: any,
     username: any
   }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/search-assignment`, assignment);
+    return this.http.post(`${environment.apiUrl}/search-assignment`, assignment)
   }
-
-  getAssignmentById(asmId: { assignmentId: number }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/get-assignment-by-id`, asmId);
-  }
-
-  getSubmissionCount(facultyId: { facultyId: number }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/count-submission`, facultyId);
+  getAssignmentById(asmId: { assignmentId: number }): Observable<any>{
+    return this.http.post(`${environment.apiUrl}/get-assignment-by-id`, asmId)
   }
 }
 
