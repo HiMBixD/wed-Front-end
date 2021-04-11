@@ -122,7 +122,7 @@ export class ClosureManagementComponent implements OnInit {
         console.log(value)
       }
       else {
-        this.toastrService.error(`Found no deadline found that start and end during ${this.filterStart.value} and ${this.filterEnd.value}. Please try a wider search range.`)
+        this.toastrService.error(`Found no deadline that starts and ends between ${this.filterStart.value} and ${this.filterEnd.value}. Please try a wider search range.`)
       }
     })
   }

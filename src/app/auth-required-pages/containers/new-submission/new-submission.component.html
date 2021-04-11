@@ -20,8 +20,8 @@
     <p *ngIf="assignment?.description">{{assignment.description}}</p>
     <hr>
     <h5>Your Submission</h5>
-    <h6>Submitted files</h6>
-    <button class="btn btn-primary" (click)="getFiles()">Synchronize</button>
+    <h6>Submitted files <button class="btn btn-primary btn-sm" (click)="getFiles()"><i class="fas fa-sync-alt"></i> Sync</button></h6>
+    
     <div>
       <div *ngFor="let file of filesGot || []">
         <span>{{file.fileName}}</span>
@@ -65,12 +65,10 @@
         You must agree before submitting.
       </div>
     </div>
-  </div>
-  <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
-  <br>
+    <button type="button" class="btn btn-primary" (click)="submit()"><i class="fas fa-upload"></i> Submit</button><br>
 
-  <hr>
-  <h5>Feedback</h5>
+    <hr>
+    <h5><i class="fas fa-comments"></i> Feedback</h5>
 
   <section class="comments row mt-4">
     <div class="col-1 d-none d-lg-block">
@@ -93,13 +91,12 @@
         <textarea rows="5" class="form-control" id="assignment-description" placeholder="Write a comment..."
                   maxlength="850">
         </textarea>
-    <div id='commentHelp' class="form-text">Comment must be less than 850 characters and contains no bad words.
-    </div>
-    <div>
-      <button type="button" class="btn btn-primary">Post Comment</button>
-      <br>
-    </div>
-  </form>
+        <div id='commentHelp' class="form-text">Comment must be less than 850 characters and contains no bad words.
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i> Post Comment</button><br>
+        </div>
+    </form>
 </main>
 <main class="container vh-100" *ngIf="assignment?.length ==0">
     <div class="my-auto mx-auto" style="text-align: center;">

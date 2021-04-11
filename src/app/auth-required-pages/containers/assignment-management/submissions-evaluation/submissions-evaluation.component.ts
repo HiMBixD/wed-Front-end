@@ -45,9 +45,24 @@ export class SubmissionsEvaluationComponent implements OnInit {
 
     
   }
+  ////////////////////////////////////////////////
+  p = 1;
   asm$;
   assignmentDetails;
-  submissionList;
-  filesList;
+  submissionList = [];
+  filesList = [];
   currentUser;
+  ///////////////////////////////////////////////
+  getFiles(submissionId, username) {
+    this.commonService.getFilesBySub({ submissionId }).subscribe(
+      value => {
+        if (value.success) {
+          this.filesList = value.data;
+          console.log(this.filesList);
+        }
+      }
+    );
+    this.currentUser = username;
+  }
+
 }

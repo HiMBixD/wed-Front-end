@@ -1,4 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { AssignmentDetailsService } from '../../../services/assignment-details.service';
 import { CommonService } from '../../../services/common.service';
 import { UserDetailsService } from '../../../services/user-details.service';
@@ -6,42 +8,126 @@ import { UserDetailsService } from '../../../services/user-details.service';
 @Component({
   selector: 'app-assignment-list',
   templateUrl: './assignment-list.component.html',
-  styleUrls: ['./assignment-list.component.scss']
+  styleUrls: ['./assignment-list.component.scss'],
+  preserveWhitespaces: true
 })
 export class AssignmentListComponent implements OnInit {
 
   constructor(private commonService: CommonService,
-    private userDetails: UserDetailsService,
-    private assignmentDetails: AssignmentDetailsService) { }
+    private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     //get user faculty id
-    this.userInfo = this.userDetails.getUserDetails();
-    //get assignment list by id
-    this.commonService.searchAssignment({
-      facultyId: '',
-      username: '',
-      deadlineId: ''
-    }).subscribe(
-      list => {
-        if (list) {
-          this.assignmentList = list.data;
-          console.log(list)
-        }
+    this.commonService.getMyInfo({}).subscribe(val => {
+      if (val) {
+        this.userInfo = val.data;
+        //get assignment by this user.
+        this.commonService.searchAssignment({
+          facultyId: '',
+          username: this.userInfo.userName,
+          deadlineId: ''
+        }).subscribe(
+          list => {
+            if (list) {
+              this.assignmentList = list.data;
+              console.log(list)
+            }
+          }
+        )
       }
-    )
+    });
+
+    //get assignment list by id
+    
     //populate assignmentList
   }
+
+  //////////////////////////////////////////////////////
   assignmentList = [];
-  userInfo = []
-  @Output() asmDetails = new EventEmitter<assignmentDetails>();
+  userInfo;
+  deadlineList = [];
+  p = 1;
+  deadlineSelected;
+
+  // deadlineSelect = new FormControl('')
+  filterStart = new FormControl('');
+  filterEnd = new FormControl('');
+  assignmentName = new FormControl('');
+  description = new FormControl('');
+
+  toBeUpdated;
+  ////////////////////////////////////////////////////////
+
+  // @Output() asmDetails = new EventEmitter<assignmentDetails>();
 
   getAssignmentDetails(asm: assignmentDetails) {
-    this.assignmentDetails.setAssignment(asm);
-    this.asmDetails.emit(asm)
-    // console.log(this.assignmentDetails.getAssignment())
+    // this.assignmentDetails.setAssignment(asm);
+    // this.asmDetails.emit(asm)
+
+    // console.log(asm.assignment.assignmentId)
+    this.toBeUpdated = asm;
+    this.assignmentName.setValue(asm.assignment.assignmentName);
+    this.description.setValue(asm.assignment.description);
+    this.deadlineList.push(asm.assignment.deadline);
+    this.deadlineSelected = asm.assignment.deadline.deadlineId;
   }
 
+  onSearch() {
+    console.log(this.filterEnd.value)
+    this.commonService.getDeadlinePeriod({
+      date: {
+        from: this.filterStart.value,
+        to: this.filterEnd.value
+      }
+    }).subscribe(value => {
+      this.deadlineList = value.data;
+      console.log(value)
+    })
+  }
+
+  newAssignment() {
+    this.commonService.createAssignment({
+      assignName: this.assignmentName.value,
+      description: this.description.value,
+      facultyId: this.userInfo.facultyId,
+      // deadlineId: parseInt(`${(<HTMLOptionElement>document.querySelector(`#deadline-select`)).value}`)
+      deadlineId: this.deadlineSelected
+      //TODO: this currently doesn't return a value.
+    }).subscribe(value => {
+      if (value.success) {
+        this.toastrService.success(`Assignment "${this.assignmentName.value}" added!`);
+        console.log('added!')
+      }
+      else {
+        const message = `Failed to create "${this.assignmentName.value}". Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+        this.toastrService.error(message)
+        console.log(message)
+      }
+    })
+  }
+
+  logDescription() {
+    console.log(this.description.value)
+  }
+
+  updateAssignment() {
+    this.commonService.updateAssignment({
+      assignmentId: this.toBeUpdated.assignment.assignmentId,
+      assignmentName: this.assignmentName.value,
+      description: this.description.value,
+      deadlineId: this.deadlineSelected
+    }).subscribe(value => {
+      if (value.success) {
+        this.toastrService.success(`Assignment "${this.assignmentName.value}" updated!`);
+        console.log('added!')
+      }
+      else {
+        const message = `Failed to update "${this.assignmentName.value}". Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+        this.toastrService.error(message)
+        console.log(message)
+      }
+    })
+  }
 }
 
 interface assignmentDetails {

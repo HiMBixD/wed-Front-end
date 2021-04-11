@@ -130,6 +130,11 @@ export class CommonService {
     return this.http.post(`${environment.apiUrl}/create-assignment`, assignment);
   }
 
+  /**
+   * Search for submission using username, assignmentId or status
+   * @param submission 
+   * @returns 
+   */
   searchSubmission(submission: {
     username: string,
     assignmentId: number,
@@ -145,7 +150,11 @@ export class CommonService {
     return this.http.post(`${environment.apiUrl}/select-submission`, submission);
   }
 
-  // student create submission
+  /**
+   * For students: Submit new submission by assignmentId
+   * @param submission 
+   * @returns 
+   */
   submitSubmission(submission: {
     assignmentId: number
   }): Observable<any> {
@@ -221,6 +230,20 @@ export class CommonService {
 
   getSubmissionCount(facultyId: { facultyId: number }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/count-submission`, facultyId);
+  }
+
+  /**
+   * Update existing assignment
+   * @param assignment 
+   * @returns 
+   */
+  updateAssignment(assignment: {
+    assignmentId: number,
+    assignmentName: string,
+    description: string,
+    deadlineId: number,
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/edit-assignment`, assignment)
   }
 }
 
