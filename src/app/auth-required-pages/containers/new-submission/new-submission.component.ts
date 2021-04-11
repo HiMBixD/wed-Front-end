@@ -56,32 +56,51 @@ export class NewSubmissionComponent implements OnInit {
       value => {
         console.log(value);
       }
-    );
+    )
+    //get assignment from asmId from route
     this.asm$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
-          return this.uploadService.getAssignmentById(
-            {
-              assignmentId: +params.get('asmId')
-            }
-          );
-        }
-      )
+        return this.uploadService.getAssignmentById(
+          {
+            assignmentId: +params.get('asmId')
+          }
+        )
+      })
     );
+
     this.asm$.subscribe(value => {
       console.log(value.data);
       this.assignment = value.data;
-    });
-    this.getFiles(2);
-    // if (this.assignment.length == 0) {
-    //   this.toastr.error("You aren't supposed to be here!");
-    //   // this.router.navigate(['/submissionPortal'])
-    // }
-    // else {
-    //   console.log(this.assignment)
-    // };
+      //get user info 
+      this.uploadService.getMyInfo({}).subscribe(
+        value => {
+          if (value.data) {
+            this.userDetails = value.data;
+            //get submission
+            this.uploadService.searchSubmission({
+              username: this.userDetails.userName,
+              assignmentId: this.assignment.assignmentId,
+              status: null,
+            }).subscribe(
+              value => {
+                if (value.success) {
+                  this.submissionDetails = value.data;
+                  //submission details is an Array
+                  // console.log(this.submissionDetails[0].submissionId)
+                  this.submissionId = this.submissionDetails[0].submissionId
+                  this.getFiles();
+                }
+              }
+            )
+          }
+        }
+      );
+    })
   }
-
-  assignment: any;
+  submissionId;
+  submissionDetails;
+  assignment;
+  userDetails;
 
   onSelect(event) {
     console.log(event);
@@ -93,16 +112,17 @@ export class NewSubmissionComponent implements OnInit {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
-  getFiles(submissionId: number) {
-    this.uploadService.getFilesBySub({submissionId}).subscribe(file => {
-      this.filesGot = file.data;
-
-      this.checkFileTypes()
-
-      console.log('https://docs.google.com/a/WedPj/viewer?url=' + this.url + file.data[0].fileId);
-      file.data.forEach(element => {
-
-      });
+  getFiles() {
+    let submissionId = this.submissionId;
+    this.uploadService.getFilesBySub({ submissionId }).subscribe(file => {
+      this.filesGot = file;
+      console.log(file)
+      if (file.data.length > 0) {
+        console.log('https://docs.google.com/a/WedPj/viewer?url=' + this.url + file.data[0].fileId);
+      }
+      else {
+        console.log('no files found');
+      }
     });
   }
 
@@ -111,6 +131,9 @@ export class NewSubmissionComponent implements OnInit {
   }
 
   upload(file: File, submissionId: number): void {
+    //First time submitting, then submission ID would be null. 
+    //if submission Id null
+    //submit => get new id 
     this.fileProgress[file.name] = 0;
     this.uploadService.uploadFile({file, submissionId})
       .subscribe(
@@ -129,9 +152,24 @@ export class NewSubmissionComponent implements OnInit {
   }
 
   submit() {
-    this.files.forEach(file => {
-      this.upload(file, 2);
-    });
+    //no submission details found => create new & upload file, else if found, upload files.
+    if (!this.submissionDetails.submissionId) {
+      this.uploadService.submitSubmission({
+        assignmentId: this.assignment.assignmentId
+      }).subscribe(value => {
+        console.log('submit submission')
+        console.log(value);
+        this.submissionId = value.data.submissionId;
+        this.files.forEach(file => {
+          this.upload(file, this.submissionId);
+        });
+      });
+    }
+    else {
+      this.files.forEach(file => {
+        this.upload(file, this.submissionId);
+      });
+    }
   }
 
   getProgress(progress): any {

@@ -9,20 +9,19 @@
     </ol>
   </nav>
 </div>
-<main class="container" *ngIf="assignment.length !=0">
-  <h2>{{assignment?.assignmentName}}
-    <small class="text-muted">
-      [{{assignment?.deadline.startDate | date:'dd-MM-YYYY'}}
-      → {{assignment?.deadline.endDate | date: 'dd-MM-YYYY'}}]
-    </small>
-  </h2>
-  <h5>Description:</h5>
-  <p>{{assignment.description}}</p>
-  <hr>
-  <h5>Your Submission</h5>
-  <h6>Submitted files</h6>
-  <button class="btn btn-primary" (click)="getFiles(2)">Synchronize</button>
-  <div>
+<main class="container" *ngIf="assignment?.length !=0">
+    <h2>{{assignment?.assignmentName}}
+        <small class="text-muted">
+            [{{assignment?.deadline.startDate | date:'dd-MM-YYYY'}}
+            → {{assignment?.deadline.endDate | date: 'dd-MM-YYYY'}}]
+        </small>
+    </h2>
+    <h5>Description:</h5>
+    <p *ngIf="assignment?.description">{{assignment.description}}</p>
+    <hr>
+    <h5>Your Submission</h5>
+    <h6>Submitted files</h6>
+    <button class="btn btn-primary" (click)="getFiles()">Synchronize</button>
     <div>
       <div *ngFor="let file of filesGot || []">
         <span>{{file.fileName}}</span>
@@ -103,10 +102,10 @@
     </div>
   </form>
 </main>
-<main class="container vh-100" *ngIf="assignment.length ==0">
-  <div class="my-auto mx-auto" style="text-align: center;">
-    <p>Oops, there seems to be an error!</p>
-    <p>It's likely that this page was refreshed.</p>
-    <p>Please <a routerLink (click)="goBack()">back to the previous page</a></p>
-  </div>
+<main class="container vh-100" *ngIf="assignment?.length ==0">
+    <div class="my-auto mx-auto" style="text-align: center;">
+        <p>Oops, there seems to be an error!</p>
+        <p>It's likely that this page was refreshed.</p>
+        <p>Please <a routerLink (click)="goBack()">back to the previous page</a></p>
+    </div>
 </main>
