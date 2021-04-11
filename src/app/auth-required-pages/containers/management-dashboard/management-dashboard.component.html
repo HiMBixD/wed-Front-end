@@ -33,13 +33,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr scope="row" *ngFor="let r of exReport | paginate: { itemsPerPage: 5, currentPage: p }">
-                    <td>{{r.assignment}}</td>
-                    <td>{{r.faculty}}</td>
-                    <td>{{r.creator}}</td>
-                    <td>{{r.studentUsername}}</td>
-                    <td>{{r.submissionDate}}</td>
-                    <td>{{r.daysOverdue}}</td>
+                <tr scope="row" *ngFor="let s of this.overDueSub | paginate: { itemsPerPage: 5, currentPage: p }">
+                    <td>{{s.assignmentName}}</td>
+                    <td>{{s.facultyName}}</td>
+                    <td>{{s.create_by}}</td>
+                    <td>{{s.username}}</td>
+                    <td>{{s.submissionDate}}</td>
+                    <td>{{s.daysOverdue}}</td>
                 </tr>
             </tbody>
         </table>
@@ -52,20 +52,18 @@
                 <tr>
                     <th scope="col">Assignment</th>
                     <th scope="col">Faculty</th>
-                    <th scope="col">Creator</th>
                     <th scope="col">Student Username</th>
                     <th scope="col">Submission date</th>
                     <th scope="col">Days since submission</th>
                 </tr>
             </thead>
             <tbody>
-                <tr scope="row" *ngFor="let r of noCommentYet | paginate: { itemsPerPage: 5, currentPage: p }">
-                    <td>{{r.assignment}}</td>
-                    <td>{{r.faculty}}</td>
-                    <td>{{r.creator}}</td>
-                    <td>{{r.studentUsername}}</td>
-                    <td>{{r.submissionDate}}</td>
-                    <td>{{r.daysOverdue}}</td>
+                <tr scope="row" *ngFor="let n of this.notCommentedYet | paginate: { itemsPerPage: 5, currentPage: p }">
+                    <td>{{n.assignmentName}}</td>
+                    <td>{{n.facultyName}}</td>
+                    <td>{{n.username}}</td>
+                    <td>{{n.submissionDate}}</td>
+                    <td>{{n.daysSinceSubs}}</td>
                 </tr>
             </tbody>
         </table>

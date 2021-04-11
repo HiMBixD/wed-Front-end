@@ -1,13 +1,13 @@
-import { Location } from '@angular/common';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { CommonService } from '../../services/common.service';
+import {Location} from '@angular/common';
+import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {environment} from 'src/environments/environment';
+import {CommonService} from '../../services/common.service';
 
 @Component({
   selector: 'app-new-submission',
@@ -16,6 +16,9 @@ import { CommonService } from '../../services/common.service';
 })
 export class NewSubmissionComponent implements OnInit {
 
+
+  fileTypes = ['.apng', '.avif', '.gif', '.jpg', '.jpeg', '.jfif', '.pjpeg', '.pjp', '.png', '.svg', '.webp'];
+
   fileInfos: Observable<any>;
   files: File[] = [];
   fileProgress = {};
@@ -23,19 +26,34 @@ export class NewSubmissionComponent implements OnInit {
   url = `${environment.apiUrl}/file/read/`;
   fileIdViewed;
 
-  asm$: Observable<any>
-  constructor(private uploadService: CommonService,
+  asm$: Observable<any>;
+
+  constructor(
+    private uploadService: CommonService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private locationService: Location) { }
+    private locationService: Location) {
+  }
+
+  checkFileTypes(fileName): any {
+    console.log(fileName);
+    console.log(fileName.lastIndexOf('.'));
+    const fileExtension = fileName.slice(fileName.lastIndexOf('.'));
+    console.log(fileExtension);
+    if (this.fileTypes.includes(fileExtension)) {
+      this.fileIdViewed = false;
+    }
+  }
+
 
   ngOnInit(): void {
 
-    this.uploadService.getComment({ submissionId: 2 }).subscribe(
+
+    this.uploadService.getComment({submissionId: 2}).subscribe(
       value => {
-        console.log(value)
+        console.log(value);
       }
     )
     //get assignment from asmId from route
@@ -52,7 +70,7 @@ export class NewSubmissionComponent implements OnInit {
     this.asm$.subscribe(value => {
       console.log(value.data);
       this.assignment = value.data;
-      //get user info 
+      //get user info
       this.uploadService.getMyInfo({}).subscribe(
         value => {
           if (value.data) {
@@ -108,16 +126,17 @@ export class NewSubmissionComponent implements OnInit {
       }
     });
   }
+
   transform(url) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   upload(file: File, submissionId: number): void {
-    //First time submitting, then submission ID would be null. 
+    //First time submitting, then submission ID would be null.
     //if submission Id null
-    //submit => get new id 
+    //submit => get new id
     this.fileProgress[file.name] = 0;
-    this.uploadService.uploadFile({ file, submissionId })
+    this.uploadService.uploadFile({file, submissionId})
       .subscribe(
         event => {
           if (event.type === HttpEventType.UploadProgress) {
@@ -157,6 +176,7 @@ export class NewSubmissionComponent implements OnInit {
   getProgress(progress): any {
     return progress > 0 ? progress + '%' : null;
   }
+
   goBack() {
     this.locationService.back();
   }
