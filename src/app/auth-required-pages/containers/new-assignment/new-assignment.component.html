@@ -9,8 +9,6 @@
     </nav> -->
 <!-- <h1>New Assignment <small class="text-muted">for Issues #[number here]</small></h1> -->
 <h2>New Assignment</h2>
-<!-- Current Issue: 2. Duration: [start date] - [end date].<br> -->
-<!-- get all closure date from db  -->
 <form ngNativeValidate action="javascript:void(0)">
     <label class="form-label" for="search">Deadline Period</label>
     <div class="input-group">
@@ -47,6 +45,9 @@
     <div>
         <button type="submit" type="button" class="btn btn-primary" (click)="newAssignment()">Submit</button><small
             style="color:white">-</small>
+        <button class="btn btn-primary">Update</button>
+        <small style="color:white">-</small>
+         
         <button type="button" class="btn btn-secondary" (click)="logDescription()">Clear</button>
     </div>
 </form>

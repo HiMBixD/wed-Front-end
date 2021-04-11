@@ -68,8 +68,10 @@ export class NewSubmissionComponent implements OnInit {
                   this.submissionDetails = value.data;
                   //submission details is an Array
                   // console.log(this.submissionDetails[0].submissionId)
-                  this.submissionId = this.submissionDetails[0].submissionId
-                  this.getFiles();
+                  if (this.submissionDetails[0] != undefined) {
+                    this.submissionId = this.submissionDetails[0].submissionId
+                    this.getFiles();
+                  }
                 }
               }
             )
@@ -98,7 +100,7 @@ export class NewSubmissionComponent implements OnInit {
     this.uploadService.getFilesBySub({ submissionId }).subscribe(file => {
       this.filesGot = file;
       console.log(file)
-      if (file.data.length > 0) {
+      if (file.data != null && file.data.length > 0 ) {
         console.log('https://docs.google.com/a/WedPj/viewer?url=' + this.url + file.data[0].fileId);
       }
       else {

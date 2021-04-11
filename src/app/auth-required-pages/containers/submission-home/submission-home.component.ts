@@ -72,4 +72,15 @@ export class SubmissionHomeComponent implements OnInit {
       }
     )
   }
+  findAsmDetails(asmId: number) {
+    let foundAssignment
+    this.commonService.getAssignmentById({ assignmentId: asmId }).subscribe(
+      value => {
+        if (value.success) {
+          foundAssignment = value.data;
+          return foundAssignment;
+        }
+      }
+    )
+  }
 }
