@@ -10,7 +10,7 @@
 <main class="container">
     <h1>Submission Portal</h1>
     <hr>
-    <h2>Currently Opening</h2>
+    <h2><i class="fas fa-circle"></i> Currently Opening</h2>
     <!-- <h6 class="title">Current Activities</h6> -->
     <div class="row-cols-1">
         <div class="col" style="margin-top: 5px;" *ngFor="let a of availableAssignment">
@@ -29,7 +29,7 @@
     </div>
     <!-- loop some card here -->
     <hr>
-    <h2>My Submissions</h2>
+    <h2><i class="fas fa-folder"></i> My Submissions</h2>
     <div class="table-responsive-md">
         <table class="table table-striped">
             <thead>
@@ -70,5 +70,5 @@
             </tbody>
         </table>
     </div>
-    <p class="text-muted" *ngIf="mySubmittedAssignment.length ==0" style="text-align: center;">You have not submitted anything.</p>
+    <p class="text-muted py-5" *ngIf="mySubmittedAssignment.length ==0" style="text-align: center;">You have not submitted anything.</p>
 </main>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { assignmentStatus } from '../../interfaces/assignment';
-import { AssignmentDetailsService } from '../../services/assignment-details.service';
-import { CommonService } from '../../services/common.service';
+import { assignmentStatus } from '../../../interfaces/assignment';
+import { AssignmentDetailsService } from '../../../services/assignment-details.service';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-submission-home',

@@ -12,7 +12,8 @@ import { CommonService } from '../../services/common.service';
 @Component({
   selector: 'app-new-submission',
   templateUrl: './new-submission.component.html',
-  styleUrls: ['./new-submission.component.scss']
+  styleUrls: ['./new-submission.component.scss'],
+  preserveWhitespaces: true
 })
 export class NewSubmissionComponent implements OnInit {
 

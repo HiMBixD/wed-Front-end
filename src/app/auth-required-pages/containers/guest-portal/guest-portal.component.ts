@@ -5,7 +5,8 @@ import { CommonService } from '../../services/common.service';
 @Component({
   selector: 'app-guest-portal',
   templateUrl: './guest-portal.component.html',
-  styleUrls: ['./guest-portal.component.scss']
+  styleUrls: ['./guest-portal.component.scss'],
+  preserveWhitespaces: true
 })
 export class GuestPortalComponent implements OnInit {
 
@@ -89,9 +90,7 @@ export class GuestPortalComponent implements OnInit {
       }
     );
     this.currentUser = username;
-  }
-
-  
+  }  
 }
 
 

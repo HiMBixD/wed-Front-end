@@ -76,7 +76,7 @@ export class CommonService {
    * @param body 
    * @returns 
    */
-  getFilesBySub(submission: { submissionId: number}): Observable<any> {
+  getFilesBySub(submission: { submissionId: number }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/file/get-files`, submission);
   }
 
@@ -129,6 +129,11 @@ export class CommonService {
     return this.http.post(`${environment.apiUrl}/create-assignment`, assignment);
   }
 
+  /**
+   * Search for submission using username, assignmentId or status
+   * @param submission 
+   * @returns 
+   */
   searchSubmission(submission: {
     username: string,
     assignmentId: number,
@@ -144,7 +149,11 @@ export class CommonService {
     return this.http.post(`${environment.apiUrl}/select-submission`, submission);
   }
 
-  // student create submission
+  /**
+   * For students: Submit new submission by assignmentId
+   * @param submission 
+   * @returns 
+   */
   submitSubmission(submission: {
     assignmentId: number
   }): Observable<any> {
@@ -210,8 +219,23 @@ export class CommonService {
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/search-assignment`, assignment)
   }
-  getAssignmentById(asmId: { assignmentId: number }): Observable<any>{
+
+  getAssignmentById(asmId: { assignmentId: number }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/get-assignment-by-id`, asmId)
+  }
+
+  /**
+   * Update existing assignment
+   * @param assignment 
+   * @returns 
+   */
+  updateAssignment(assignment: {
+    assignmentId: number,
+    assignmentName: string,
+    description: string,
+    deadlineId: number,
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/edit-assignment`, assignment)
   }
 }
 

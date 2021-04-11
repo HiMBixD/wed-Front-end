@@ -6,7 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-new-assignment',
   templateUrl: './new-assignment.component.html',
-  styleUrls: ['./new-assignment.component.scss']
+  styleUrls: ['./new-assignment.component.scss'],
+  preserveWhitespaces: true
 })
 export class NewAssignmentComponent implements OnInit {
   deadlineList = [];

@@ -8,9 +8,9 @@
     </nav>
 </div>
 <main class="container">
-    <h2><i class="fas fa-tachometer-alt"></i> Management Dashboard</h2>
+    <h2>Management Dashboard</h2>
     <hr>
-    <h3>General Information</h3>
+    <h3><i class="fas fa-tachometer-alt"></i> General Information</h3>
     <!-- chartJS pie chart -->
     <div style="min-height: 500px">
         <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
@@ -18,7 +18,7 @@
         </canvas>
     </div>
     <hr>
-    <h3>Exceptional Report</h3>
+    <h3><i class="fas fa-flag"></i> Exceptional Report</h3>
     <h4 class="text-muted">Submissions without a comment after 14 days:</h4>
     <div class="table-responsive-md">
         <table class="table table-striped">
