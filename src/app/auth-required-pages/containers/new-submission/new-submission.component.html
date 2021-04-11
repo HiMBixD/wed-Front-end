@@ -28,7 +28,6 @@
         <span><span (click)="fileIdViewed = file.fileId">View</span></span>
       </div>
     </div>
-  </div>
   //TODO: show Iframe or img depends on file type.
   <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed && this.checkFileTypes(fileIdViewed); else ShowImg"
           [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">

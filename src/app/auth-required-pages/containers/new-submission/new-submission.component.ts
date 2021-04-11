@@ -37,11 +37,10 @@ export class NewSubmissionComponent implements OnInit {
     private locationService: Location) {
   }
 
-  checkFileTypes(): any {
-    const n = element.fileName;
-    console.log(n);
-    console.log(n.lastIndexOf('.'));
-    const fileExtension = n.slice(n.lastIndexOf('.'));
+  checkFileTypes(fileName): any {
+    console.log(fileName);
+    console.log(fileName.lastIndexOf('.'));
+    const fileExtension = fileName.slice(fileName.lastIndexOf('.'));
     console.log(fileExtension);
     if (this.fileTypes.includes(fileExtension)) {
       this.fileIdViewed = false;
@@ -71,7 +70,7 @@ export class NewSubmissionComponent implements OnInit {
     this.asm$.subscribe(value => {
       console.log(value.data);
       this.assignment = value.data;
-      //get user info 
+      //get user info
       this.uploadService.getMyInfo({}).subscribe(
         value => {
           if (value.data) {
@@ -131,9 +130,9 @@ export class NewSubmissionComponent implements OnInit {
   }
 
   upload(file: File, submissionId: number): void {
-    //First time submitting, then submission ID would be null. 
+    //First time submitting, then submission ID would be null.
     //if submission Id null
-    //submit => get new id 
+    //submit => get new id
     this.fileProgress[file.name] = 0;
     this.uploadService.uploadFile({file, submissionId})
       .subscribe(
