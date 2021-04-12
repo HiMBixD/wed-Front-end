@@ -54,10 +54,12 @@ export class SubmissionHomeComponent implements OnInit {
     )
   }
 
-
+  /////////////////////////////////////////////////////////////
+  subHomePage = 1;
   userDetails;
   availableAssignment;
   mySubmittedAssignment;
+  /////////////////////////////////////////////////////////////
 
   findAssignment(asmId: number) {
     let foundAssignment

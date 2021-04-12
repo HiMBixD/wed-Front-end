@@ -11,7 +11,11 @@
             </li>
         </ol>
     </nav>
-    <h2 *ngIf="assignmentDetails">All Submissions for "{{assignmentDetails.assignmentName}}"</h2>
+    <h2>Submission Evaluation</h2>
+    <hr>
+    <h3 *ngIf="assignmentDetails"><i class="fas fa-tasks"></i> All Submissions for
+        "{{assignmentDetails.assignmentName}}"</h3>
+    <small class="text-muted">Please review and give feedback to submissions in a timely manner.</small>
     <div class="table-responsive-md">
         <table class="table table-striped">
             <thead>
@@ -27,7 +31,7 @@
                 <tr *ngFor="let l of submissionList | paginate: { itemsPerPage: 10, currentPage: p }">
                     <td>{{l.username}}</td>
                     <td>{{l.submissionDate |
-                    date: 'dd-MM-YYYY'}}</td>
+                        date: 'dd-MM-YYYY'}}</td>
                     <td>{{l.totalComment}}</td>
                     <td>{{this.asmService.statusDecoder(l.status)}}</td>
                     <td>
@@ -42,11 +46,13 @@
     </div>
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
     <hr>
-    <h2>Submission Details</h2>
-    <h3><i class="fas fa-folder-open"></i> Files</h3>
-    <div *ngIf="filesList.length ==0 && !currentUser" style="text-align: center;" class="text-muted py-5">Please choose a
+    <h3>Submission Details <small *ngIf="currentUser" class="text-muted">for {{currentUser}}</small></h3>
+    <h4><i class="fas fa-folder-open"></i> Files</h4>
+    <div *ngIf="filesList.length ==0 && !currentUser" style="text-align: center;" class="text-muted py-5">Please choose
+        a
         submission to view all files</div>
-    <div *ngIf="filesList.length ==0 && currentUser" style="text-align: center;" class="text-muted py-5">No files found for
+    <div *ngIf="filesList.length ==0 && currentUser" style="text-align: center;" class="text-muted py-5">No files found
+        for
         this user. Please contact Administrator regarding this problem.</div>
 
     <div class="card" style="width: 18rem;" *ngIf="filesList.length >0">
@@ -61,11 +67,47 @@
     </div>
     <div style="background-color:#F5F5F5">
         <hr>
-        <h3><i class="fas fa-file"></i> Preview</h3>
-       
+        <h4><i class="fas fa-file"></i> Preview</h4>
+
         <div style="text-align: center;" class="text-muted py-5">Please
             choose a file to preview</div>
-       
-    </div>
 
+    </div>
+    <hr>
+    <div>
+        <h3><i class="fas fa-comments"></i> Feedback</h3>
+        <div *ngIf="!currentUser" style="text-align: center;" class="text-muted py-5">
+            Please choose a submission to give feedback
+        </div>
+        <div *ngIf="currentUser">
+            <section class="comments row mt-4">
+                <div class="col-1 d-none d-lg-block">
+                    <img class="img-fluid img-thumbnail" src="https://via.placeholder.com/100" alt="">
+                </div>
+                <div class="col-lg-11 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>[placeholder]</b> left a comment at [time]
+                        </div>
+                        <div class="card-body">
+                            Yeah...This is some text within a card body.
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <br>
+            <h6>New Comment</h6>
+            <form>
+                <textarea rows="5" class="form-control" id="assignment-description" placeholder="Write a comment..."
+                    maxlength="850">
+                </textarea>
+                <div id='commentHelp' class="form-text">Comment must be less than 850 characters and contains no bad
+                    words.
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i> Post Comment</button><br>
+                </div>
+            </form>
+        </div>
+    </div>
 </main>

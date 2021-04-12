@@ -48,11 +48,16 @@
         <div id="openNow" class="mb-2" style="margin-top: 20px;">
             <h2 class="pb-4 mb-4 fst-italic border-bottom"><i class="fas fa-circle"></i> Open for Submission:</h2>
             <h6 class="title"><i>Accepting Submissions Now!</i></h6>
+            <div *ngIf="!availableAssignment" class="d-flex justify-content-center align-self-center" style="padding-top: 8%;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
             <div class="row-cols-1">
                 <div class="col" style="margin-top: 5px;" *ngFor="let a of availableAssignment">
                     <div class="card card-news">
                         <div class="card-body inline-block">
-                            <a (click)="this.asmDetails.setAssignment(a.assignment)" routerLink="../yourActivities/submissionPortal/mySubmission"
+                            <a (click)="this.asmDetails.setAssignment(a.assignment)" [routerLink]="['../yourActivities/submissionPortal/mySubmission', a.assignment.assignmentId]"
                                 value="a.assignment.assignmentId" class="stretched-link">
                                 [{{a.assignment.deadline.startDate |
                                 date: 'dd-MM-YYYY'}} → {{a.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}]
