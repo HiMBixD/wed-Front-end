@@ -10,6 +10,7 @@ import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { CommonService } from '../../services/common.service';
 
+
 @Component({
   selector: 'app-new-submission',
   templateUrl: './new-submission.component.html',
@@ -18,7 +19,10 @@ import { CommonService } from '../../services/common.service';
 })
 export class NewSubmissionComponent implements OnInit {
   
+  fileTypes = ['.apng', '.avif', '.gif', '.jpg', '.jpeg', '.jfif', '.pjpeg', '.pjp', '.png', '.svg', '.webp'];
+
   ///////////////////////////////////////////////////////
+
   fileInfos: Observable<any>;
   files: File[] = [];
   fileProgress = {};
@@ -43,11 +47,25 @@ export class NewSubmissionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private locationService: Location) { }
+    private locationService: Location) {
+  }
+
+  checkFileTypes(fileName): any {
+    console.log(fileName);
+    console.log(fileName.lastIndexOf('.'));
+    const fileExtension = fileName.slice(fileName.lastIndexOf('.'));
+    console.log(fileExtension);
+    if (this.fileTypes.includes(fileExtension)) {
+      this.fileIdViewed = false;
+    }
+  }
+
 
   ngOnInit(): void {
+
     this.filesGotLoading = true;
     this.commentsLoading = true;
+    
     //get assignment from asmId from route
     this.asm$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
@@ -62,7 +80,7 @@ export class NewSubmissionComponent implements OnInit {
     this.asm$.subscribe(value => {
       console.log(value.data);
       this.assignment = value.data;
-      //get user info 
+      //get user info
       this.uploadService.getMyInfo({}).subscribe(
         value => {
           if (value.data) {
@@ -122,16 +140,17 @@ export class NewSubmissionComponent implements OnInit {
       }
     });
   }
+
   transform(url) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   upload(file: File, submissionId: number): void {
-    //First time submitting, then submission ID would be null. 
+    //First time submitting, then submission ID would be null.
     //if submission Id null
-    //submit => get new id 
+    //submit => get new id
     this.fileProgress[file.name] = 0;
-    this.uploadService.uploadFile({ file, submissionId })
+    this.uploadService.uploadFile({file, submissionId})
       .subscribe(
         event => {
           if (event.type === HttpEventType.UploadProgress) {
@@ -172,6 +191,7 @@ export class NewSubmissionComponent implements OnInit {
   getProgress(progress): any {
     return progress > 0 ? progress + '%' : null;
   }
+
   goBack() {
     this.locationService.back();
   }
