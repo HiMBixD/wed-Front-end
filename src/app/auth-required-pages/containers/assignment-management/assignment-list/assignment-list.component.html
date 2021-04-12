@@ -48,11 +48,13 @@
         <div>
             <button type="submit" type="button" class="btn btn-primary" (click)="newAssignment()">Submit</button>
             <button class="btn btn-primary" (click)="updateAssignment()">Update</button>
-            <button type="button" class="btn btn-secondary" (click)="logDescription()">Clear</button>
+            <button type="button" class="btn btn-secondary" (click)="clearValues()">Clear</button>
         </div>
     </form>
     <hr>
-    <h2>My Assignment</h2>
+    <h2>My Assignment 
+        <button (click)="syncAssignments()" class="btn btn-primary btn-sm" ><i class="fas fa-sync-alt"></i> Sync</button>
+    </h2>
     <span class="text-muted" *ngIf="userInfo">All assignments created by "{{userInfo.userName}}"</span>
     <div class="table-responsive-md">
         <table class="table table-striped">
@@ -66,6 +68,7 @@
                     <th>End date</th>
                     <th>Total Submissions</th>
                     <th>Evaluated?</th>
+                    <th>Submissions</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -81,11 +84,20 @@
                     <td style="color: red">{{l.selectedSub}}/{{l.totalSub}}</td>
                     <td>
                         <button type="button" class="btn btn-primary" [routerLink]="['submissionEvaluation',l.assignment.assignmentId]">View Submissions</button> 
+                    </td>
+                    <td>
                         <button type="button" class="btn btn-primary" (click)="getAssignmentDetails(l)">Edit</button>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div *ngIf="!assignmentList">
+        <div class="d-flex justify-content-center align-self-center" style="padding-top: 8%;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
     <div class="text-muted py-5" style="text-align: center;" *ngIf="assignmentList.length ==0">
         You have not created any assignment yet.

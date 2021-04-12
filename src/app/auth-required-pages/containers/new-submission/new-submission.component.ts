@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -16,15 +17,27 @@ import { CommonService } from '../../services/common.service';
   preserveWhitespaces: true
 })
 export class NewSubmissionComponent implements OnInit {
-
+  
+  ///////////////////////////////////////////////////////
   fileInfos: Observable<any>;
   files: File[] = [];
   fileProgress = {};
-  filesGot;
+  filesGot = [];
   url = `${environment.apiUrl}/file/read/`;
-  fileIdViewed;
-
   asm$: Observable<any>
+
+  fileIdViewed;
+  allComments = [];
+  submissionId;
+  submissionDetails;
+  assignment;
+  userDetails;
+  comment = new FormControl('');
+  filesGotLoading: boolean = false;
+  commentsLoading: boolean = false;
+  postingComment: boolean = false;
+  ///////////////////////////////////////////////////////
+
   constructor(private uploadService: CommonService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
@@ -33,12 +46,8 @@ export class NewSubmissionComponent implements OnInit {
     private locationService: Location) { }
 
   ngOnInit(): void {
-
-    this.uploadService.getComment({ submissionId: 2 }).subscribe(
-      value => {
-        console.log(value)
-      }
-    )
+    this.filesGotLoading = true;
+    this.commentsLoading = true;
     //get assignment from asmId from route
     this.asm$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
@@ -72,20 +81,23 @@ export class NewSubmissionComponent implements OnInit {
                   if (this.submissionDetails[0].submissionId != undefined) {
                     this.submissionId = this.submissionDetails[0].submissionId
                     this.getFiles();
+                    this.uploadService.getComment({ submissionId: this.submissionId }).subscribe(
+                      value => {
+                        this.allComments = value.data;
+                      }
+                    )
                     // console.log(this.submissionId)
                   }
                 }
               }
             )
+            this.filesGotLoading = false;
+            this.commentsLoading = false;
           }
         }
       );
     })
   }
-  submissionId;
-  submissionDetails;
-  assignment;
-  userDetails;
 
   onSelect(event) {
     console.log(event);
@@ -162,5 +174,34 @@ export class NewSubmissionComponent implements OnInit {
   }
   goBack() {
     this.locationService.back();
+  }
+
+  submitComment() {
+    this.postingComment = true;
+    console.log(this.submissionId);
+    this.uploadService.addComment({ content: this.comment.value, submissionId: this.submissionId }).subscribe(
+      value =>
+      {
+        if (value.success) {
+          console.log('success');
+          this.getComment();
+          this.comment.setValue('');
+          this.postingComment = false;
+        }
+        else {
+          const message = `Failed to create comment. Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+          // this.toastrService.error(message)
+          console.log(message)
+        }
+      }
+    )
+  }
+
+  getComment() {
+    this.uploadService.getComment({ submissionId: this.submissionId }).subscribe(
+      value => {
+        this.allComments = value.data;
+        console.log(value.data)
+      });
   }
 }

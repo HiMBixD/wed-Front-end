@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { assignmentDetails } from 'src/app/auth-required-pages/interfaces/assignment';
 import { AssignmentDetailsService } from '../../../services/assignment-details.service';
 import { CommonService } from '../../../services/common.service';
 import { UserDetailsService } from '../../../services/user-details.service';
@@ -43,7 +44,7 @@ export class AssignmentListComponent implements OnInit {
   }
 
   //////////////////////////////////////////////////////
-  assignmentList = [];
+  assignmentList;
   userInfo;
   deadlineList = [];
   p = 1;
@@ -58,13 +59,7 @@ export class AssignmentListComponent implements OnInit {
   toBeUpdated;
   ////////////////////////////////////////////////////////
 
-  // @Output() asmDetails = new EventEmitter<assignmentDetails>();
-
   getAssignmentDetails(asm: assignmentDetails) {
-    // this.assignmentDetails.setAssignment(asm);
-    // this.asmDetails.emit(asm)
-
-    // console.log(asm.assignment.assignmentId)
     this.toBeUpdated = asm;
     this.assignmentName.setValue(asm.assignment.assignmentName);
     this.description.setValue(asm.assignment.description);
@@ -86,12 +81,17 @@ export class AssignmentListComponent implements OnInit {
   }
 
   newAssignment() {
+    // console.log(
+    //   this.assignmentName.value,
+    //   this.description.value,
+    //   this.userInfo.facultyId,
+    //   this.deadlineSelected
+    // )
     this.commonService.createAssignment({
-      assignName: this.assignmentName.value,
-      description: this.description.value,
+      assignName: String(this.assignmentName.value),
+      description: String(this.description.value),
       facultyId: this.userInfo.facultyId,
-      // deadlineId: parseInt(`${(<HTMLOptionElement>document.querySelector(`#deadline-select`)).value}`)
-      deadlineId: this.deadlineSelected
+      deadlineId: parseInt(this.deadlineSelected),
       //TODO: this currently doesn't return a value.
     }).subscribe(value => {
       if (value.success) {
@@ -110,12 +110,20 @@ export class AssignmentListComponent implements OnInit {
     console.log(this.description.value)
   }
 
+  clearValues() {
+    this.assignmentName.setValue('');
+    this.description.setValue('');
+    this.deadlineSelected.setValue('');
+    this.description.setValue('')
+  }
+
   updateAssignment() {
+    console.log(this.toBeUpdated.assignment.assignmentId, this.assignmentName.value, this.description.value, this.deadlineSelected)
     this.commonService.updateAssignment({
-      assignmentId: this.toBeUpdated.assignment.assignmentId,
-      assignmentName: this.assignmentName.value,
-      description: this.description.value,
-      deadlineId: this.deadlineSelected
+      assignmentId: parseInt(this.toBeUpdated.assignment.assignmentId),
+      assignmentName: String(this.assignmentName.value),
+      description: String(this.description.value),
+      deadlineId: parseInt(this.deadlineSelected),
     }).subscribe(value => {
       if (value.success) {
         this.toastrService.success(`Assignment "${this.assignmentName.value}" updated!`);
@@ -128,26 +136,18 @@ export class AssignmentListComponent implements OnInit {
       }
     })
   }
-}
 
-interface assignmentDetails {
-  assignment: assignment
-  selectedSub: number
-  totalSub: number
-}
-
-interface assignment {
-  assignmentId: number,
-  assignmentName: string,
-  create_by: string,
-  deadline: deadline,
-  deadlineId: number,
-  description: string,
-  facultyId: number,
-}
-
-interface deadline {
-  deadlineId: number,
-  endDate: string,
-  startDate: string,
+  syncAssignments() {
+    this.commonService.searchAssignment({
+      facultyId: '',
+      username: this.userInfo.userName,
+      deadlineId: ''
+    }).subscribe(
+      list => {
+        if (list) {
+          this.assignmentList = list.data;
+        }
+      }
+    )
+  }
 }

@@ -16,27 +16,44 @@
             → {{assignment?.deadline.endDate | date: 'dd-MM-YYYY'}}]
         </small>
     </h2>
-    <h5>Description:</h5>
+    <strong>Description:</strong>
     <p *ngIf="assignment?.description">{{assignment.description}}</p>
     <hr>
-    <h5>Your Submission</h5>
-    <h6>Submitted files <button class="btn btn-primary btn-sm" (click)="getFiles()"><i class="fas fa-sync-alt"></i> Sync</button></h6>
+    <h4>Your Submission</h4>
+    <h5>Submitted files <button class="btn btn-primary btn-sm" (click)="getFiles()"><i class="fas fa-sync-alt"></i>
+            Sync</button>
+    </h5>
+
+    <div *ngIf="filesGotLoading == false && filesGot.length == 0" style="text-align: center;" class="text-muted py-5">
+        You have not submitted any files.
+    </div>
     
-    <div>
-        <div>
-            <div *ngFor="let file of filesGot?.data || []">
-                <span>{{file.fileName}}</span>
-                <span><span (click)="fileIdViewed = file.fileId">View</span></span>
-            </div>
+    <div class="card" style="width: 18rem;" *ngIf="filesGot.length >0">
+        <div class="card-header">
+            Files List
+        </div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action" (click)="fileIdViewed = file.fileId"
+                *ngFor="let file of filesGot?.data || []">
+                {{file.fileName}}
+            </a>
         </div>
     </div>
-    //TODO: show Iframe or img depends on file type.
+    <!-- Spinner -->
+    <div *ngIf="filesGotLoading == true" class="d-flex justify-content-center align-self-center"
+        style="padding-top: 5%;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <!-- //TODO: show Iframe or img depends on file type. -->
     <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed"
         [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">
     </iframe>
     <img *ngIf="fileIdViewed" [src]="transform('https://wed-be.herokuapp.com/api/file/read/'+fileIdViewed)">
     <p></p>
-    <ngx-dropzone (change)="onSelect($event)" [accept]="'image/*,.doc, .docx'">
+    <h5>Submit</h5>
+    <ngx-dropzone (change)="onSelect($event)" [accept]="'image/*,.doc, .docx'" class="mb-2">
         <ngx-dropzone-label>Drag and drop images (png/jpeg/etc..) and documents (doc/docx) that you want to upload here
         </ngx-dropzone-label>
         <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
@@ -51,51 +68,79 @@
             </ngx-dropzone-label>
         </ngx-dropzone-preview>
     </ngx-dropzone>
-
-    <div class="col-12">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-            <label class="form-check-label" for="invalidCheck">
-                Agree to terms and conditions
-            </label>
-            <div class="invalid-feedback">
-                You must agree before submitting.
+    <form ngNativeValidate>
+        <div class="col-12 mb-2">
+            <div class="checkbox-group form-check" required>
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheck">
+                <label class="form-check-label" for="invalidCheck">
+                    Agree to terms and conditions
+                </label>
+                <!-- <div class="invalid-feedback">
+                    You must agree before submitting.
+                </div> -->
             </div>
         </div>
-    </div>
-    <button type="button" class="btn btn-primary" (click)="submit()"><i class="fas fa-upload"></i> Submit</button><br>
-
-    <hr>
-    <h5><i class="fas fa-comments"></i> Feedback</h5>
-
-    <section class="comments row mt-4">
-        <div class="col-1 d-none d-lg-block">
-            <img class="img-fluid img-thumbnail" src="https://via.placeholder.com/100" alt="">
-        </div>
-        <div class="col-lg-11 col-sm-12">
-            <div class="card">
-                <div class="card-header">
-                    <b>[placeholder]</b> left a comment at [time]
-                </div>
-                <div class="card-body">
-                    Yeah...This is some text within a card body.
-                </div>
-            </div>
-        </div>
-    </section><br>
-    <h6>New Comment</h6>
-    <form>
-        <textarea rows="5" class="form-control" id="assignment-description" placeholder="Write a comment..."
-            maxlength="850">
-        </textarea>
-        <div id='commentHelp' class="form-text">Comment must be less than 850 characters and contains no bad words.
-        </div>
-        <div>
-            <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i> Post Comment</button><br>
+        <div class="col-12 mb-2">
+        <button type="button" class="btn btn-primary" (click)="submit()"><i class="fas fa-upload"></i>
+            Submit</button><br>
         </div>
     </form>
+    <br>
+    <h5><i class="fas fa-comments"></i> Feedback</h5>
+    <hr>
+    <section *ngIf="allComments && allComments.length > 0">
+        <div class="comments row mt-4" *ngFor="let c of allComments">
+            <div class="col-1 d-none d-lg-block">
+                <img class="img-fluid img-thumbnail" src="https://via.placeholder.com/100" alt="">
+            </div>
+            <div class="col-lg-11 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <b>{{c.username}}</b> left a comment at {{c.createDate | date:
+                        'dd-MM-YYYY hh:mm'}}
+                    </div>
+                    <div class="card-body">
+                        {{c.content}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <h6>New Comment</h6>
+        <form>
+            <textarea rows="5" class="form-control" id="assignment-description" placeholder="Write a comment..."
+                maxlength="1000" [formControl]="comment">
+                </textarea>
+            <div id='commentHelp' class="form-text">Comment must be less than 1000 characters and contains no bad words.
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary" (click)="submitComment()">
+                    <i class="fas fa-edit" *ngIf="postingComment == false"></i>
+                    <span *ngIf="postingComment == true" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                    Post Comment
+                </button>
+                <br>
+            </div>
+        </form>
+        <!-- <button (click)="getComment()">Log comments</button> -->
+    </section>
+    <!-- Loading spinner -->
+    <section *ngIf="commentsLoading == true">
+        <div class="d-flex justify-content-center align-self-center" style="padding-top: 8%;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </section>
+    <!-- Loading spinner -->
+    <section *ngIf="allComments && allComments.length == 0 && commentsLoading == false">
+        <p class="text-muted py-5" style="text-align: center;">
+            Awaiting comment from Marketing Coordinator
+        </p>
+    </section>
 </main>
-<main class="container vh-100" *ngIf="assignment?.length ==0">
+<main class="container vh-100" *ngIf="assignment?.length ==0 && commentsLoading == false">
     <div class="my-auto mx-auto" style="text-align: center;">
         <p>Oops, there seems to be an error!</p>
         <p>It's likely that this page was refreshed.</p>
