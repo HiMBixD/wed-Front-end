@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/service/auth.service';
 import { facultyInterface } from '../../interfaces/interfaces';
 import { CommonService } from '../../services/common.service';
-import { UserDetailsService } from '../../services/user-details.service';
 
 @Component({
   selector: 'app-header',
@@ -41,6 +40,7 @@ userData;
   }
   facultyList: facultyInterface[] = [];
   getFacultyName(facultyId) {
-    return this.facultyList.find(faculty => +faculty.facultyId === +facultyId);
+    let name = this.facultyList.find(faculty => +faculty.facultyId === +facultyId);
+    return name.facultyName;
   }
 }

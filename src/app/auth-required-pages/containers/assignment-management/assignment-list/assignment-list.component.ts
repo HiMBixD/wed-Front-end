@@ -39,7 +39,7 @@ export class AssignmentListComponent implements OnInit {
     });
 
     //get assignment list by id
-    
+
     //populate assignmentList
   }
 
@@ -75,8 +75,25 @@ export class AssignmentListComponent implements OnInit {
         to: this.filterEnd.value
       }
     }).subscribe(value => {
-      this.deadlineList = value.data;
-      console.log(value)
+      if (value.success && value.data.length > 0) {
+        this.deadlineList = value.data;
+        console.log(value)
+        let message = document.querySelector('#deadlineAlertContainer');
+        message.innerHTML = `
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Found deadlines between ${this.filterStart.value} and ${this.filterEnd.value}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`
+      }
+      else {
+        let message = document.querySelector('#deadlineAlertContainer');
+        message.innerHTML = `
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Failed!</strong> No deadline found. Please try again.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`
+      }
+
     })
   }
 
