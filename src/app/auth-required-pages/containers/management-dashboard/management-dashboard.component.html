@@ -39,7 +39,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr scope="row" *ngFor="let s of this.overDueSub | paginate: { itemsPerPage: 5, currentPage: p }">
+      <tr scope="row" *ngFor="let s of this.overDueSub | paginate: { id: 'page1', itemsPerPage: 5, currentPage: p }">
         <td>{{s.assignmentName}}</td>
         <td>{{s.facultyName}}</td>
         <td>{{s.create_by}}</td>
@@ -50,6 +50,7 @@
       </tbody>
     </table>
   </div>
+  <pagination-controls id="page1" (pageChange)="p = $event"></pagination-controls>
   <hr>
   <h4 class="text-muted">Submissions currently without comment:</h4>
   <div class="table-responsive-md">
@@ -64,7 +65,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr scope="row" *ngFor="let n of this.notCommentedYet | paginate: { itemsPerPage: 5, currentPage: p }">
+      <tr scope="row" *ngFor="let n of this.notCommentedYet | paginate: {id: 'page2', itemsPerPage: 5, currentPage: p2 }">
         <td>{{n.assignmentName}}</td>
         <td>{{n.facultyName}}</td>
         <td>{{n.username}}</td>
@@ -74,5 +75,5 @@
       </tbody>
     </table>
   </div>
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <pagination-controls id="page2" (pageChange)="p2 = $event"></pagination-controls>
 </main>

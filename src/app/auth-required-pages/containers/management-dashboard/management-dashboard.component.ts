@@ -24,6 +24,7 @@ export class ManagementDashboardComponent implements OnInit {
   }
 
   public p = 1;
+  p2 = 1;
   private facultyList = [];
   private currentYear = new Date().getFullYear();
 
