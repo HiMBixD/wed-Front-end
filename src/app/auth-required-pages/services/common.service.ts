@@ -30,6 +30,16 @@ export class CommonService {
       });
   }
 
+  uploadImportRoot(body: { file: File}): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+    formData.append('file', body.file);
+    return this.http
+      .post(`${environment.apiUrl}/file/import-root`, formData, {
+        reportProgress: true,
+        observe: 'events',
+      });
+  }
+
   // searchUser(body: {username: string}): Observable<any> {
   // }
   changePassword(data: { username: string, oldPassword: string, newPassword: string }): Observable<any> {
@@ -132,8 +142,8 @@ export class CommonService {
 
   /**
    * Search for submission using username, assignmentId or status
-   * @param submission 
-   * @returns 
+   * @param submission
+   * @returns
    */
   searchSubmission(submission: {
     username: string,
@@ -152,8 +162,8 @@ export class CommonService {
 
   /**
    * For students: Submit new submission by assignmentId
-   * @param submission 
-   * @returns 
+   * @param submission
+   * @returns
    */
   submitSubmission(submission: {
     assignmentId: number
@@ -234,8 +244,8 @@ export class CommonService {
 
   /**
    * Update existing assignment
-   * @param assignment 
-   * @returns 
+   * @param assignment
+   * @returns
    */
   updateAssignment(assignment: {
     assignmentId: number,
@@ -244,6 +254,13 @@ export class CommonService {
     deadlineId: number,
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/edit-assignment`, assignment)
+  }
+
+  submissionStatus(status: {
+    submissionId: number,
+    status: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/select-submission`, status)
   }
 }
 

@@ -66,9 +66,10 @@ export class SubmissionsEvaluationComponent implements OnInit {
   comment = new FormControl('');
   currentSubmissionId: number;
   commentLoading: boolean = false;
+  statusSelected;
   ///////////////////////////////////////////////
 
-  getFiles(submissionId, username) {
+  getFiles(submissionId, username, status) {
     this.filesGotLoading = true;
     this.commentLoading = true;
     this.currentSubmissionId = submissionId
@@ -80,6 +81,7 @@ export class SubmissionsEvaluationComponent implements OnInit {
         }
       }
     );
+    this.statusSelected = status;
     this.filesGotLoading = false;
     this.getComment(submissionId);
     this.currentUser = username;
@@ -119,6 +121,7 @@ export class SubmissionsEvaluationComponent implements OnInit {
   syncSubmissions() {
     this.asm$.subscribe(value => {
       this.assignmentDetails = value.data;
+      this.statusSelected = value.data.status;
       //get all submissions from this ID
       this.commonService.searchSubmission({
         username: '',
@@ -131,5 +134,21 @@ export class SubmissionsEvaluationComponent implements OnInit {
       )
       this.initialLoading = false;
     })
+  }
+  setSubmissionStatus() {
+    console.log(this.statusSelected)
+    this.commonService.submissionStatus({
+      submissionId: this.currentSubmissionId,
+      status: this.statusSelected
+    }).subscribe(
+      value => {
+        if (value.success) {
+          this.toastr.success("Update submission status successfully!");
+        }
+        else {
+          this.toastr.error("Status update failed. Please try again.")
+        }
+      }
+    )
   }
 }

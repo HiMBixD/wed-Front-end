@@ -80,7 +80,7 @@
                     <tr *ngFor="let s of submissionList | paginate: { itemsPerPage: 5, currentPage: submissionPage }">
                         <td>{{s.submissionId}}</td>
                         <td>{{s.username}}</td>
-                        <td>{{s.submissionDate}}</td>
+                        <td>{{s.submissionDate | date: 'dd-MM-YYYY'}}</td>
                         <td>
                             <button type="button" class="btn btn-primary"
                                 (click)="getFiles(s.submissionId, s.username)">

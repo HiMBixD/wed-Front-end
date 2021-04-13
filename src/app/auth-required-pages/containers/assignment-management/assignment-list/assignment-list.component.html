@@ -119,7 +119,7 @@
             </div>
         </div>
     </div>
-    <div class="text-muted py-5" style="text-align: center;" *ngIf="assignmentList.length ==0">
+    <div class="text-muted py-5" style="text-align: center;" *ngIf="assignmentList && assignmentList.length ==0">
         You have not created any assignment yet.
     </div>
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
