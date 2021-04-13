@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { assignmentStatus } from '../../interfaces/assignment';
-import { CommonService } from '../../services/common.service';
+import {Component, OnInit} from '@angular/core';
+import {assignmentStatus} from '../../interfaces/assignment';
+import {CommonService} from '../../services/common.service';
+import {environment} from '../../../../environments/environment';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-guest-portal',
@@ -10,8 +12,15 @@ import { CommonService } from '../../services/common.service';
 })
 export class GuestPortalComponent implements OnInit {
 
-  constructor(private commonService: CommonService) {
-    
+  url = `${environment.apiUrl}/file/read/`;
+  viewedFile: any;
+  fileTypes = ['apng', 'avif', 'gif', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp'];
+  fileIdViewed: any;
+
+
+  constructor(private commonService: CommonService,
+              private sanitizer: DomSanitizer) {
+
   }
 
   ngOnInit(): void {
@@ -29,6 +38,7 @@ export class GuestPortalComponent implements OnInit {
       }
     });
   }
+
   ///////////////////////////////////////////////////////////////////////////////////
   userDetails;
   facultyList;
@@ -37,19 +47,28 @@ export class GuestPortalComponent implements OnInit {
   submissionPage: number = 1;
   currentUser: string;
 
-  selectedSubmissions = []
+  selectedSubmissions = [];
   assignmentList = [];
   submissionList = [];
   filesList = [];
+
   //////////////////////////////////////////////////////////////////////////////////
 
   getFacultyName(facultyId) {
     if (facultyId == null) {
       return null;
-    }
-    else {
+    } else {
       return this.facultyList.find(faculty => +faculty.facultyId === +facultyId);
     }
+  }
+
+  transform(url): any {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  checkFileTypes(): any {
+    const fileExtension = this.viewedFile?.fileName?.split('.').reverse()[0];
+    return this.fileTypes.includes(fileExtension?.toLowerCase());
   }
 
   showAllAssignments() {
@@ -61,10 +80,10 @@ export class GuestPortalComponent implements OnInit {
       list => {
         if (list) {
           this.assignmentList = list.data;
-          console.log(list)
+          console.log(list);
         }
       }
-    )
+    );
   }
 
   showAllSubmissions(assId: any) {
@@ -74,14 +93,14 @@ export class GuestPortalComponent implements OnInit {
       status: assignmentStatus.selected
     }).subscribe(value => {
       if (value) {
-        this.submissionList = value.data
-        console.log(value)
+        this.submissionList = value.data;
+        console.log(value);
       }
-    })
+    });
   }
 
   getFiles(submissionId, username) {
-    this.commonService.getFilesBySub({ submissionId }).subscribe(
+    this.commonService.getFilesBySub({submissionId}).subscribe(
       value => {
         if (value.success) {
           this.filesList = value.data;
@@ -90,9 +109,8 @@ export class GuestPortalComponent implements OnInit {
       }
     );
     this.currentUser = username;
-  }  
+  }
 }
-
 
 
 interface selectedSubmission {
