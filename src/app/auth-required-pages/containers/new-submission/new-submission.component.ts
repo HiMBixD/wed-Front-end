@@ -207,10 +207,11 @@ export class NewSubmissionComponent implements OnInit {
           this.getComment();
           this.comment.setValue('');
           this.postingComment = false;
+          this.toastr.success('Comment posted successfully!');
         }
         else {
           const message = `Failed to create comment. Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
-          // this.toastrService.error(message)
+          this.toastr.error('Failed to create comment. Please try again')
           console.log(message)
         }
       }

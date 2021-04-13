@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { switchMap } from 'rxjs/operators';
 import { AssignmentDetailsService } from 'src/app/auth-required-pages/services/assignment-details.service';
 import { CommonService } from 'src/app/auth-required-pages/services/common.service';
@@ -13,7 +15,9 @@ export class SubmissionsEvaluationComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private commonService: CommonService,
-  private asmService: AssignmentDetailsService) { }
+    private asmService: AssignmentDetailsService,
+    private toastr: ToastrService,
+  ) { }
 
   ngOnInit(): void {
     this.asm$ = this.route.paramMap.pipe(
@@ -25,7 +29,9 @@ export class SubmissionsEvaluationComponent implements OnInit {
         )
       })
     );
-    
+
+    this.initialLoading = true;
+
     this.asm$.subscribe(value => {
       this.assignmentDetails = value.data;
       console.log(this.assignmentDetails);
@@ -41,19 +47,31 @@ export class SubmissionsEvaluationComponent implements OnInit {
           this.submissionList = value.data;
         }
       )
+      this.initialLoading = false;
     })
 
-    
   }
   ////////////////////////////////////////////////
+  filesGotLoading: boolean = false;
+  initialLoading: boolean = false;
   p = 1;
+  cmtPage: number = 1;
   asm$;
   assignmentDetails;
   submissionList = [];
   filesList = [];
   currentUser;
+  allComments = [];
+  postingComment: boolean = false;
+  comment = new FormControl('');
+  currentSubmissionId: number;
+  commentLoading: boolean = false;
   ///////////////////////////////////////////////
+
   getFiles(submissionId, username) {
+    this.filesGotLoading = true;
+    this.commentLoading = true;
+    this.currentSubmissionId = submissionId
     this.commonService.getFilesBySub({ submissionId }).subscribe(
       value => {
         if (value.success) {
@@ -62,7 +80,56 @@ export class SubmissionsEvaluationComponent implements OnInit {
         }
       }
     );
+    this.filesGotLoading = false;
+    this.getComment(submissionId);
     this.currentUser = username;
+    this.commentLoading = false;
   }
 
+  getComment(submissionId: number) {
+    this.commentLoading = true;
+    this.commonService.getComment({ submissionId: submissionId }).subscribe(
+      value => {
+        this.allComments = value.data.reverse();
+        console.log(value.data)
+      });
+    this.commentLoading = false;
+  }
+
+  submitComment() {
+    this.postingComment = true;
+    console.log(this.currentSubmissionId);
+    this.commonService.addComment({ content: this.comment.value, submissionId: this.currentSubmissionId }).subscribe(
+      value => {
+        if (value.success) {
+          console.log('success');
+          this.getComment(this.currentSubmissionId);
+          this.comment.setValue('');
+          this.postingComment = false;
+          this.toastr.success('Comment posted successfully!');
+        }
+        else {
+          const message = `Failed to create comment. Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+          this.toastr.error('Failed to create comment. Please try again')
+          console.log(message)
+        }
+      }
+    )
+  }
+  syncSubmissions() {
+    this.asm$.subscribe(value => {
+      this.assignmentDetails = value.data;
+      //get all submissions from this ID
+      this.commonService.searchSubmission({
+        username: '',
+        assignmentId: this.assignmentDetails.assignmentId,
+        status: null,
+      }).subscribe(
+        value => {
+          this.submissionList = value.data;
+        }
+      )
+      this.initialLoading = false;
+    })
+  }
 }

@@ -3,6 +3,7 @@
 $offWhite : #ECF4FA;
 $mainGrey :  #B4B4C0;
 $mainBlue : #3454D8;
+$mainBlueHover: #2742B3;
 
 .mainBlue {
     color: $mainBlue
@@ -14,5 +15,19 @@ $mainBlue : #3454D8;
 
 .offWhite{
     color: $offWhite
+}
+.btn-custom-primary{
+  background-color: $mainBlue;
+  color: white;
+}
+
+.btn-custom-primary:hover{
+    background-color: $mainBlueHover;
+    color: white;
+}
+
+.btn-custom-primary:active ::selection{
+    background-color: $mainBlueHover;
+    color: white;
 }
 
