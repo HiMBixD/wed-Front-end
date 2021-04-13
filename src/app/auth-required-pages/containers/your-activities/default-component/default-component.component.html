@@ -133,7 +133,23 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <a [href]="url">Get Root</a>
+        <div class="row mb-3">
+          <div class="col">
+            <a [href]="url">Get Root</a>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <input type="file" (change)="onSelect($event)">
+            <div class="progress" *ngIf="fileProgress > 0">
+              <div style="width: 150px" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                   [attr.aria-valuenow]="fileProgress" aria-valuemin="0" aria-valuemax="100"
+                   [ngStyle]="{ width: fileProgress + '%' }">
+                {{fileProgress + '%'}}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #cancelButton>Cancel</button>
