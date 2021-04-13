@@ -28,7 +28,7 @@
         You have not submitted any files.
     </div>
     
-    <div class="card" style="width: 18rem;" *ngIf="filesGot.length >0">
+    <div class="card" style="width: 18rem;" *ngIf="filesGotLoading == false && filesGot.length !== 0">
         <div class="card-header">
             Files List
         </div>
@@ -46,6 +46,7 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
+    <!-- Spinner -->
     <!-- //TODO: show Iframe or img depends on file type. -->
     <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed"
         [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">

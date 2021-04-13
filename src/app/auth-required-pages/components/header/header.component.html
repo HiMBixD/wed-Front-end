@@ -1,20 +1,23 @@
 <header class="blog-header py-3">
     <div class="navbar navbar-light bg-light row flex justify-content-between align-items-center">
-        <div class="d-flex mb-3" *ngIf="userData">
-            <div class="me-auto">
-                <p *ngIf="userData.facultyId" class="link-secondary" routerLink="frontPage">
-                    {{getFacultyName(userData.facultyId).facultyName}} Department
+        <div class="d-flex mb-3">
+            <div class="me-auto" *ngIf="!userData">
+                
+            </div>
+            <div class="me-auto" *ngIf="userData">
+                <p *ngIf="userData.facultyId" class="link-dark" routerLink="frontPage">
+                    {{getFacultyName(userData.facultyId)}} Department
                 </p>
-                <p class="link-secondary" *ngIf="userData.role.roleName == 'ROLE_ADMIN'" routerLink="frontPage">
+                <p class="link-dark" *ngIf="userData.role.roleName == 'ROLE_ADMIN'" routerLink="frontPage">
                     Administrator Privilege
                 </p>
-                <p class="link-secondary" *ngIf="userData.role.roleName == 'ROLE_MANAGER'" routerLink="frontPage">
+                <p class="link-dark" *ngIf="userData.role.roleName == 'ROLE_MANAGER'" routerLink="frontPage">
                     Marketing Manager
                 </p>
             </div>
             <div>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    <button class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user"></i>
                         <span class="ms-1 d-none d-lg-inline-block d-inline"
@@ -29,13 +32,13 @@
                         </li>
                         <li>
                             <a class="dropdown-item" routerLink="yourActivities">
-                                <i class="fas fa-list-alt text-muted"></i>
-                                    Your Activities
+                                <i class="fas fa-list-alt"></i>
+                                Your Activities
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item" routerLink="accountSettings">
-                                <i class="fas fa-cog text-muted"></i> Account Settings
+                                <i class="fas fa-cog"></i> Account Settings
                             </a>
                         </li>
                         <li>
@@ -43,7 +46,7 @@
                         </li>
                         <li (click)="onLogOut()">
                             <a class="dropdown-item" href="#">
-                                <i class="fas fa-sign-out-alt text-muted"></i>
+                                <i class="fas fa-sign-out-alt"></i>
                                 Logout
                             </a>
                         </li>
@@ -55,24 +58,27 @@
         <div class="d-flex justify-content-center">
             <div class="col-12 text-center">
                 <p class="site-header-logo text-dark" routerLink="frontPage">University of Greenwich</p>
-                <h6 class="text-muted">Magazine Submission System</h6>
+                <h6>Magazine Submission System</h6>
             </div>
         </div>
     </div>
 
     <div class="navbar navbar-light bg-light row flex-wrap align-items-center nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link p-2 link-secondary" routerLink="frontPage"><i class="fas fa-home"></i> Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link p-2 link-secondary" routerLink="yourActivities"><i class="fas fa-list-alt"></i> Your
-                    Activities</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link p-2 link-secondary" routerLink="accountSettings"><i class="fas fa-cog"></i> Account
-                    Settings</a>
-            </li>
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link p-2 link-dark" routerLink="frontPage"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link p-2 link-dark" routerLink="yourActivities"><i class="fas fa-list-alt"></i>
+                        Your
+                        Activities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link p-2 link-dark" routerLink="accountSettings"><i class="fas fa-cog"></i> Account
+                        Settings</a>
+                </li>
+            </ul>
         </nav>
     </div>
 </header>
