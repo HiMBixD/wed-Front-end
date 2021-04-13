@@ -88,6 +88,6 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   getFacultyName(facultyId) {
-    return this.facultyList.find(faculty => +faculty.facultyId === +facultyId);
+    return this.facultyList?.find(faculty => +faculty.facultyId === +facultyId);
   }
 }

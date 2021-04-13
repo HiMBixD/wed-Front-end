@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {DomSanitizer} from "@angular/platform-browser";
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-test-file-page',
   templateUrl: './test-file-page.component.html',
@@ -20,8 +20,13 @@ export class TestFilePageComponent implements OnInit {
   fileIdViewed;
   ngOnInit(): void {
     this.getFiles(2);
+    this.test();
   }
 
+  test() {
+    console.log(moment(new Date()).add(14 * 24 * 60 * 60 * 1000).format());
+    console.log(moment(new Date()).unix());
+  }
   constructor(private uploadService: OtherPageService, private sanitizer: DomSanitizer) {
   }
 
