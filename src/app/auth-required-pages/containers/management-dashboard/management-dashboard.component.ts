@@ -2,11 +2,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ChartOptions, ChartType} from 'chart.js';
 import {Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet} from 'ng2-charts';
-import {mockNoCommentYet} from '../../interfaces/exReport';
 import {CommonService} from '../../services/common.service';
 import {assignment} from '../../interfaces/assignment';
-import {element} from 'protractor';
-
 
 @Component({
   selector: 'app-management-dashboard',
@@ -20,7 +17,6 @@ export class ManagementDashboardComponent implements OnInit {
   private assignment: assignment;
   public overDueSub = [];
   public notCommentedYet = [];
-  private dataSet = [];
 
   constructor(private commonService: CommonService) {
     monkeyPatchChartJsTooltip();
@@ -45,6 +41,9 @@ export class ManagementDashboardComponent implements OnInit {
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
+  public pieChartColors: Array<any> = [{
+    backgroundColor: ['rgb(255,161,181)', 'rgb(134,199,243)', 'rgb(255,226,154)', 'rgb(59,83,196)', 'rgb(255,161,181)', 'rgb(255,161,181)'],
+  }];
 
   getFacultyChart(): any {
     if (this.facultyList) {
