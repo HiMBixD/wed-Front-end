@@ -1,0 +1,113 @@
+<main class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink='/frontPage' routerLinkActive="active">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink='/yourActivities' routerLinkActive="active">Your Activity</a></li>
+            <li class="breadcrumb-item"><a routerLink='/yourActivities/assignmentManagement' routerLinkActive="active">
+                    Assignment Management</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Submission Evaluation
+            </li>
+        </ol>
+    </nav>
+    <h2>Submission Evaluation</h2>
+    <hr>
+    <h3 *ngIf="assignmentDetails"><i class="fas fa-tasks"></i> All Submissions for
+        "{{assignmentDetails.assignmentName}}"</h3>
+    <small class="text-muted">Please review and give feedback to submissions in a timely manner.</small>
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Submitted On</th>
+                    <th>Comments</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let l of submissionList | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{l.username}}</td>
+                    <td>{{l.submissionDate |
+                        date: 'dd-MM-YYYY'}}</td>
+                    <td>{{l.totalComment}}</td>
+                    <td>{{this.asmService.statusDecoder(l.status)}}</td>
+                    <td>
+                        <button class="btn btn-primary" (click)="getFiles(l.submissionId, l.username)">View</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-muted py-5" style="text-align: center;" *ngIf="submissionList.length ==0">
+        No submission found for this assignment.
+    </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <hr>
+    <h3>Submission Details <small *ngIf="currentUser" class="text-muted">for {{currentUser}}</small></h3>
+    <h4><i class="fas fa-folder-open"></i> Files</h4>
+    <div *ngIf="filesList.length ==0 && !currentUser" style="text-align: center;" class="text-muted py-5">Please choose
+        a
+        submission to view all files</div>
+    <div *ngIf="filesList.length ==0 && currentUser" style="text-align: center;" class="text-muted py-5">No files found
+        for
+        this user. Please contact Administrator regarding this problem.</div>
+
+    <div class="card" style="width: 18rem;" *ngIf="filesList.length >0">
+        <div class="card-header">
+            All files submitted by "{{currentUser}}"
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let f of filesList">
+                <a (click)="viewFiles">{{f.fileName}}</a>
+            </li>
+        </ul>
+    </div>
+    <div style="background-color:#F5F5F5">
+        <hr>
+        <h4><i class="fas fa-file"></i> Preview</h4>
+
+        <div style="text-align: center;" class="text-muted py-5">Please
+            choose a file to preview</div>
+
+    </div>
+    <hr>
+    <div>
+        <h3><i class="fas fa-comments"></i> Feedback</h3>
+        <div *ngIf="!currentUser" style="text-align: center;" class="text-muted py-5">
+            Please choose a submission to give feedback
+        </div>
+        <div *ngIf="currentUser">
+            <section class="comments row mt-4">
+                <div class="col-1 d-none d-lg-block">
+                    <img class="img-fluid img-thumbnail" src="https://via.placeholder.com/100" alt="">
+                </div>
+                <div class="col-lg-11 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>[placeholder]</b> left a comment at [time]
+                        </div>
+                        <div class="card-body">
+                            Yeah...This is some text within a card body.
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <br>
+            <h6>New Comment</h6>
+            <form>
+                <textarea rows="5" class="form-control" id="assignment-description" placeholder="Write a comment..."
+                    maxlength="850">
+                </textarea>
+                <div id='commentHelp' class="form-text">Comment must be less than 850 characters and contains no bad
+                    words.
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i> Post Comment</button><br>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

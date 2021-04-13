@@ -17,10 +17,15 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ///////////////////////////////////////////
-  @Input() userData?;
+userData;
   // facultyName;
   /////////////////////////////////////////////
   ngOnInit(): void {
+    this.commonService.getMyInfo({}).subscribe(
+      value => {
+        this.userData = value.data
+      }
+    )
     this.commonService.getFaculties().subscribe(
       f => {
         if (f?.success) {

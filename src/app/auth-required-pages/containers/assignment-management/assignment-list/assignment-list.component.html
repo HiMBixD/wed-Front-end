@@ -1,0 +1,106 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink='/frontPage' routerLinkActive="active">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink='/yourActivities' routerLinkActive="active">Your Activity</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Assignment Management</li>
+        </ol>
+    </nav>
+</div>
+<main class="container">
+    <h1>Assignment management</h1>
+    <hr>
+    <h2>New Assignment</h2>
+    <form ngNativeValidate action="javascript:void(0)">
+        <label class="form-label" for="search">Deadline Period</label>
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon3">Start Date</span>
+            <input class="form-control inline" type="date" id="filterStartDate" [formControl]="filterStart">
+            <span class="input-group-text" id="basic-addon3">End Date</span>
+            <input class="form-control inline" type="date" id="filterEndDate" [formControl]="filterEnd">
+            <button class="btn btn-outline-primary" type="submit" (click)="onSearch()">Search</button>
+        </div>
+        <div id="searchHelp" class="form-text mb-3">Search for pre-assigned deadlines in a time range.</div>
+        <div class="mb-3">
+            <label class="form-label" for="deadlines-select">Deadline</label>
+            <select id="deadlines-select" class="form-select" required [(ngModel)]="deadlineSelected" name="deadlineSelect">
+                <option disabled selected="selected">Please Search for Time range and Select appropriate deadline</option>
+                <option *ngFor="let d of deadlineList" [value]="d.deadlineId" [selected]="" value="{{d.deadlineId}}">{{d.deadlineId}} : {{d.startDate | date:
+                    'dd-MM-YYYY'}} - {{d.endDate | date: 'dd-MM-YYYY'}}</option>
+            </select>
+        </div>
+        <p>Selected option: {{deadlineSelected}}</p>
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input class="form-control" id="assignment-title" placeholder="Assignment Title" maxlength="100"
+                [formControl]="assignmentName" required>
+            <div id="assignmenttHelp" class="form-text">Title must be less than 100 characters long.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea rows="5" class="form-control" id="assignment-description"
+                placeholder="Short description about what student should write about, words limit...etc." maxlength="850"
+                [formControl]="description" required></textarea>
+            <div id="descriptionHelp" class="form-text">Description must be less than 850 characters long.</div>
+        </div>
+        <!-- <label class="form-label">Deadline</label>
+        <p>TODO: get deadline from database.</p> -->
+        <div>
+            <button type="submit" type="button" class="btn btn-primary" (click)="newAssignment()">Submit</button>
+            <button class="btn btn-primary" (click)="updateAssignment()">Update</button>
+            <button type="button" class="btn btn-secondary" (click)="clearValues()">Clear</button>
+        </div>
+    </form>
+    <hr>
+    <h2>My Assignment 
+        <button (click)="syncAssignments()" class="btn btn-primary btn-sm" ><i class="fas fa-sync-alt"></i> Sync</button>
+    </h2>
+    <span class="text-muted" *ngIf="userInfo">All assignments created by "{{userInfo.userName}}"</span>
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Issues no.</th>
+                    <!-- <th>Assignment ID</th> -->
+                    <th>Assignment Name</th>
+                    <th>Creator</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Total Submissions</th>
+                    <th>Evaluated?</th>
+                    <th>Submissions</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor ="let l of assignmentList | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{l.assignment.deadline.deadlineId}}</td>
+                    <!-- <td>{{l.assignment.assignmentId}}</td> -->
+                    <td>{{l.assignment.assignmentName}}</td>
+                    <td>{{l.assignment.create_by}}</td>
+                    <td>{{l.assignment.deadline.startDate | date: 'dd-MM-YYYY'}}</td>
+                    <td>{{l.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}</td>
+                    <td>{{l.totalSub}}</td>
+                    <td style="color: red">{{l.selectedSub}}/{{l.totalSub}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" [routerLink]="['submissionEvaluation',l.assignment.assignmentId]">View Submissions</button> 
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" (click)="getAssignmentDetails(l)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="!assignmentList">
+        <div class="d-flex justify-content-center align-self-center" style="padding-top: 8%;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="text-muted py-5" style="text-align: center;" *ngIf="assignmentList.length ==0">
+        You have not created any assignment yet.
+    </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</main>

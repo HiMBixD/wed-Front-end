@@ -1,2 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.min.css";
+$offWhite : #ECF4FA;
+$mainGrey :  #B4B4C0;
+$mainBlue : #3454D8;
+
+.mainBlue {
+    color: $mainBlue
+}
+
+.mainGrey {
+    color: $mainGrey
+}
+
+.offWhite{
+    color: $offWhite
+}
+

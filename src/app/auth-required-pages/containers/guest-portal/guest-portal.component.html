@@ -1,3 +1,131 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink='/frontPage' routerLinkActive="active">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink='/yourActivities' routerLinkActive="active">Your Activity</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Selected Submissions</li>
+        </ol>
+    </nav>
+</div>
 <main class="container">
-    <h2>Selected Submission for Department of {{getFacultyName(userDetails.facultyId).facultyName}}</h2>
+    <h2 *ngIf="userDetails">Selected Submission for Department of {{getFacultyName(userDetails.facultyId).facultyName}}
+    </h2>
+    <hr>
+    <h3>View by issues:</h3>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Enter Issue Number" aria-label="Issue Number"
+            aria-describedby="button-addon2">
+        <button class="btn btn-outline-primary" type="button" id="button-addon2">Search</button>
+        <button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="showAllAssignments()">Show
+            all</button>
+    </div>
+    <hr>
+    <h3><i class="fas fa-list-ul"></i>
+        Assignment List</h3>
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Issues no.</th>
+                    <th>Assignment ID</th>
+                    <th>Assignment Title</th>
+                    <th>Faculty</th>
+                    <th>Creator</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Total Selected Submissions</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="assignmentList.length > 0">
+                <tr *ngFor="let l of assignmentList | paginate: { itemsPerPage: 10, currentPage: assignmentPage }">
+                    <td>{{l.assignment.deadline.deadlineId}}</td>
+                    <td>{{l.assignment.assignmentId}}</td>
+                    <td>{{l.assignment.assignmentName}}</td>
+                    <td>{{getFacultyName(l.assignment.facultyId).facultyName}}</td>
+                    <td>{{l.assignment.create_by}}</td>
+                    <td>{{l.assignment.deadline.startDate | date: 'dd-MM-YYYY'}}</td>
+                    <td>{{l.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}</td>
+                    <td style="color: red">{{l.selectedSub}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary"
+                            (click)="showAllSubmissions(l.assignment.assignmentId)">View
+                            Submissions</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: center;" *ngIf="assignmentList.length == 0" class="text-muted py-5">
+        Please enter an Issues number to get Assignments with corresponding Issues number, or click "Show
+        All" to get all assignments.
+    </div>
+    <pagination-controls (pageChange)="assignmentPage = $event"></pagination-controls>
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+    <div style="background-color:#F5F5F5">
+        <hr>
+        <h3><i class="fas fa-list-ol"></i> Submissions List</h3>
+        <div class="table-responsive-md">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Submission Id</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Submission date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let s of submissionList | paginate: { itemsPerPage: 5, currentPage: submissionPage }">
+                        <td>{{s.submissionId}}</td>
+                        <td>{{s.username}}</td>
+                        <td>{{s.submissionDate}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary"
+                                (click)="getFiles(s.submissionId, s.username)">
+                                View Files
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="submissionList.length ==0" style="text-align: center;" class="text-muted py-5">Please select an
+            Assignment
+            on the first table to view its submissions.
+        </div>
+        <pagination-controls (pageChange)="submissionPage = $event"></pagination-controls>
+
+        <hr>
+    </div>
+    <h3><i class="fas fa-folder-open"></i> Files</h3>
+    <div *ngIf="filesList.length ==0 && !currentUser" style="text-align: center;" class="text-muted py-5">Please choose
+        a
+        submission to view all files</div>
+    <div *ngIf="filesList.length ==0 && currentUser" style="text-align: center;" class="text-muted py-5">No files found
+        for this user. Please contact Administrator regarding this problem.</div>
+    <!-- <p>All files submitted by [mimi123]</p> -->
+    <div class="card" style="width: 18rem;" *ngIf="filesList.length >0">
+        <div class="card-header">
+            All files submitted by "{{currentUser}}"
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let f of filesList">
+                <a (click)="viewFiles">{{f.fileName}}</a>
+            </li>
+        </ul>
+    </div>
+    <div style="background-color:#F5F5F5">
+        <hr>
+        <h3><i class="fas fa-file"></i> Preview</h3>
+        <!-- <div style="text-align: center;" class="text-muted py-5" *ngIf="!currentUser && filesList.length >0">Please
+            choose a
+            file to preview</div> -->
+        <div style="text-align: center;" class="text-muted py-5">Please
+            choose a file to preview</div>
+        <!-- <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed"
+            [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">
+        </iframe> -->
+    </div>
 </main>

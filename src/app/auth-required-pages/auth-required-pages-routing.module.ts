@@ -8,14 +8,15 @@ import { FrontPageComponent } from './containers/front-page/front-page.component
 import { YourActivitiesComponent } from './containers/your-activities/your-activities.component';
 import { Error403Component } from './containers/error403/error403.component';
 import { ManagementDashboardComponent } from './containers/management-dashboard/management-dashboard.component';
-import { DefaultComponentComponent } from './containers/default-component/default-component.component';
+import { DefaultComponentComponent } from './containers/your-activities/default-component/default-component.component';
 import { ClosureManagementComponent } from './containers/closure-management/closure-management.component';
 import { SelectedSubmissionBrowserComponent } from './containers/selected-submission-browser/selected-submission-browser.component';
-import { AssignmentListComponent } from './containers/assignment-list/assignment-list.component';
-import { MySubmissionComponent } from './containers/my-submission/my-submission.component';
+import { AssignmentListComponent } from './containers/assignment-management/assignment-list/assignment-list.component';
 import { SubmissionPortalComponent } from './containers/submission-portal/submission-portal.component';
-import { SubmissionHomeComponent } from './containers/submission-home/submission-home.component';
+import { SubmissionHomeComponent } from './containers/submission-portal/submission-home/submission-home.component';
 import { GuestPortalComponent } from './containers/guest-portal/guest-portal.component';
+import { SubmissionsEvaluationComponent } from './containers/assignment-management/submissions-evaluation/submissions-evaluation.component';
+import { AssignmentManagementComponent } from './containers/assignment-management/assignment-management.component';
 
 const routes: Routes = [
   {
@@ -74,30 +75,39 @@ const routes: Routes = [
             path: 'selectedSubmissions', component: SelectedSubmissionBrowserComponent,
           },
           {
+            path: 'assignmentManagement', component: AssignmentManagementComponent,
+            children: [
+              {
+                path: '', component: AssignmentListComponent
+              },
+              {
+                path: 'submissionEvaluation/:asmId', component: SubmissionsEvaluationComponent
+              }
+            ]
+          },
+          {
             path: 'assignmentList', component: AssignmentListComponent,
+            children: [
+              {
+                path: 'submissionEvaluation', component: SubmissionsEvaluationComponent
+              }
+            ]
           },
           {
             path: 'newAssignment', component: NewAssignmentComponent,
           },
           {
-            path: 'submissionPortal', component: MySubmissionComponent,
+            path: 'submissionPortal', component: SubmissionPortalComponent,
             children: [
               {
                 path: '',
                 component: SubmissionHomeComponent
               },
-              // {
-              //   path: 'mySubmission/:asmId', component: NewSubmissionComponent,
-              // },
               {
-                path: 'mySubmission', component: NewSubmissionComponent,
+                path: 'mySubmission/:asmId', component: NewSubmissionComponent,
               },
             ]
           },
-          
-          // {
-          //   path: 'newSubmission', redirectTo: '/newSubmission', pathMatch: 'full'
-          // },
           {
             path: 'guestPortal', component: GuestPortalComponent
           },

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { assignmentStatus } from '../../interfaces/assignment';
-import { AssignmentDetailsService } from '../../services/assignment-details.service';
-import { CommonService } from '../../services/common.service';
+import { assignmentStatus } from '../../../interfaces/assignment';
+import { AssignmentDetailsService } from '../../../services/assignment-details.service';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-submission-home',
@@ -54,10 +54,12 @@ export class SubmissionHomeComponent implements OnInit {
     )
   }
 
-
+  /////////////////////////////////////////////////////////////
+  subHomePage = 1;
   userDetails;
   availableAssignment;
   mySubmittedAssignment;
+  /////////////////////////////////////////////////////////////
 
   findAssignment(asmId: number) {
     let foundAssignment
@@ -66,7 +68,18 @@ export class SubmissionHomeComponent implements OnInit {
         if (value.success) {
           foundAssignment = value.data;
           this.asmDetails.setAssignment(foundAssignment);
-          this.router.navigate(['/yourActivities/submissionPortal/mySubmission']);
+          this.router.navigate([`/yourActivities/submissionPortal/mySubmission/${asmId}`]);
+          return foundAssignment;
+        }
+      }
+    )
+  }
+  findAsmDetails(asmId: number) {
+    let foundAssignment
+    this.commonService.getAssignmentById({ assignmentId: asmId }).subscribe(
+      value => {
+        if (value.success) {
+          foundAssignment = value.data;
           return foundAssignment;
         }
       }

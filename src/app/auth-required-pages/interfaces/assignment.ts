@@ -19,6 +19,7 @@ export interface deadline {
     endDate: string,
     startDate: string,
 }
+
 export enum assignmentStatus {
     noAction = 0,
     selected = 1,

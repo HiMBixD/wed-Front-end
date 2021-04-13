@@ -10,14 +10,20 @@
 <main class="container">
     <h1>Submission Portal</h1>
     <hr>
-    <h2>Currently Opening</h2>
+    <h2><i class="fas fa-circle"></i> Currently Opening</h2>
     <!-- <h6 class="title">Current Activities</h6> -->
-    <div class="row-cols-1">
+    <div class="row-cols-1" style="min-height: 25vh;">
+        <div *ngIf="!availableAssignment" class="d-flex justify-content-center align-self-center" style="padding-top: 8%;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
         <div class="col" style="margin-top: 5px;" *ngFor="let a of availableAssignment">
             <div class="card card-news">
                 <div class="card-body inline-block">
-                    <a (click)="this.asmDetails.setAssignment(a.assignment)" routerLink="mySubmission"
-                        value="a.assignment.assignmentId" class="stretched-link">
+                    <a (click)="this.asmDetails.setAssignment(a.assignment)"
+                        [routerLink]="['mySubmission', a.assignment.assignmentId]" value="a.assignment.assignmentId"
+                        class="stretched-link">
                         [{{a.assignment.deadline.startDate |
                         date: 'dd-MM-YYYY'}} → {{a.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}]
                         {{a.assignment.assignmentName}}
@@ -29,13 +35,14 @@
     </div>
     <!-- loop some card here -->
     <hr>
-    <h2>My Submissions</h2>
+    <h2><i class="fas fa-folder"></i> My Submissions</h2>
     <div class="table-responsive-md">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <!-- <th>Issues no.</th> -->
                     <th>Assignment Id</th>
+                    <th>Submission Id</th>
                     <th>Title</th>
                     <th>Submitted On</th>
                     <th>Deadline</th>
@@ -46,18 +53,18 @@
                 </tr>
             </thead>
             <tbody *ngIf='mySubmittedAssignment?.length >0'>
-                <tr *ngFor='let m of mySubmittedAssignment'>
+                <tr *ngFor='let m of mySubmittedAssignment | paginate: { itemsPerPage: 10, currentPage: subHomePage }'>
                     <td>{{m.assignmentId}}</td>
+                    <td>{{m.submissionId}}</td>
                     <!-- <td>{{m.assignmentName}}</td> -->
                     <!-- <td>{{m.deadline.startDate}}</td> -->
                     <!-- <td>{{m.deadline.endDate}}}</td> -->
-                    <!-- <td>3/12/2020 MOCK</td> -->
-                    <!-- <td>5</td> -->
                     <td style="color: red">No info</td>
+                    <!-- <td style="color: red">{{findAsmDetails(m.assignment)}}</td> -->
                     <td>{{m.submissionDate | date: 'dd-MM-YYYY'}}</td>
                     <td style="color: red">No info</td>
                     <td style="color: red">No info</td>
-                    <td style="color: red">No info</td>
+                    <td>{{m.totalComment}}</td>
                     <td>{{this.asmDetails.statusDecoder(m.status)}}</td>
                     <!-- <td>{{m.submissionId}}</td> -->
                     <td>
@@ -69,4 +76,12 @@
             </tbody>
         </table>
     </div>
+    <div *ngIf="!mySubmittedAssignment" class="d-flex justify-content-center align-self-center" style="padding-top: 8%;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <p class="text-muted py-5" *ngIf="mySubmittedAssignment.length ==0" style="text-align: center;">You have not
+        submitted anything.</p>
+    <pagination-controls (pageChange)="subHomePage = $event"></pagination-controls>
 </main>

@@ -22,9 +22,13 @@ export class AccountSettingsComponent implements OnInit {
         this.user = val.data;
       }
     });
+    this.commonService.getFaculties().subscribe(val =>
+    {
+      this.facultyList = val.data;
+    })
   }
 
-
+  facultyList;
   currentPassword = new FormControl('');
   newPassword = new FormControl('');
   confirmPassword = new FormControl('');
@@ -81,5 +85,9 @@ export class AccountSettingsComponent implements OnInit {
         }
       }
     });
+  }
+
+  getFacultyName(facultyId) {
+    return this.facultyList.find(faculty => +faculty.facultyId === +facultyId);
   }
 }
