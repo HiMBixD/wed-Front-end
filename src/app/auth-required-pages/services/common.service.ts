@@ -245,6 +245,13 @@ export class CommonService {
   }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/edit-assignment`, assignment)
   }
+
+  submissionStatus(status: {
+    submissionId: number,
+    status: number
+  }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/select-submission`, status)
+  }
 }
 
 

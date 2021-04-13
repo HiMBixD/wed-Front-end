@@ -55,7 +55,7 @@
                             <td>{{this.asmService.statusDecoder(l.status)}}</td>
                             <td>
                                 <button class="btn btn-primary"
-                                    (click)="getFiles(l.submissionId, l.username)">View</button>
+                                    (click)="getFiles(l.submissionId, l.username, l.status)">View</button>
                             </td>
                         </tr>
                     </tbody>
@@ -126,7 +126,7 @@
                 <div *ngIf="currentUser">
                     <section *ngIf="allComments.length !== 0">
                         <div class="comments row mt-4"
-                            *ngFor="let c of allComments | paginate: { itemsPerPage: 5, currentPage: cmtPage, id: 'commentPage'}">
+                            *ngFor="let c of allComments | paginate: { itemsPerPage: 4, currentPage: cmtPage, id: 'commentPage'}">
                             <div class="col-1 d-none d-lg-block">
                                 <img class="img-fluid img-thumbnail" src="https://via.placeholder.com/100" alt="">
                             </div>
@@ -174,16 +174,18 @@
             </div>
             <hr>
             <div>
-                <h3>Submission Status</h3>
+                <h3><i class="fas fa-thumbs-up"></i> Submission Status</h3>
                 <form>
-                    <label class="form-label">Submission Status</label>
-                    <select>
-                        <option value="0">Pending</option>
-                        <option value="1">Selected</option>
-                        <option value="2">Rejected</option>
-                        <option value="3">Feedback Available</option>
-                    </select>
-                    <button class="btn btn-primary">Confirm</button>
+                    <div class="mb-3">
+                        <label class="form-label">Submission Status </label>
+                        <select id ="statusSelected" class="form-select" [(ngModel)]="statusSelected" name = "deadlineSelected">
+                            <option value=0>Pending</option>
+                            <option value=1>Selected</option>
+                            <option value=2>Rejected</option>
+                            <option value=3>Feedback Available</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" (click)="setSubmissionStatus()">Confirm</button>
                 </form>
                 <div id="submissionStatusContainer"></div>
             </div>
