@@ -27,13 +27,13 @@
     <div *ngIf="filesGotLoading == false && filesGot.length == 0" style="text-align: center;" class="text-muted py-5">
         You have not submitted any files.
     </div>
-    
+
     <div class="card" style="width: 18rem;" *ngIf="filesGotLoading == false && filesGot.length !== 0">
         <div class="card-header">
             Files List
         </div>
         <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action" (click)="fileIdViewed = file.fileId"
+            <a class="list-group-item list-group-item-action" (click)="viewedFile = file; fileIdViewed = file.fileId"
                 *ngFor="let file of filesGot?.data || []">
                 {{file.fileName}}
             </a>
@@ -48,10 +48,10 @@
     </div>
     <!-- Spinner -->
     <!-- //TODO: show Iframe or img depends on file type. -->
-    <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed"
+    <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed && !checkFileTypes()"
         [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">
     </iframe>
-    <img *ngIf="fileIdViewed" [src]="transform('https://wed-be.herokuapp.com/api/file/read/'+fileIdViewed)">
+    <img *ngIf="fileIdViewed && checkFileTypes()" [src]="transform('https://wed-be.herokuapp.com/api/file/read/'+fileIdViewed)">
     <p></p>
     <h5>Submit</h5>
     <ngx-dropzone (change)="onSelect($event)" [accept]="'image/*,.doc, .docx'" class="mb-2">

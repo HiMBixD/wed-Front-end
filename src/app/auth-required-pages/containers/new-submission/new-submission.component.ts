@@ -18,18 +18,17 @@ import { CommonService } from '../../services/common.service';
   preserveWhitespaces: true
 })
 export class NewSubmissionComponent implements OnInit {
-  
-  fileTypes = ['.apng', '.avif', '.gif', '.jpg', '.jpeg', '.jfif', '.pjpeg', '.pjp', '.png', '.svg', '.webp'];
+
+  fileTypes = ['apng', 'avif', 'gif', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp'];
 
   ///////////////////////////////////////////////////////
 
   fileInfos: Observable<any>;
   files: File[] = [];
   fileProgress = {};
-  filesGot = [];
+  filesGot: any[] = [];
   url = `${environment.apiUrl}/file/read/`;
-  asm$: Observable<any>
-
+  asm$: Observable<any>;
   fileIdViewed;
   allComments = [];
   submissionId;
@@ -40,6 +39,7 @@ export class NewSubmissionComponent implements OnInit {
   filesGotLoading: boolean = false;
   commentsLoading: boolean = false;
   postingComment: boolean = false;
+  viewedFile;
   ///////////////////////////////////////////////////////
 
   constructor(private uploadService: CommonService,
@@ -50,14 +50,9 @@ export class NewSubmissionComponent implements OnInit {
     private locationService: Location) {
   }
 
-  checkFileTypes(fileName): any {
-    console.log(fileName);
-    console.log(fileName.lastIndexOf('.'));
-    const fileExtension = fileName.slice(fileName.lastIndexOf('.'));
-    console.log(fileExtension);
-    if (this.fileTypes.includes(fileExtension)) {
-      this.fileIdViewed = false;
-    }
+  checkFileTypes(): any {
+    const fileExtension = this.viewedFile?.fileName?.split('.').reverse()[0];
+    return this.fileTypes.includes(fileExtension?.toLowerCase());
   }
 
 
@@ -65,7 +60,7 @@ export class NewSubmissionComponent implements OnInit {
 
     this.filesGotLoading = true;
     this.commentsLoading = true;
-    
+
     //get assignment from asmId from route
     this.asm$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
