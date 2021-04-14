@@ -48,10 +48,10 @@
     </div>
     <!-- Spinner -->
     <!-- //TODO: show Iframe or img depends on file type. -->
-    <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed && !checkFileTypes()"
+    <iframe class="mt-2" width="100%" height="500" frameborder="0" *ngIf="fileIdViewed && !checkFileTypes()"
         [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">
     </iframe>
-    <img *ngIf="fileIdViewed && checkFileTypes()" [src]="transform('https://wed-be.herokuapp.com/api/file/read/'+fileIdViewed)">
+    <img class="mt-2" *ngIf="fileIdViewed && checkFileTypes()" [src]="transform('https://wed-be.herokuapp.com/api/file/read/'+fileIdViewed)" style="max-width: 85%">
     <p></p>
     <h5>Submit</h5>
     <ngx-dropzone (change)="onSelect($event)" [accept]="'image/*,.doc, .docx'" class="mb-2">

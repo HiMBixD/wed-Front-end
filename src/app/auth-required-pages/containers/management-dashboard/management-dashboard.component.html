@@ -44,7 +44,7 @@
         <td>{{s.facultyName}}</td>
         <td>{{s.create_by}}</td>
         <td>{{s.username}}</td>
-        <td>{{s.submissionDate}}</td>
+        <td>{{s.submissionDate | date: 'dd-MM-YYYY'}}</td>
         <td>{{s.daysOverdue}}</td>
       </tr>
       </tbody>
@@ -69,7 +69,7 @@
         <td>{{n.assignmentName}}</td>
         <td>{{n.facultyName}}</td>
         <td>{{n.username}}</td>
-        <td>{{n.submissionDate}}</td>
+        <td>{{n.submissionDate | date: 'dd-MM-YYYY'}}</td>
         <td>{{n.daysSinceSubs}}</td>
       </tr>
       </tbody>

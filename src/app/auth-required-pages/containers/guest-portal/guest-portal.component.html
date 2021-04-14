@@ -14,8 +14,8 @@
     <h3>View by issues:</h3>
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Enter Issue Number" aria-label="Issue Number"
-            aria-describedby="button-addon2">
-        <button class="btn btn-outline-primary" type="button" id="button-addon2">Search</button>
+            aria-describedby="button-addon2" [formControl]="deadlineSearch">
+        <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="searchSubmissionByDeadline()">Search</button>
         <button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="showAllAssignments()">Show
             all</button>
     </div>
