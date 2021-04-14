@@ -110,10 +110,10 @@ export class ManagementDashboardComponent implements OnInit {
             const a = new Date(s.deadline.endDate);
             const b = new Date();
             const c = new Date(s.deadline.startDate);
-            if (a.getTime() < b.getTime() && c.getFullYear() === b.getFullYear()) {
+            if (b.getTime() - a.getTime() > 14 && c.getFullYear() === b.getFullYear()) {
               s.daysOverdue = Math.floor((b.getTime() - a.getTime()) / (1000 * 3600 * 24));
               this.overDueSub.push(s);
-            } else if (a.getTime() > b.getTime() && c.getFullYear() === b.getFullYear()) {
+            } else if (b.getTime() - a.getTime() < 14 && c.getFullYear() === b.getFullYear()) {
               const d = new Date(s.submissionDate);
               s.daysSinceSubs = Math.floor((b.getTime() - d.getTime()) / (1000 * 3600 * 24));
               this.notCommentedYet.push(s);
