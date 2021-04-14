@@ -18,6 +18,8 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
   viewedFile: any;
   fileTypes = ['apng', 'avif', 'gif', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp'];
   url = `${environment.apiUrl}/file/read/`;
+  urlDownloadSelected = `${environment.apiUrl}/file/download-selected/`;
+  urlDownloadSubmission = `${environment.apiUrl}/file/download-submission/`;
 
 
   constructor(private commonService: CommonService,

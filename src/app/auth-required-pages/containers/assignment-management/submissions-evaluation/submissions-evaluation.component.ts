@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { switchMap } from 'rxjs/operators';
 import { AssignmentDetailsService } from 'src/app/auth-required-pages/services/assignment-details.service';
 import { CommonService } from 'src/app/auth-required-pages/services/common.service';
+import {DomSanitizer} from "@angular/platform-browser";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-submissions-evaluation',
@@ -12,10 +14,15 @@ import { CommonService } from 'src/app/auth-required-pages/services/common.servi
   styleUrls: ['./submissions-evaluation.component.scss']
 })
 export class SubmissionsEvaluationComponent implements OnInit {
+  fileTypes = ['apng', 'avif', 'gif', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp'];
+  url = `${environment.apiUrl}/file/read/`;
+  urlDownloadSubmission = `${environment.apiUrl}/file/download-submission/`;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private commonService: CommonService,
     private asmService: AssignmentDetailsService,
+    private sanitizer: DomSanitizer,
     private toastr: ToastrService,
   ) { }
 
@@ -67,7 +74,19 @@ export class SubmissionsEvaluationComponent implements OnInit {
   currentSubmissionId: number;
   commentLoading: boolean = false;
   statusSelected;
+
+  fileIdViewed: any;
+  viewedFile: any;
+
   ///////////////////////////////////////////////
+  checkFileTypes(): any {
+    const fileExtension = this.viewedFile?.fileName?.split('.').reverse()[0];
+    return this.fileTypes.includes(fileExtension?.toLowerCase());
+  }
+
+  transform(url): any {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 
   getFiles(submissionId, username, status) {
     this.filesGotLoading = true;

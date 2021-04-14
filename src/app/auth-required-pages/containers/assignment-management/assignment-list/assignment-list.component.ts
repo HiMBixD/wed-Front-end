@@ -5,6 +5,7 @@ import { assignmentDetails } from 'src/app/auth-required-pages/interfaces/assign
 import { AssignmentDetailsService } from '../../../services/assignment-details.service';
 import { CommonService } from '../../../services/common.service';
 import { UserDetailsService } from '../../../services/user-details.service';
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-assignment-list',
@@ -57,6 +58,9 @@ export class AssignmentListComponent implements OnInit {
   description = new FormControl('');
 
   toBeUpdated;
+
+  urlDownloadSelected = `${environment.apiUrl}/file/download-selected/`;
+
   ////////////////////////////////////////////////////////
 
   getAssignmentDetails(asm: assignmentDetails) {
