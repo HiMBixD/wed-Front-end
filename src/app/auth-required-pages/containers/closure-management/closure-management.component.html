@@ -26,7 +26,7 @@
             <input class="form-control" type="date" id="endDate" formControlName="endDate">
 
         </div>
-        <button type="submit" class="btn btn-primary" (click)="setClosureDate()" [disabled]="closureForm.invalid">Submit</button><small
+        <button type="submit" class="btn btn-primary" (click)="setClosureDate()" >Submit</button><small
             style="color: white">-</small>
         <button type="submit" class="btn btn-primary" [disabled]="closureForm.invalid" (click)="modifyClosureDate()">Update</button><small style="color: white">-</small>
         <button class="btn btn-primary" type="reset" >Clear</button>
