@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Location} from '@angular/common';
 import {environment} from '../../../../environments/environment';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-selected-submission-browser',
@@ -18,6 +19,8 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
   viewedFile: any;
   fileTypes = ['apng', 'avif', 'gif', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp'];
   url = `${environment.apiUrl}/file/read/`;
+  urlDownloadSelected = `${environment.apiUrl}/file/download-selected/`;
+  urlDownloadSubmission = `${environment.apiUrl}/file/download-submission/`;
 
 
   constructor(private commonService: CommonService,
@@ -63,7 +66,7 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
   assignmentList = [];
   submissionList = [];
   filesList = [];
-
+  deadlineSearch = new FormControl('')
   ////////////////////////////////////////////////
 
   checkFileTypes(): any {
@@ -129,6 +132,19 @@ export class SelectedSubmissionBrowserComponent implements OnInit {
       }
     );
     this.currentUser = username;
+  }
+  searchSubmissionByDeadline() {
+    this.commonService.searchAssignment(
+      {
+        facultyId: null,
+        deadlineId: parseInt(this.deadlineSearch.value),
+        username: '',
+      }
+    ).subscribe(
+      value => {
+        this.assignmentList = value.data;
+      }
+    )
   }
 }
 

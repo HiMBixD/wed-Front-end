@@ -3,6 +3,7 @@ import {assignmentStatus} from '../../interfaces/assignment';
 import {CommonService} from '../../services/common.service';
 import {environment} from '../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-guest-portal',
@@ -51,6 +52,7 @@ export class GuestPortalComponent implements OnInit {
   assignmentList = [];
   submissionList = [];
   filesList = [];
+  deadlineSearch = new FormControl('')
 
   //////////////////////////////////////////////////////////////////////////////////
 
@@ -109,6 +111,19 @@ export class GuestPortalComponent implements OnInit {
       }
     );
     this.currentUser = username;
+  }
+  searchSubmissionByDeadline() {
+    this.commonService.searchAssignment(
+      {
+        facultyId: this.userDetails.facultyId,
+        deadlineId: parseInt(this.deadlineSearch.value),
+        username: '',
+      }
+    ).subscribe(
+      value => {
+        this.assignmentList = value.data;
+      }
+    )
   }
 }
 

@@ -23,7 +23,7 @@
                 <label class="form-label" for="filterEndDate">End Date</label>
                 <input class="form-control inline" type="date" id="filterEndDate" [formControl]="filterEnd">
             </div>
-        </div> 
+        </div>
 
         <button type="button" class="btn btn-primary mb-3" (click)="onSearch()">Search</button>
 
@@ -72,7 +72,7 @@
         </div>
     </form>
     <hr>
-    <h2>My Assignment 
+    <h2>My Assignment
         <button (click)="syncAssignments()" class="btn btn-primary btn-sm" ><i class="fas fa-sync-alt"></i> Sync</button>
     </h2>
     <span class="text-muted" *ngIf="userInfo">All assignments created by "{{userInfo.userName}}"</span>
@@ -87,7 +87,7 @@
                     <th>Start date</th>
                     <th>End date</th>
                     <th>Total Submissions</th>
-                    <th>Evaluated?</th>
+                    <th>Selected Submissions</th>
                     <th>Submissions</th>
                     <th>Action</th>
                 </tr>
@@ -103,10 +103,12 @@
                     <td>{{l.totalSub}}</td>
                     <td style="color: red">{{l.selectedSub}}/{{l.totalSub}}</td>
                     <td class="align-middle">
-                        <button type="button" class="btn btn-primary" [routerLink]="['submissionEvaluation',l.assignment.assignmentId]">View Submissions</button> 
+                        <button type="button" class="btn btn-primary" [routerLink]="['submissionEvaluation',l.assignment.assignmentId]">View Submissions</button>
                     </td>
                     <td class="align-middle">
-                        <button type="button" class="btn btn-primary" (click)="getAssignmentDetails(l)">Edit</button>
+                        <button type="button" class="btn btn-primary mx-2" (click)="getAssignmentDetails(l)">Edit</button>
+                      <button type="button" class="btn btn-primary mx-2" (click)="eleDownload.click()">Download selected</button>
+                      <a [href]="urlDownloadSelected + l.assignment.assignmentId" style="display: none" #eleDownload></a>
                     </td>
                 </tr>
             </tbody>

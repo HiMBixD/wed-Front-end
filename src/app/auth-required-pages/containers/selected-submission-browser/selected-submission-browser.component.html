@@ -16,8 +16,9 @@
   <h3>View by issues:</h3>
   <div class="input-group mb-3">
     <input type="text" class="form-control" placeholder="Enter Issue Number" aria-label="Issue Number"
-           aria-describedby="button-addon2">
-    <button class="btn btn-outline-primary" type="button" id="button-addon2">Search</button>
+           aria-describedby="button-addon2"
+           [formControl]="deadlineSearch">
+    <button class="btn btn-outline-primary" type="button" id="button-addon2"  (click)="searchSubmissionByDeadline()">Search</button>
     <button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="showAllAssignments()">Show
       all
     </button>
@@ -51,10 +52,9 @@
         <td>{{l.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}</td>
         <td style="color: red">{{l.selectedSub}}</td>
         <td>
-          <button type="button" class="btn btn-primary"
-                  (click)="showAllSubmissions(l.assignment.assignmentId)">View
-            Submissions
-          </button>
+          <button type="button" class="btn btn-primary mx-2" (click)="showAllSubmissions(l.assignment.assignmentId)">View</button>
+          <button type="button" class="btn btn-primary mx-2" (click)="eleDownload.click()">Download selected</button>
+          <a [href]="urlDownloadSelected + l.assignment.assignmentId" style="display: none" #eleDownload></a>
         </td>
       </tr>
       </tbody>
@@ -86,10 +86,12 @@
           <td>{{s.username}}</td>
           <td>{{s.submissionDate}}</td>
           <td>
-            <button type="button" class="btn btn-primary"
+            <button type="button" class="btn btn-primary mx-2"
                     (click)="getFiles(s.submissionId, s.username)">
               View Files
             </button>
+            <button type="button" class="btn btn-primary mx-2" (click)="eleSubDownload.click()">Download Submission</button>
+            <a [href]="urlDownloadSubmission + s.submissionId" style="display: none" #eleSubDownload></a>
           </td>
         </tr>
         </tbody>
@@ -117,7 +119,7 @@
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item" *ngFor="let f of filesList">
-        <a (click)="viewedFile">{{f.fileName}}</a>
+        <a (click)="viewedFile = f; fileIdViewed = f.fileId">{{f.fileName}}</a>
       </li>
     </ul>
   </div>

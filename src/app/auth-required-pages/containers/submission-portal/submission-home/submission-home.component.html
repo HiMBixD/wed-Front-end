@@ -81,7 +81,7 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
-    <p class="text-muted py-5" *ngIf="mySubmittedAssignment.length ==0" style="text-align: center;">You have not
+    <p class="text-muted py-5" *ngIf="mySubmittedAssignment?.length ==0" style="text-align: center;">You have not
         submitted anything.</p>
     <pagination-controls (pageChange)="subHomePage = $event"></pagination-controls>
 </main>
