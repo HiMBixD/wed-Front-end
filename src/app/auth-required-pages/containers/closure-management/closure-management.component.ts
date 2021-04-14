@@ -63,11 +63,12 @@ export class ClosureManagementComponent implements OnInit {
     }).subscribe(value => {
       if (value.success) {
         console.log(value)
+        this.toastrService.success(`Set closure date success! ${this.closureForm.get("startDate").value} - ${this.closureForm.get("endDate").value}`)
       }
       else {
         console.log('well that failed!');
-        const message = 'Deadline ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
-        console.log(message)
+        const message = 'Failed! Failed to set deadline ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+        this.toastrService.error(message)
       }
     })
     this.isLoading == false;
@@ -82,11 +83,13 @@ export class ClosureManagementComponent implements OnInit {
       }).subscribe(value => {
         if (value.success) {
           console.log(value)
+          this.toastrService.success('Updated successfully!')
         }
         else {
           console.log('well that failed!');
           const message = 'Deadline ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
           console.log(message)
+          this.toastrService.error(message);
         }
       })
     }
