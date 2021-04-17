@@ -2,6 +2,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ChartOptions, ChartType} from 'chart.js';
 import {Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet} from 'ng2-charts';
+import * as pluginLabels from 'chartjs-plugin-labels';
+
 import {CommonService} from '../../services/common.service';
 import {assignment} from '../../interfaces/assignment';
 
@@ -17,14 +19,18 @@ export class ManagementDashboardComponent implements OnInit {
   private assignment: assignment;
   public overDueSub = [];
   public notCommentedYet = [];
+  public AcceptedSubmission = [];
+  public RejectedSubmission = [];
 
   constructor(private commonService: CommonService) {
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
   }
 
-  public p = 1;
-  p2 = 1;
+  public acceptedSubmissionPage = 1;
+  public overDueSubPage = 1;
+  public notCommentedYetPage = 1;
+  public rejectedSubmissionPage = 1;
   private facultyList = [];
   private currentYear = new Date().getFullYear();
 
@@ -33,31 +39,46 @@ export class ManagementDashboardComponent implements OnInit {
       text: `Total Contributions - ${this.currentYear}`,
       display: true
     },
+
+    plugins: {
+      labels: {
+        render: 'percentage',
+        fontColor: ['rgb(54,59,71)', 'rgb(54,59,71)', 'rgb(54,59,71)', 'rgb(54,59,71)', 'rgb(54,59,71)'],
+        precision: 1
+      }
+    },
+
     responsive: true,
     maintainAspectRatio: false,
   };
 
   public pieChartLabels: Label[] = [];
-  public pieChartData: SingleDataSet = [];
+  public pieChartData: SingleDataSet = [56, 45, 78, 65];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
-  public pieChartPlugins = [];
+  public pieChartPlugins = [pluginLabels];
   public pieChartColors: Array<any> = [{
-    backgroundColor: ['rgb(255,161,181)', 'rgb(134,199,243)', 'rgb(255,226,154)', 'rgb(59,83,196)', 'rgb(255,161,181)', 'rgb(255,161,181)'],
+    backgroundColor: [
+      'rgb(255,161,181)',
+      'rgb(134,199,243)',
+      'rgb(255,226,154)',
+      'rgb(113,129,201)',
+      'rgb(255,161,181)',
+      'rgb(205,142,66)'],
   }];
 
   getFacultyChart(): any {
     if (this.facultyList) {
       // console.log(this.pieChartLabels);
       // console.log(this.facultyList);
-      this.facultyList.forEach(f => {
+      this.facultyList.forEach(faculty => {
         this.commonService.getSubmissionCount({
-          facultyId: f.facultyId,
+          facultyId: faculty.facultyId,
         }).subscribe(response => {
           if (response.success && response.data) {
             if (response.data.length !== 0) {
               this.pieChartData.push(response.data.length);
-              this.pieChartLabels.push([`Department of ${f.facultyName}`]);
+              this.pieChartLabels.push([`Department of ${faculty.facultyName}`]);
             }
           }
         });
@@ -72,12 +93,12 @@ export class ManagementDashboardComponent implements OnInit {
       facultyId: null,
       username: '',
       deadlineId: null
-    }).subscribe(a => {
-      this.assignmentList = a.data;
+    }).subscribe(response => {
+      this.assignmentList = response.data;
       // console.log(this.assignmentList);
 
-      this.commonService.getFaculties().subscribe(f => {
-        this.facultyList = f.data;
+      this.commonService.getFaculties().subscribe(response => {
+        this.facultyList = response.data;
         this.getFacultyChart();
         // console.log(this.facultyList);
 
@@ -85,19 +106,19 @@ export class ManagementDashboardComponent implements OnInit {
           username: '',
           assignmentId: null,
           status: null
-        }).subscribe(s => {
-          this.submissionList = s.data;
-          // console.log(this.submissionList);
+        }).subscribe(response => {
+          this.submissionList = response.data;
+          console.log(this.submissionList);
 
-          this.submissionList.forEach(s => {
-            this.assignmentList.forEach(a => {
-              if (s.assignmentId === a.assignment.assignmentId) {
-                s.facultyId = a.assignment.facultyId;
-                s.assignmentName = a.assignment.assignmentName;
-                s.deadline = a.assignment.deadline;
-                this.facultyList.forEach(f => {
-                  if (f.facultyId === s.facultyId) {
-                    s.facultyName = f.facultyName;
+          this.submissionList.forEach(submission => {
+            this.assignmentList.forEach(assignment => {
+              if (submission.assignmentId === assignment.assignment.assignmentId) {
+                submission.facultyId = assignment.assignment.facultyId;
+                submission.assignmentName = assignment.assignment.assignmentName;
+                submission.deadline = assignment.assignment.deadline;
+                this.facultyList.forEach(faculty => {
+                  if (faculty.facultyId === submission.facultyId) {
+                    submission.facultyName = faculty.facultyName;
                   }
                 });
               }
@@ -105,21 +126,45 @@ export class ManagementDashboardComponent implements OnInit {
           });
           // console.log(this.submissionList);
 
-          this.submissionList.forEach(s => {
+          this.submissionList.forEach(submission => {
 
-            const a = new Date(s.deadline.endDate);
-            const b = new Date();
-            const c = new Date(s.deadline.startDate);
-            if (b.getTime() - a.getTime() > 14 && c.getFullYear() === b.getFullYear()) {
-              s.daysOverdue = Math.floor((b.getTime() - a.getTime()) / (1000 * 3600 * 24));
-              this.overDueSub.push(s);
-            } else if (b.getTime() - a.getTime() < 14 && c.getFullYear() === b.getFullYear()) {
-              const d = new Date(s.submissionDate);
-              s.daysSinceSubs = Math.floor((b.getTime() - d.getTime()) / (1000 * 3600 * 24));
-              this.notCommentedYet.push(s);
+            const endDate = new Date(submission.deadline.endDate);
+            const currentDate = new Date();
+            const startDate = new Date(submission.deadline.startDate);
+            const submissionDate = new Date(submission.submissionDate);
+
+            if (startDate.getFullYear() === currentDate.getFullYear()) {
+              switch (submission.status) {
+                case 0:
+                  if (currentDate.getTime() - endDate.getTime() > 14) {
+
+                    submission.daysOverdue = Math.floor((currentDate.getTime() - endDate.getTime()) / (1000 * 3600 * 24));
+                    this.overDueSub.push(submission);
+
+                  } else if (currentDate.getTime() - endDate.getTime() < 14) {
+
+                    submission.daysSinceSubs = Math.floor((currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+                    this.notCommentedYet.push(submission);
+                  }
+                  break;
+
+                case 1:
+                  this.AcceptedSubmission.push(submission);
+                  submission.daysSinceSubs = Math.floor((currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+                  break;
+
+                case 2:
+                  this.RejectedSubmission.push(submission);
+                  submission.daysSinceSubs = Math.floor((currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+                  break;
+
+                default:
+                  break;
+              }
             }
           });
-
+          // console.log(this.AcceptedSubmission);
+          // console.log(this.RejectedSubmission);
           // console.log(this.overDueSub);
           // console.log(this.notCommentedYet);
         });
