@@ -1,9 +1,8 @@
 /* tslint:disable:no-shadowed-variable */
 import {Component, OnInit} from '@angular/core';
-import {ChartOptions, ChartType} from 'chart.js';
+import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet} from 'ng2-charts';
-import * as pluginLabels from 'chartjs-plugin-labels';
-
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import {CommonService} from '../../services/common.service';
 import {assignment} from '../../interfaces/assignment';
 
@@ -39,24 +38,29 @@ export class ManagementDashboardComponent implements OnInit {
       text: `Total Contributions - ${this.currentYear}`,
       display: true
     },
-
     plugins: {
-      labels: {
-        render: 'percentage',
-        fontColor: ['rgb(54,59,71)', 'rgb(54,59,71)', 'rgb(54,59,71)', 'rgb(54,59,71)', 'rgb(54,59,71)'],
-        precision: 1
+      datalabels: {
+        formatter: (value, ctx) => {
+
+          let sum = 0;
+          const dataArr: any = ctx.chart.data.datasets[0].data;
+          dataArr.map(data => {
+            sum += data;
+          });
+          const percentage = ((value * 100) / sum).toFixed(2) + '%';
+          return percentage;
+        },
+        align: 'end'
       }
     },
-
     responsive: true,
     maintainAspectRatio: false,
   };
-
   public pieChartLabels: Label[] = [];
   public pieChartData: SingleDataSet = [];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
-  public pieChartPlugins = [pluginLabels];
+  public pieChartPlugins = [pluginDataLabels];
   public pieChartColors: Array<any> = [{
     backgroundColor: [
       'rgb(255,161,181)',
@@ -67,6 +71,25 @@ export class ManagementDashboardComponent implements OnInit {
       'rgb(205,142,66)'],
   }];
 
+
+  public stackedBarChartOptions: ChartOptions = {
+    title: {
+      text: `Total Contributions - ${this.currentYear}`,
+      display: true
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+
+  };
+  public stackedBarChartLabels: Label[] = [];
+  public stackedBarChartType: ChartType = 'bar';
+  public stackedBarChartLegend = true;
+  public stackedBarChartPlugins = [pluginDataLabels];
+  public stackedBarChartData: ChartDataSets[] = [
+    {data: [], label: 'Accepted submissions', stack: 'a'},
+    {data: [], label: 'Rejected submissions', stack: 'a'}
+  ];
+
   getFacultyChart(): any {
     if (this.facultyList) {
       // console.log(this.pieChartLabels);
@@ -75,16 +98,16 @@ export class ManagementDashboardComponent implements OnInit {
         this.commonService.getSubmissionCount({
           facultyId: faculty.facultyId,
         }).subscribe(response => {
-          if (response.success && response.data) {
-            if (response.data.length !== 0) {
-              this.pieChartData.push(response.data.length);
-              this.pieChartLabels.push([`Department of ${faculty.facultyName}`]);
-            }
+          if (response.success && response.data && response.data.length !== 0) {
+            this.pieChartData.push(response.data.length);
+            this.pieChartLabels.push([`Department of ${faculty.facultyName}`]);
+            this.stackedBarChartLabels.push([`Department of ${faculty.facultyName}`]);
           }
         });
       });
       console.log(this.pieChartData);
       console.log(this.pieChartLabels);
+      console.log(this.stackedBarChartLabels);
     }
   }
 
@@ -134,6 +157,7 @@ export class ManagementDashboardComponent implements OnInit {
             const submissionDate = new Date(submission.submissionDate);
 
             if (startDate.getFullYear() === currentDate.getFullYear()) {
+
               switch (submission.status) {
                 case 0:
                   if (currentDate.getTime() - endDate.getTime() > 14) {
@@ -163,8 +187,28 @@ export class ManagementDashboardComponent implements OnInit {
               }
             }
           });
-          // console.log(this.AcceptedSubmission);
-          // console.log(this.RejectedSubmission);
+
+          this.facultyList.forEach(faculty => {
+            let acceptedSubmissionCount = 0;
+            let rejectedSubmissionCount = 0;
+            this.AcceptedSubmission.forEach(element => {
+              if (faculty.facultyId === element.facultyId) {
+                acceptedSubmissionCount += 1;
+              }
+            });
+            this.RejectedSubmission.forEach((element => {
+              if (faculty.facultyId === element.facultyId) {
+                rejectedSubmissionCount += 1;
+              }
+            }));
+            console.log(acceptedSubmissionCount);
+            console.log(rejectedSubmissionCount);
+            this.stackedBarChartData[0].data.push(acceptedSubmissionCount);
+            this.stackedBarChartData[1].data.push(rejectedSubmissionCount);
+          });
+          console.log(this.stackedBarChartData);
+          console.log(this.AcceptedSubmission);
+          console.log(this.RejectedSubmission);
           // console.log(this.overDueSub);
           // console.log(this.notCommentedYet);
         });

@@ -24,6 +24,17 @@
     </canvas>
   </div>
   <hr>
+  <div style="min-height: 500px; margin: auto">
+    <canvas baseChart
+            [datasets]="stackedBarChartData"
+            [labels]="stackedBarChartLabels"
+            [options]="stackedBarChartOptions"
+            [plugins]="stackedBarChartPlugins"
+            [legend]="stackedBarChartLegend"
+            [chartType]="stackedBarChartType">
+    </canvas>
+  </div>
+  <hr>
   <h3>Exceptional Report</h3>
   <h4 class="text-muted">Accepted submission:</h4>
   <div class="table-responsive-md">
