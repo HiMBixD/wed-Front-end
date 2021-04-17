@@ -53,7 +53,7 @@ export class ManagementDashboardComponent implements OnInit {
   };
 
   public pieChartLabels: Label[] = [];
-  public pieChartData: SingleDataSet = [56, 45, 78, 65];
+  public pieChartData: SingleDataSet = [];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [pluginLabels];
