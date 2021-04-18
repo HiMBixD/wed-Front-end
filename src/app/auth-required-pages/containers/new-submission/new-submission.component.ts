@@ -22,7 +22,8 @@ export class NewSubmissionComponent implements OnInit {
   fileTypes = ['apng', 'avif', 'gif', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp'];
 
   ///////////////////////////////////////////////////////
-
+  commentPage = 1;
+  isSubmitting = false;
   fileInfos: Observable<any>;
   files: File[] = [];
   fileProgress = {};
@@ -96,7 +97,7 @@ export class NewSubmissionComponent implements OnInit {
                     this.getFiles();
                     this.uploadService.getComment({ submissionId: this.submissionId }).subscribe(
                       value => {
-                        this.allComments = value.data;
+                        this.allComments = value.data.reverse();
                       }
                     )
                     // console.log(this.submissionId)
@@ -148,17 +149,21 @@ export class NewSubmissionComponent implements OnInit {
     this.uploadService.uploadFile({file, submissionId})
       .subscribe(
         event => {
+          this.isSubmitting = true;
           if (event.type === HttpEventType.UploadProgress) {
             this.fileProgress[file.name] = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             if (!event?.body?.success) {
               this.fileProgress[file.name] = -1;
+              this.isSubmitting = false;
             }
+            this.isSubmitting = false;
           }
         },
         err => {
           this.fileProgress[file.name] = -1;
-        });
+        }
+      );
   }
 
   submit() {
@@ -174,12 +179,15 @@ export class NewSubmissionComponent implements OnInit {
         this.files.forEach(file => {
           this.upload(file, this.submissionId);
         });
+        // this.isSubmitting = false;
       });
+      this.getFiles();
     }
     else {
       this.files.forEach(file => {
         this.upload(file, this.submissionId);
       });
+      this.getFiles();
     }
   }
 
@@ -216,7 +224,7 @@ export class NewSubmissionComponent implements OnInit {
   getComment() {
     this.uploadService.getComment({ submissionId: this.submissionId }).subscribe(
       value => {
-        this.allComments = value.data;
+        this.allComments = value.data.reverse();
         console.log(value.data)
       });
   }

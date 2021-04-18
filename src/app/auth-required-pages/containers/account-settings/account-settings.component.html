@@ -36,7 +36,9 @@
         </div>
         <div class="mb-3">
             <label for="disabledFaculty" class="form-label">Faculty:</label>
-            <input type="text" id="disabledFaculty" class="form-control" placeholder="{{getFacultyName(user?.facultyId).facultyName}}" disabled/>
+            <input type="text" id="disabledFaculty" class="form-control" *ngIf="user?.facultyId" placeholder="{{getFacultyName(user?.facultyId).facultyName}}" disabled/>
+            <input type="text" id="disabledFaculty" class="form-control" *ngIf="!user?.facultyId"
+                placeholder="No Data" disabled />
         </div>
         <button class="btn btn-primary" type="button" (click)="updateUserInfo()">Save Changes</button>
     </form>

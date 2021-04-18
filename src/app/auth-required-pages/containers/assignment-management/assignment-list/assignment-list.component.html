@@ -23,7 +23,7 @@
                     <th>Creator</th>
                     <th>Start date</th>
                     <th>End date</th>
-                    <!-- <th>Final closure date</th> -->
+                    <th>Final closure date</th>
                     <th>Total Submissions</th>
                     <th>Accepted Submissions</th>
                     <th>Submissions</th>
@@ -38,7 +38,7 @@
                     <td>{{l.assignment.create_by}}</td>
                     <td>{{l.assignment.deadline.startDate | date: 'dd-MM-YYYY'}}</td>
                     <td>{{l.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}</td>
-                    <!-- <th>{{this.assignmentService.addDate(l.assignment.deadline.endDate, 14) | date: 'dd-MM-YYYY'}}</th> -->
+                    <td><b>{{this.assignmentService.addDate(l.assignment.deadline.endDate, 14) | date: 'dd-MM-YYYY'}}</b></td>
                     <td>{{l.totalSub}}</td>
                     <td style="color: red">{{l.selectedSub}}/{{l.totalSub}}</td>
                     <td class="align-middle">
