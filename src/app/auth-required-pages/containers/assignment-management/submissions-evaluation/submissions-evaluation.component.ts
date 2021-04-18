@@ -41,7 +41,7 @@ export class SubmissionsEvaluationComponent implements OnInit {
 
     this.asm$.subscribe(value => {
       this.assignmentDetails = value.data;
-      console.log(this.assignmentDetails);
+      // console.log(this.assignmentDetails);
       //get all submissions from this ID
       this.commonService.searchSubmission({
         username: '',
@@ -50,7 +50,7 @@ export class SubmissionsEvaluationComponent implements OnInit {
       }).subscribe(
         value => {
           // console.log('search submission result')
-          console.log(value.data)
+          // console.log(value.data)
           this.submissionList = value.data;
         }
       )
@@ -96,7 +96,7 @@ export class SubmissionsEvaluationComponent implements OnInit {
       value => {
         if (value.success) {
           this.filesList = value.data;
-          console.log(this.filesList);
+          // console.log(this.filesList);
         }
       }
     );
@@ -112,18 +112,18 @@ export class SubmissionsEvaluationComponent implements OnInit {
     this.commonService.getComment({ submissionId: submissionId }).subscribe(
       value => {
         this.allComments = value.data.reverse();
-        console.log(value.data)
+        // console.log(value.data)
       });
     this.commentLoading = false;
   }
 
   submitComment() {
     this.postingComment = true;
-    console.log(this.currentSubmissionId);
+    // console.log(this.currentSubmissionId);
     this.commonService.addComment({ content: this.comment.value, submissionId: this.currentSubmissionId }).subscribe(
       value => {
         if (value.success) {
-          console.log('success');
+          // console.log('success');
           this.getComment(this.currentSubmissionId);
           this.comment.setValue('');
           this.postingComment = false;
@@ -132,7 +132,7 @@ export class SubmissionsEvaluationComponent implements OnInit {
         else {
           const message = `Failed to create comment. Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
           this.toastr.error('Failed to create comment. Please try again')
-          console.log(message)
+          // console.log(message)
         }
       }
     )
@@ -155,7 +155,7 @@ export class SubmissionsEvaluationComponent implements OnInit {
     })
   }
   setSubmissionStatus() {
-    console.log(this.statusSelected)
+    // console.log(this.statusSelected)
     this.commonService.submissionStatus({
       submissionId: this.currentSubmissionId,
       status: this.statusSelected
@@ -170,4 +170,5 @@ export class SubmissionsEvaluationComponent implements OnInit {
       }
     )
   }
+
 }

@@ -10,6 +10,7 @@
     <h1><i class="fas fa-list-alt"></i> Your Activities</h1>
     <hr>
     <!-- <div class="border border-primary rounded-bottom " style="background-color: grey; height: 50px; width: 100%;"></div> -->
+    <!-- <div *ngIf="roleName == `ROLE_GUEST`"> -->
     <div>
         <h2>Guest Activities</h2>
         <div class="row mb-3">
@@ -27,6 +28,7 @@
     </div>
     <!-- <p>lấy role id từ db => ngIf role = match div nào thì show div đấy</p> -->
     <hr>
+    <!-- <div *ngIf="roleName == `ROLE_STUDENT`"> -->
     <div>
         <h2>Student Activities</h2>
         <div class="row mb-3">
@@ -34,8 +36,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><i class="fas fa-tasks"></i> Submission Portal</h5>
-                        <p class="card-text">View Assignments available for submission and user's Previous Submissions.</p>
-                        <button type="button" class="btn btn-primary" routerLink='submissionPortal'>Submission Portal</button>
+                        <p class="card-text">View Events open for submission and user's Previous Submissions.</p>
+                        <button type="button" class="btn btn-primary" routerLink='submissionPortal'>Submission
+                            Portal</button>
                     </div>
                 </div>
             </div>
@@ -44,15 +47,15 @@
 
     <hr>
     <div>
+        <!-- <div ngIf="roleName ==`ROLE_COORDINATOR`"> -->
         <h2>Marketing Coordinator Activities</h2>
         <div class="row mb-3">
             <div class="col-sm-6 mb-2">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-tasks"></i> Assignment Management</h5>
-                        <p class="card-text">View a List of all Assignments created by this account, Create new
-                            Assignment and Grade Submissions.</p>
-                        <button type="button" class="btn btn-primary" routerLink="assignmentManagement">Assignment
+                        <h5 class="card-title"><i class="fas fa-tasks"></i> Submissions Management</h5>
+                        <p class="card-text">View a List of all Events and Evaluate Submissions.</p>
+                        <button type="button" class="btn btn-primary" routerLink="assignmentManagement">Submission
                             Management</button>
                     </div>
                 </div>
@@ -62,6 +65,7 @@
 
     <hr>
     <div>
+        <!-- <div *ngIf="roleName ==`ROLE_MANAGER`"> -->
         <h2>Marketing Manager</h2>
         <div class="row mb-3">
             <div class="col-sm-6 mb-2">
@@ -89,6 +93,7 @@
 
     <hr>
     <div>
+        <!-- <div *ngIf="roleName == 'ROLE_ADMIN'"> -->
         <h2>Administrator Activities</h2>
         <div class="row mb-3">
             <div class="col-sm-6 mb-2">
@@ -104,8 +109,8 @@
             <div class="col-sm-6 mb-2">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Deadline Management</h5>
-                        <p class="card-text">Set and Edit deadlines (closure date).</p>
+                        <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Deadline & Event Management</h5>
+                        <p class="card-text">Set and Edit deadlines (closure date) & Events.</p>
                         <button type="button" class="btn btn-primary" routerLink="closureManagement">Deadline
                             Management</button>
                     </div>
@@ -117,7 +122,7 @@
                         <h5 class="card-title"><i class="fas fa-database"></i> System Backup & Restore</h5>
                         <p class="card-text">Export or Import backup data.</p>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">System Backup & Restore</button>
+                            data-bs-target="#exampleModal">System Backup & Restore</button>
                     </div>
                 </div>
             </div>
@@ -126,34 +131,34 @@
 </main>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Get Backup File</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row mb-3">
-          <div class="col">
-            <a [href]="url">Get Root</a>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col">
-            <input type="file" (change)="onSelect($event)">
-            <div class="progress" *ngIf="fileProgress > 0">
-              <div style="width: 150px" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
-                   [attr.aria-valuenow]="fileProgress" aria-valuemin="0" aria-valuemax="100"
-                   [ngStyle]="{ width: fileProgress + '%' }">
-                {{fileProgress + '%'}}
-              </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Get Backup File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col">
+                        <a [href]="url">Get Root</a>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <input type="file" (change)="onSelect($event)">
+                        <div class="progress" *ngIf="fileProgress > 0">
+                            <div style="width: 150px" class="progress-bar progress-bar-info progress-bar-striped"
+                                role="progressbar" [attr.aria-valuenow]="fileProgress" aria-valuemin="0"
+                                aria-valuemax="100" [ngStyle]="{ width: fileProgress + '%' }">
+                                {{fileProgress + '%'}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #cancelButton>Cancel</button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #cancelButton>Cancel</button>
-      </div>
     </div>
-  </div>
 </div>

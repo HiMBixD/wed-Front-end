@@ -7,7 +7,7 @@
         </ol>
     </nav>
     <h2>Manage User</h2>
-    <form>
+    <form ngNativeValidate action="javascript:void(0)">
         <div class="mb-3">
             <label class="form-label">Username <small style="color: red">*</small></label>
             <input class="form-control" id="username" placeholder="Username" [formControl]="username">
@@ -29,7 +29,7 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Email <small style="color: red">*</small></label>
-            <input class="form-control" type="email" id="email" placeholder="Email" [formControl]="email">
+            <input class="form-control" type="email" id="email" placeholder="Email" [email]="true" [formControl]="email">
         </div>
         <div class="mb-3">
             <label class="form-label">Role <small style="color: red">*</small></label>

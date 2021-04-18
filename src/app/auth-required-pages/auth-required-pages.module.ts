@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
 import { AuthRequiredPagesRoutingModule } from './auth-required-pages-routing.module';
-import { NewAssignmentComponent } from './containers/assignment-management/new-assignment/new-assignment.component';
+import { NewAssignmentComponent } from './containers/closure-management/new-assignment/new-assignment.component';
 import { AccountSettingsComponent } from './containers/account-settings/account-settings.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';

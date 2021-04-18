@@ -1,0 +1,116 @@
+<h2>New Event</h2>
+<hr>
+<h6>Deadline Period</h6>
+<div id="searchHelp" class="form-text">Please search for pre-assigned deadlines in a time range.</div>
+<form ngNativeValidate action="javascript:void(0)">
+    <div class="row">
+        <div class="col-md-12 col-lg-6 mb-3">
+            <label class="form-label" for="filterStartDate">Start Date</label>
+            <input class="form-control inline" type="date" id="filterStartDate" [formControl]="filterStart">
+        </div>
+        <div class="col-md-12 col-lg-6 mb-3">
+            <label class="form-label" for="filterEndDate">End Date</label>
+            <input class="form-control inline" type="date" id="filterEndDate" [formControl]="filterEnd">
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary mb-3" (click)="onSearch()">Search</button>
+
+    <div id="deadlineAlertContainer">
+
+    </div>
+    <hr>
+    <h6>Assignment Details</h6>
+    <div class="mb-3">
+        <label class="form-label" for="deadlines-select">Deadline</label>
+        <select id="deadlines-select" class="form-select" required [(ngModel)]="deadlineSelected" name="deadlineSelect">
+            <option disabled selected="selected">Please Search for Time range and Select appropriate deadline</option>
+            <option *ngFor="let d of deadlineList" [value]="d.deadlineId" [selected]="" value="{{d.deadlineId}}">
+                {{d.deadlineId}} : {{d.startDate | date:
+                'dd-MM-YYYY'}} - {{d.endDate | date: 'dd-MM-YYYY'}}</option>
+        </select>
+    </div>
+    <!-- <p>Selected option: {{deadlineSelected}}</p> -->
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input class="form-control" id="assignment-title" placeholder="Faculty Name" maxlength="100"
+            [formControl]="assignmentName" required>
+        <div id="assignmentHelp" class="form-text">Title must be less than 100 characters long.</div>
+    </div>
+    <!-- Faculty -->
+    <div class="mb-3">
+        <label class="form-label" for="faculty-title">Faculty</label>
+        <select class="form-select" [formControl]="faculty" class="form-control" id="faculty-title" placeholder="Assignment Title" maxlength="100" required>
+            <option disabled selected="selected">Please Search faculty name</option>
+            <option *ngFor="let f of facultyList" [ngValue]="f.facultyId">
+                {{f.facultyId}} - {{f.facultyName}}
+            </option>
+        </select>
+    </div>
+    <!-- ./Faculty -->
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea rows="5" class="form-control" id="assignment-description"
+            placeholder="Short description about what student should write about, words limit...etc." maxlength="850"
+            [formControl]="description" required></textarea>
+        <div id="descriptionHelp" class="form-text">Description must be less than 850 characters long.</div>
+    </div>
+    <!-- <label class="form-label">Deadline</label>
+        <p>TODO: get deadline from database.</p> -->
+    <div>
+        <button type="submit" type="button" class="btn btn-primary" (click)="newAssignment()">Submit</button>
+        <button class="btn btn-primary" (click)="updateAssignment()">Update</button>
+        <button type="button" class="btn btn-secondary" (click)="clearValues()">Clear</button>
+    </div>
+</form>
+<hr>
+    <h2>All Events
+        <button (click)="syncAssignments()" class="btn btn-primary btn-sm"><i class="fas fa-sync-alt"></i> Sync</button>
+    </h2>
+    <!-- <span class="text-muted" *ngIf="userInfo">All assignments created by "{{userInfo.userName}}"</span> -->
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Issues no.</th>
+                    <!-- <th>Assignment ID</th> -->
+                    <th>Event Name</th>
+                    <th>Creator</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Total Submissions</th>
+                    <th>Selected Submissions</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let l of assignmentList | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{l.assignment.deadline.deadlineId}}</td>
+                    <!-- <td>{{l.assignment.assignmentId}}</td> -->
+                    <td>{{l.assignment.assignmentName}}</td>
+                    <td>{{l.assignment.create_by}}</td>
+                    <td>{{l.assignment.deadline.startDate | date: 'dd-MM-YYYY'}}</td>
+                    <td>{{l.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}</td>
+                    <td>{{l.totalSub}}</td>
+                    <td style="color: red">{{l.selectedSub}}/{{l.totalSub}}</td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-primary mx-2"
+                            (click)="getAssignmentDetails(l)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="!assignmentList">
+        <div class="d-flex justify-content-center align-self-center" style="padding-top: 8%;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="text-muted py-5" style="text-align: center;" *ngIf="assignmentList && assignmentList.length ==0">
+        You have not created any assignment yet.
+    </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+<!-- </main> -->

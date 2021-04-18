@@ -33,7 +33,7 @@ export class UserManagementComponent implements OnInit {
       f => {
         if (f?.success) {
           this.facultyList = f.data;
-          console.log(f);
+          // console.log(f);
         }
       }
     )

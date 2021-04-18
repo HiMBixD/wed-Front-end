@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
-import { UserDetailsService } from '../../services/user-details.service';
 import { facultyInterface } from '../../interfaces/interfaces';
 
 
@@ -12,15 +11,14 @@ import { facultyInterface } from '../../interfaces/interfaces';
 export class HomepageComponent implements OnInit {
 
   val;
-  constructor(private commonService: CommonService,
-    private userService: UserDetailsService,) { }
+  constructor(private commonService: CommonService) { }
 
   ngOnInit(): void {
     this.commonService.getMyInfo({}).subscribe(val => {
       if (val) {
         this.val = val;
-        console.log(this.val);
-        console.log(val.data.userName);
+        // console.log(this.val);
+        // console.log(val.data.userName);
         // this.userDetails.setUserDetails(val.data);
       }
     });
@@ -29,7 +27,6 @@ export class HomepageComponent implements OnInit {
       f => {
         if (f?.success) {
           this.facultyList = f.data;
-          // this.userService.setFacultyName(this.getFacultyName(this.val.data.facultyId).facultyName);
         }
       }
     );
