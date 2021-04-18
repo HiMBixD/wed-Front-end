@@ -1,7 +1,7 @@
 /* tslint:disable:no-shadowed-variable */
 import {Component, OnInit} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
-import {Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet} from 'ng2-charts';
+import {Color, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet} from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import {CommonService} from '../../services/common.service';
 import {assignment} from '../../interfaces/assignment';
@@ -67,7 +67,7 @@ export class ManagementDashboardComponent implements OnInit {
       'rgb(134,199,243)',
       'rgb(255,226,154)',
       'rgb(113,129,201)',
-      'rgb(255,161,181)',
+      'rgb(181,255,161)',
       'rgb(205,142,66)'],
   }];
 
@@ -85,6 +85,10 @@ export class ManagementDashboardComponent implements OnInit {
   public stackedBarChartType: ChartType = 'bar';
   public stackedBarChartLegend = true;
   public stackedBarChartPlugins = [pluginDataLabels];
+  public stackedBarChartColors: Color[] = [
+    {backgroundColor: '#86c7f3'},
+    {backgroundColor: '#ffa1b5'}
+  ];
   public stackedBarChartData: ChartDataSets[] = [
     {data: [], label: 'Accepted submissions', stack: 'a'},
     {data: [], label: 'Rejected submissions', stack: 'a'}
@@ -201,13 +205,13 @@ export class ManagementDashboardComponent implements OnInit {
                 rejectedSubmissionCount += 1;
               }
             }));
-            // this.stackedBarChartData[0].data.push(acceptedSubmissionCount);
-            // this.stackedBarChartData[1].data.push(rejectedSubmissionCount);
+            this.stackedBarChartData[0].data.push(acceptedSubmissionCount);
+            this.stackedBarChartData[1].data.push(rejectedSubmissionCount);
           });
           // console.log(this.stackedBarChartData);
           // console.log(this.AcceptedSubmission);
           // console.log(this.RejectedSubmission);
-          console.log(this.overDueSub);
+          // console.log(this.overDueSub);
           // console.log(this.notCommentedYet);
         });
       });
