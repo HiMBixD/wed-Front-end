@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { assignmentDetails } from 'src/app/auth-required-pages/interfaces/assignment';
 import { environment } from 'src/environments/environment';
 import { facultyInterface } from 'src/app/auth-required-pages/interfaces/interfaces';
+import { AssignmentDetailsService } from 'src/app/auth-required-pages/services/assignment-details.service';
 
 @Component({
   selector: 'app-new-assignment',
@@ -14,7 +15,8 @@ import { facultyInterface } from 'src/app/auth-required-pages/interfaces/interfa
 })
 export class NewAssignmentComponent implements OnInit {
   constructor(private commonService: CommonService,
-    private toastrService: ToastrService) { }
+    private toastrService: ToastrService,
+  private asmDetails: AssignmentDetailsService) { }
 
   facultyList: facultyInterface[] = [];
   ngOnInit(): void {
@@ -24,7 +26,7 @@ export class NewAssignmentComponent implements OnInit {
         this.userInfo = val.data;
         //get assignment by this user.
         this.commonService.searchAssignment({
-          facultyId: this.userInfo.facultyId,
+          facultyId: '',
           username: '',
           deadlineId: ''
         }).subscribe(
@@ -71,12 +73,19 @@ export class NewAssignmentComponent implements OnInit {
 
   ////////////////////////////////////////////////////////
 
+
+  getFacultyName(facultyId) {
+    let name = this.facultyList.find(faculty => +faculty.facultyId === +facultyId);
+    return name.facultyName;
+  }
+
   getAssignmentDetails(asm: assignmentDetails) {
     this.toBeUpdated = asm;
     this.assignmentName.setValue(asm.assignment.assignmentName);
     this.description.setValue(asm.assignment.description);
     this.deadlineList.push(asm.assignment.deadline);
     this.deadlineSelected = asm.assignment.deadline.deadlineId;
+    this.faculty.setValue(asm.assignment.facultyId)
   }
 
   onSearch() {
@@ -150,7 +159,7 @@ export class NewAssignmentComponent implements OnInit {
     console.log(this.toBeUpdated.assignment.assignmentId, this.assignmentName.value, this.description.value, this.deadlineSelected)
     this.commonService.updateAssignment({
       assignmentId: parseInt(this.toBeUpdated.assignment.assignmentId),
-      assignmentName: String(this.assignmentName.value),
+      assignName: String(this.assignmentName.value),
       description: String(this.description.value),
       deadlineId: parseInt(this.deadlineSelected),
     }).subscribe(value => {
