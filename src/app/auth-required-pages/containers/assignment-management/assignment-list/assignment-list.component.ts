@@ -160,7 +160,7 @@ export class AssignmentListComponent implements OnInit {
 
   syncAssignments() {
     this.commonService.searchAssignment({
-      facultyId: '',
+      facultyId: this.userInfo.facultyId,
       username: '',
       deadlineId: ''
     }).subscribe(

@@ -41,6 +41,7 @@ export class NewSubmissionComponent implements OnInit {
   commentsLoading: boolean = false;
   postingComment: boolean = false;
   viewedFile;
+  agreeTerm = false
   ///////////////////////////////////////////////////////
 
   constructor(private uploadService: CommonService,
