@@ -105,9 +105,9 @@ export class ManagementDashboardComponent implements OnInit {
           }
         });
       });
-      console.log(this.pieChartData);
-      console.log(this.pieChartLabels);
-      console.log(this.stackedBarChartLabels);
+      // console.log(this.pieChartData);
+      // console.log(this.pieChartLabels);
+      // console.log(this.stackedBarChartLabels);
     }
   }
 
@@ -131,7 +131,7 @@ export class ManagementDashboardComponent implements OnInit {
           status: null
         }).subscribe(response => {
           this.submissionList = response.data;
-          console.log(this.submissionList);
+          // console.log(this.submissionList);
 
           this.submissionList.forEach(submission => {
             this.assignmentList.forEach(assignment => {
@@ -201,14 +201,12 @@ export class ManagementDashboardComponent implements OnInit {
                 rejectedSubmissionCount += 1;
               }
             }));
-            console.log(acceptedSubmissionCount);
-            console.log(rejectedSubmissionCount);
-            this.stackedBarChartData[0].data.push(acceptedSubmissionCount);
-            this.stackedBarChartData[1].data.push(rejectedSubmissionCount);
+            // this.stackedBarChartData[0].data.push(acceptedSubmissionCount);
+            // this.stackedBarChartData[1].data.push(rejectedSubmissionCount);
           });
-          console.log(this.stackedBarChartData);
-          console.log(this.AcceptedSubmission);
-          console.log(this.RejectedSubmission);
+          // console.log(this.stackedBarChartData);
+          // console.log(this.AcceptedSubmission);
+          // console.log(this.RejectedSubmission);
           // console.log(this.overDueSub);
           // console.log(this.notCommentedYet);
         });
