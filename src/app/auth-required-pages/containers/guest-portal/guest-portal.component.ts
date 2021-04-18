@@ -92,7 +92,7 @@ export class GuestPortalComponent implements OnInit {
     this.commonService.searchSubmission({
       username: '',
       assignmentId: assId,
-      status: assignmentStatus.selected
+      status: assignmentStatus.accepted
     }).subscribe(value => {
       if (value) {
         this.submissionList = value.data;

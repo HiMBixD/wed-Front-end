@@ -24,10 +24,10 @@ export class AssignmentDetailsService {
   statusDecoder(status: assignmentStatus) {
     let msg: string;
     switch (status) {
-      case (status = assignmentStatus.selected):
-        msg = 'Selected';
+      case (status = assignmentStatus.accepted):
+        msg = 'Accepted';
         return msg;
-      case (status = assignmentStatus.denied):
+      case (status = assignmentStatus.rejected):
         msg = 'Rejected';
         return msg;
       case (status = assignmentStatus.commentNotEval):
@@ -38,4 +38,10 @@ export class AssignmentDetailsService {
         return msg;
     }
   }
+  // addDate(date: Date, days: number) {
+  //   let newDate = new Date();
+  //   newDate = date;
+  //   let finalDate = newDate.setDate(newDate.getDate() + days);
+  //   return finalDate;
+  // }
 }

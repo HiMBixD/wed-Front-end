@@ -22,7 +22,7 @@ export interface deadline {
 
 export enum assignmentStatus {
     noAction = 0,
-    selected = 1,
-    denied = 2,
+    accepted = 1,
+    rejected = 2,
     commentNotEval = 3
 }

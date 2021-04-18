@@ -18,7 +18,7 @@
             <button class="nav-link active" id="pills-submission-list-tab" data-bs-toggle="tab" data-bs-target="#pills-submission-list" type="button"
                 role="tab" aria-controls="pills-submission-list" aria-selected="true">Submission List</button>
             <button class="nav-link" id="pills-submission-details-tab" data-bs-toggle="tab" data-bs-target="#pills-submission-details" type="button"
-                role="tab" aria-controls="pills-submission-details" aria-selected="false">Submission Details <span *ngIf="currentUser" class="badge bg-secondary">{{currentUser}}</span></button>
+                role="tab" aria-controls="pills-submission-details" aria-selected="false">Submission Details <span *ngIf="currentUser" class="badge bg-warning text-dark">{{currentUser}}</span></button>
         </div>
     </nav>
 <br>
@@ -187,7 +187,7 @@
                         <label class="form-label">Submission Status </label>
                         <select id ="statusSelected" class="form-select" [(ngModel)]="statusSelected" name = "deadlineSelected">
                             <option value=0>Pending</option>
-                            <option value=1>Selected</option>
+                            <option value=1>Accpeted</option>
                             <option value=2>Rejected</option>
                             <option value=3>Feedback Available</option>
                         </select>

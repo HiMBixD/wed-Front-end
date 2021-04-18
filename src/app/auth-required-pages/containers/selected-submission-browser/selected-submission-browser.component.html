@@ -3,12 +3,12 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink='/frontPage' routerLinkActive="active">Home</a></li>
       <li class="breadcrumb-item"><a routerLink='/yourActivities' routerLinkActive="active">Your Activity</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Selected Submissions</li>
+      <li class="breadcrumb-item active" aria-current="page">Accepted Submissions</li>
     </ol>
   </nav>
 </div>
 <main class="container">
-  <h2><!--<i class="fas fa-table"></i>--> All Assignments and Selected Submissions
+  <h2><!--<i class="fas fa-table"></i>--> All Assignments and Accepted Submissions
     <!-- <small class="text-muted">from Department of
         {{getFacultyName(userDetails.facultyId)}}</small> -->
   </h2>
@@ -53,7 +53,7 @@
         <td style="color: red">{{l.selectedSub}}</td>
         <td>
           <button type="button" class="btn btn-primary mx-2" (click)="showAllSubmissions(l.assignment.assignmentId)">View</button>
-          <button type="button" class="btn btn-primary mx-2" (click)="eleDownload.click()">Download selected</button>
+          <button type="button" class="btn btn-primary mx-2" (click)="eleDownload.click()">Download all files</button>
           <a [href]="urlDownloadSelected + l.assignment.assignmentId" style="display: none" #eleDownload></a>
         </td>
       </tr>
@@ -123,20 +123,21 @@
       </li>
     </ul>
   </div>
-  <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed && !checkFileTypes()"
-          [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">
-  </iframe>
-  <img *ngIf="fileIdViewed && checkFileTypes()"
-       [src]="transform('https://wed-be.herokuapp.com/api/file/read/'+fileIdViewed)">
-  <div style="background-color:#F5F5F5">
+ 
     <hr>
     <h3><i class="fas fa-file"></i> Preview</h3>
     <!-- <div style="text-align: center;" class="text-muted py-5" *ngIf="!currentUser && filesList.length >0">Please
         choose a
         file to preview</div> -->
-    <div style="text-align: center;" class="text-muted py-5">Please
+    <div *ngIf="!fileIdViewed" style="text-align: center;" class="text-muted py-5">Please
       choose a file to preview
     </div>
+    <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed && !checkFileTypes()"
+      [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">
+    </iframe>
+    <img *ngIf="fileIdViewed && checkFileTypes()"
+      [src]="transform('https://wed-be.herokuapp.com/api/file/read/'+fileIdViewed)">
+    <div style="background-color:#F5F5F5">
     <!-- <iframe width="100%" height="500" frameborder="0" *ngIf="fileIdViewed"
         [src]="transform('https://docs.google.com/gview?url='+url+fileIdViewed+'&embedded=true')">
     </iframe> -->

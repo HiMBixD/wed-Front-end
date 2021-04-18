@@ -30,7 +30,7 @@ export class ClosureManagementComponent implements OnInit {
     // });
   }
   closureForm = this.fb.group({
-    id: ['', Validators.required],
+    id: [{value: '', disabled: true}, Validators.required, ],
     startDate: ['', Validators.required],
     endDate: ['', Validators.required],
   });

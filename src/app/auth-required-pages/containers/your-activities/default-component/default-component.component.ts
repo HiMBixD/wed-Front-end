@@ -14,6 +14,13 @@ export class DefaultComponentComponent implements OnInit {
   constructor(private uploadService: CommonService,) { }
 
   ngOnInit(): void {
+    // this.uploadService.getMyInfo({}).subscribe(
+    //   value => {
+    //     this.userDetails = value.data;
+    //     this.roleName = value.data.role.roleName;
+    //     console.log(this.roleName)
+    //   }
+    // )
   }
 
   upload(file: File): void {
@@ -33,7 +40,8 @@ export class DefaultComponentComponent implements OnInit {
           this.fileProgress = -1;
         });
   }
-
+  // userDetails;
+  // roleName;
   onSelect($event) {
     this.upload($event.target.files[0]);
   }

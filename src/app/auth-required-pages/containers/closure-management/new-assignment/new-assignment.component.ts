@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { assignmentDetails } from 'src/app/auth-required-pages/interfaces/assignment';
-import { CommonService } from '../../../services/common.service';
-import { environment } from "../../../../../environments/environment";
-import { AssignmentDetailsService } from 'src/app/auth-required-pages/services/assignment-details.service';
+import { environment } from 'src/environments/environment';
+import { facultyInterface } from 'src/app/auth-required-pages/interfaces/interfaces';
 
 @Component({
-  selector: 'app-assignment-list',
-  templateUrl: './assignment-list.component.html',
-  styleUrls: ['./assignment-list.component.scss'],
+  selector: 'app-new-assignment',
+  templateUrl: './new-assignment.component.html',
+  styleUrls: ['./new-assignment.component.scss'],
   preserveWhitespaces: true
 })
-export class AssignmentListComponent implements OnInit {
-
+export class NewAssignmentComponent implements OnInit {
   constructor(private commonService: CommonService,
-    private toastrService: ToastrService,
-    private assignmentService: AssignmentDetailsService) { }
+    private toastrService: ToastrService) { }
 
+  facultyList: facultyInterface[] = [];
   ngOnInit(): void {
     //get user faculty id
     this.commonService.getMyInfo({}).subscribe(val => {
@@ -39,6 +38,14 @@ export class AssignmentListComponent implements OnInit {
       }
     });
 
+    this.commonService.getFaculties().subscribe(
+      f => {
+        if (f?.success) {
+          this.facultyList = f.data;
+          console.log(f);
+        }
+      }
+    )
     //get assignment list by id
 
     //populate assignmentList
@@ -56,6 +63,7 @@ export class AssignmentListComponent implements OnInit {
   filterEnd = new FormControl('');
   assignmentName = new FormControl('');
   description = new FormControl('');
+  faculty = new FormControl('');
 
   toBeUpdated;
 
@@ -111,13 +119,13 @@ export class AssignmentListComponent implements OnInit {
     this.commonService.createAssignment({
       assignName: String(this.assignmentName.value),
       description: String(this.description.value),
-      facultyId: this.userInfo.facultyId,
+      facultyId: this.faculty.value,
       deadlineId: parseInt(this.deadlineSelected),
       //TODO: this currently doesn't return a value.
     }).subscribe(value => {
       if (value.success) {
-        this.toastrService.success(`Assignment "${this.assignmentName.value}" added!`);
-        console.log('added!')
+        this.toastrService.success(`Created Event "${this.assignmentName.value}"`);
+        this.syncAssignments()
       }
       else {
         const message = `Failed to create "${this.assignmentName.value}". Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
@@ -147,8 +155,8 @@ export class AssignmentListComponent implements OnInit {
       deadlineId: parseInt(this.deadlineSelected),
     }).subscribe(value => {
       if (value.success) {
-        this.toastrService.success(`Assignment "${this.assignmentName.value}" updated!`);
-        console.log('added!')
+        this.toastrService.success(`Event "${this.assignmentName.value}" updated successfully!`);
+        this.syncAssignments()
       }
       else {
         const message = `Failed to update "${this.assignmentName.value}". Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
