@@ -36,83 +36,85 @@
   </div>
   <hr>
   <h3>Exceptional Report</h3>
-  <h4 class="text-muted">Accepted submission:</h4>
-  <div class="table-responsive-md">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Assignment</th>
-        <th scope="col">Faculty</th>
-        <th scope="col">Student Username</th>
-        <th scope="col">Submission date</th>
-        <th scope="col">Days since submission</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr scope="row"
-          *ngFor="let submission of this.AcceptedSubmission | paginate: {id: 'acceptedSubmissionPage', itemsPerPage: 5, currentPage: acceptedSubmissionPage }">
-        <td>{{submission.assignmentName}}</td>
-        <td>{{submission.facultyName}}</td>
-        <td>{{submission.username}}</td>
-        <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
-        <td>{{submission.daysSinceSubs}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <pagination-controls id="acceptedSubmissionPage" (pageChange)="acceptedSubmissionPage = $event"></pagination-controls>
+  <!--
+    <h4 class="text-muted">Accepted submission:</h4>
+    <div class="table-responsive-md">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Assignment</th>
+          <th scope="col">Faculty</th>
+          <th scope="col">Student Username</th>
+          <th scope="col">Submission date</th>
+          <th scope="col">Days since submission</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row"
+            *ngFor="let submission of this.AcceptedSubmission | paginate: {id: 'acceptedSubmissionPage', itemsPerPage: 5, currentPage: acceptedSubmissionPage }">
+          <td>{{submission.assignmentName}}</td>
+          <td>{{submission.facultyName}}</td>
+          <td>{{submission.username}}</td>
+          <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
+          <td>{{submission.daysSinceSubs}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <pagination-controls id="acceptedSubmissionPage" (pageChange)="acceptedSubmissionPage = $event"></pagination-controls>
+    <hr>
+    <h4 class="text-muted">Rejected submission:</h4>
+    <div class="table-responsive-md">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Assignment</th>
+          <th scope="col">Faculty</th>
+          <th scope="col">Student Username</th>
+          <th scope="col">Submission date</th>
+          <th scope="col">Days since submission</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row"
+            *ngFor="let submission of this.RejectedSubmission | paginate: {id: 'rejectedSubmissionPage', itemsPerPage: 5, currentPage: rejectedSubmissionPage }">
+          <td>{{submission.assignmentName}}</td>
+          <td>{{submission.facultyName}}</td>
+          <td>{{submission.username}}</td>
+          <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
+          <td>{{submission.daysSinceSubs}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <pagination-controls id="RejectedSubmissionPage" (pageChange)="rejectedSubmissionPage = $event"></pagination-controls>
+  -->
   <hr>
-  <h4 class="text-muted">Rejected submission:</h4>
-  <div class="table-responsive-md">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Assignment</th>
-        <th scope="col">Faculty</th>
-        <th scope="col">Student Username</th>
-        <th scope="col">Submission date</th>
-        <th scope="col">Days since submission</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr scope="row"
-          *ngFor="let submission of this.RejectedSubmission | paginate: {id: 'rejectedSubmissionPage', itemsPerPage: 5, currentPage: rejectedSubmissionPage }">
-        <td>{{submission.assignmentName}}</td>
-        <td>{{submission.facultyName}}</td>
-        <td>{{submission.username}}</td>
-        <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
-        <td>{{submission.daysSinceSubs}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <pagination-controls id="RejectedSubmissionPage" (pageChange)="rejectedSubmissionPage = $event"></pagination-controls>
-  <hr>
-  <h4 class="text-muted">Submissions without a comment after 14 days:</h4>
-  <div class="table-responsive-md">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Assignment</th>
-        <th scope="col">Faculty</th>
-        <th scope="col">Student Username</th>
-        <th scope="col">Submission date</th>
-        <th scope="col">Days overdue</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr scope="row"
-          *ngFor="let submission of this.overDueSub | paginate: { id: 'overDueSubPage', itemsPerPage: 5, currentPage: overDueSubPage }">
-        <td>{{submission.assignmentName}}</td>
-        <td>{{submission.facultyName}}</td>
-        <td>{{submission.username}}</td>
-        <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
-        <td>{{submission.daysOverdue}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <pagination-controls id="overDueSubPage" (pageChange)="overDueSubPage = $event"></pagination-controls>
+    <h4 class="text-muted">Submissions without a comment after 14 days:</h4>
+    <div class="table-responsive-md">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Assignment</th>
+          <th scope="col">Faculty</th>
+          <th scope="col">Student Username</th>
+          <th scope="col">Submission date</th>
+          <th scope="col">Days overdue</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row"
+            *ngFor="let submission of this.overDueSub | paginate: { id: 'overDueSubPage', itemsPerPage: 5, currentPage: overDueSubPage }">
+          <td>{{submission.assignmentName}}</td>
+          <td>{{submission.facultyName}}</td>
+          <td>{{submission.username}}</td>
+          <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
+          <td>{{submission.daysOverdue}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <pagination-controls id="overDueSubPage" (pageChange)="overDueSubPage = $event"></pagination-controls>
   <hr>
   <h4 class="text-muted">Submissions currently without comment:</h4>
   <div class="table-responsive-md">
