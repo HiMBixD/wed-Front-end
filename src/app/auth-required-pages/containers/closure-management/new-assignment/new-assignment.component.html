@@ -75,9 +75,11 @@
                     <th>Issues no.</th>
                     <!-- <th>Assignment ID</th> -->
                     <th>Event Name</th>
-                    <th>Creator</th>
+                    <!-- <th>Creator</th> -->
+                    <th>Faculty</th>
                     <th>Start date</th>
                     <th>End date</th>
+                    <th>Final closure date</th>
                     <th>Total Submissions</th>
                     <th>Selected Submissions</th>
                     <th>Action</th>
@@ -88,9 +90,11 @@
                     <td>{{l.assignment.deadline.deadlineId}}</td>
                     <!-- <td>{{l.assignment.assignmentId}}</td> -->
                     <td>{{l.assignment.assignmentName}}</td>
-                    <td>{{l.assignment.create_by}}</td>
+                    <!-- <td>{{l.assignment.create_by}}</td> -->
+                    <td>{{getFacultyName(l.assignment.facultyId)}}</td>
                     <td>{{l.assignment.deadline.startDate | date: 'dd-MM-YYYY'}}</td>
                     <td>{{l.assignment.deadline.endDate | date: 'dd-MM-YYYY'}}</td>
+                    <td>{{this.asmDetails.addDate(l.assignment.deadline.endDate, 14) | date: 'dd-MM-YYYY' }}</td>
                     <td>{{l.totalSub}}</td>
                     <td style="color: red">{{l.selectedSub}}/{{l.totalSub}}</td>
                     <td class="align-middle">

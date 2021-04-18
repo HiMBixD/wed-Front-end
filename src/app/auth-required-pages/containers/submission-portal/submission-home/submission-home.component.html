@@ -59,11 +59,11 @@
                     <!-- <td>{{m.assignmentName}}</td> -->
                     <!-- <td>{{m.deadline.startDate}}</td> -->
                     <!-- <td>{{m.deadline.endDate}}}</td> -->
-                    <td style="color: red">No info</td>
-                    <!-- <td style="color: red">{{findAsmDetails(m.assignment)}}</td> -->
+                    <td *ngIf="findAsmDetails(m.assignmentId)">{{findAsmDetails(m.assignmentId).assignment.assignmentName}}</td>
+                    <td style="color: red" *ngIf="!findAsmDetails(m.assignmentId)">No data</td>
                     <td>{{m.submissionDate | date: 'dd-MM-YYYY'}}</td>
-                    <td style="color: red">No info</td>
-                    <td style="color: red">No info</td>
+                    <td >{{findAsmDetails(m.assignmentId).assignment.deadline.endDate | date: 'dd-MM-YYYY'}}</td>
+                    <td><b>{{this.asmDetails.addDate(findAsmDetails(m.assignmentId).assignment.deadline.endDate, 14) | date: 'dd-MM-YYYY'}}</b></td>
                     <td>{{m.totalComment}}</td>
                     <td>{{this.asmDetails.statusDecoder(m.status)}}</td>
                     <!-- <td>{{m.submissionId}}</td> -->

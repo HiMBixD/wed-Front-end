@@ -249,7 +249,7 @@ export class CommonService {
    */
   updateAssignment(assignment: {
     assignmentId: number,
-    assignmentName: string,
+    assignName: string,
     description: string,
     deadlineId: number,
   }): Observable<any> {
