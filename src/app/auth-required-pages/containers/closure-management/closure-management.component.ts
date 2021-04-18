@@ -55,26 +55,34 @@ export class ClosureManagementComponent implements OnInit {
 
   setClosureDate() {
     // console.log(this.id.value, this.startDate.value, this.endDate.value)
-    this.commonService.setClosureDate({
-      action: "create",
-      id: this.closureForm.get("id").value,
-      startDate: this.closureForm.get("startDate").value,
-      endDate: this.closureForm.get("endDate").value
-    }).subscribe(value => {
-      if (value.success) {
-        console.log(value)
-        this.toastrService.success(`Set closure date success! ${this.closureForm.get("startDate").value} - ${this.closureForm.get("endDate").value}`)
-      }
-      else {
-        console.log('well that failed!');
-        const message = 'Failed! Failed to set deadline ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
-        this.toastrService.error(message)
-      }
-    })
-    this.isLoading == false;
+    if (this.closureForm.controls['startDate'].value > this.closureForm.controls['endDate'].value) {
+      this.toastrService.error('End Date should not occur before Start Date. Please try again.')
+    }
+    else {
+      this.commonService.setClosureDate({
+        action: "create",
+        id: this.closureForm.get("id").value,
+        startDate: this.closureForm.get("startDate").value,
+        endDate: this.closureForm.get("endDate").value
+      }).subscribe(value => {
+        if (value.success) {
+          console.log(value)
+          this.toastrService.success(`Set closure date success! ${this.closureForm.get("startDate").value} - ${this.closureForm.get("endDate").value}`)
+        }
+        else {
+          console.log('well that failed!');
+          const message = 'Failed! Failed to set deadline ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+          this.toastrService.error(message)
+        }
+      })
+      this.isLoading == false;
+    }
   }
   modifyClosureDate() {
-    if (this.closureForm.valid) {
+    if (this.closureForm.controls['startDate'].value > this.closureForm.controls['endDate'].value) {
+      this.toastrService.error('End Date should not occur before Start Date. Please try again.')
+    }
+    if (this.closureForm.valid && this.closureForm.controls['startDate'].value < this.closureForm.controls['endDate'].value) {
       this.commonService.setClosureDate({
         action: "set",
         id: this.closureForm.get("id").value,

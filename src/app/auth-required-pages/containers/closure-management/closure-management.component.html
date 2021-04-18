@@ -71,7 +71,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr scope="row" *ngFor="let d of deadlineList | paginate: { itemsPerPage: 5, currentPage: p }">
+                        <tr scope="row" *ngFor="let d of deadlineList | paginate: { itemsPerPage: 5, currentPage: p, id: 'deadlineList' }">
                             <td>
                                 {{d.deadlineId}}
                             </td>
@@ -86,7 +86,7 @@
             </div>
             <div style="text-align: center;" *ngIf="deadlineList.length ==0" class="text-muted py-5">Please specify a time period to
                 view all deadlines</div>
-            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            <pagination-controls id="deadlineList" (pageChange)="p = $event"></pagination-controls>
             <!-- Table show all magazine start and end date
                 with select button.
                 make it like the user management page. -->
