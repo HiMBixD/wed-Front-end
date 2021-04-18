@@ -14,12 +14,14 @@ import {assignment} from '../../interfaces/assignment';
 export class ManagementDashboardComponent implements OnInit {
   private facultyName: any;
   private assignmentList: any;
-  public submissionList: any;
   private assignment: assignment;
   public overDueSub = [];
   public notCommentedYet = [];
   public AcceptedSubmission = [];
   public RejectedSubmission = [];
+  public submissionList: any;
+  private facultyList = [];
+
 
   constructor(private commonService: CommonService) {
     monkeyPatchChartJsTooltip();
@@ -27,11 +29,12 @@ export class ManagementDashboardComponent implements OnInit {
   }
 
   public acceptedSubmissionPage = 1;
+  public rejectedSubmissionPage = 1;
   public overDueSubPage = 1;
   public notCommentedYetPage = 1;
-  public rejectedSubmissionPage = 1;
-  private facultyList = [];
   private currentYear = new Date().getFullYear();
+  private currentDate = new Date();
+
 
   public pieChartOptions: ChartOptions = {
     title: {
@@ -40,10 +43,10 @@ export class ManagementDashboardComponent implements OnInit {
     },
     plugins: {
       datalabels: {
-        formatter: (value, ctx) => {
+        formatter: (value, context) => {
 
           let sum = 0;
-          const dataArr: any = ctx.chart.data.datasets[0].data;
+          const dataArr: any = context.chart.data.datasets[0].data;
           dataArr.map(data => {
             sum += data;
           });
@@ -116,6 +119,7 @@ export class ManagementDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.commonService.searchAssignment({
       facultyId: null,
       username: '',
@@ -155,35 +159,36 @@ export class ManagementDashboardComponent implements OnInit {
 
           this.submissionList.forEach(submission => {
 
-            const endDate = new Date(submission.deadline.endDate);
-            const currentDate = new Date();
             const startDate = new Date(submission.deadline.startDate);
             const submissionDate = new Date(submission.submissionDate);
+            const daysOverDue = Math.floor((this.currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+            const daysSinceSubs = Math.floor((this.currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
 
-            if (startDate.getFullYear() === currentDate.getFullYear()) {
+            if (startDate.getFullYear() === this.currentDate.getFullYear()) {
 
               switch (submission.status) {
                 case 0:
-                  if (currentDate.getTime() - endDate.getTime() > 14) {
+                  if (daysOverDue > 14) {
 
-                    submission.daysOverdue = Math.floor((currentDate.getTime() - endDate.getTime()) / (1000 * 3600 * 24));
+                    submission.daysOverDue = daysOverDue;
                     this.overDueSub.push(submission);
 
-                  } else if (currentDate.getTime() - endDate.getTime() < 14) {
+                  } else if (daysOverDue < 14) {
 
-                    submission.daysSinceSubs = Math.floor((currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+                    submission.daysSinceSubs = daysSinceSubs;
                     this.notCommentedYet.push(submission);
                   }
                   break;
 
                 case 1:
                   this.AcceptedSubmission.push(submission);
-                  submission.daysSinceSubs = Math.floor((currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+                  submission.daysSinceSubs = daysSinceSubs;
+
                   break;
 
                 case 2:
                   this.RejectedSubmission.push(submission);
-                  submission.daysSinceSubs = Math.floor((currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+                  submission.daysSinceSubs = daysSinceSubs;
                   break;
 
                 default:
@@ -209,6 +214,7 @@ export class ManagementDashboardComponent implements OnInit {
             this.stackedBarChartData[1].data.push(rejectedSubmissionCount);
           });
           // console.log(this.stackedBarChartData);
+          console.log(this.pieChartData);
           // console.log(this.AcceptedSubmission);
           // console.log(this.RejectedSubmission);
           // console.log(this.overDueSub);
