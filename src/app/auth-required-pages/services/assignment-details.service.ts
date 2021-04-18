@@ -38,10 +38,9 @@ export class AssignmentDetailsService {
         return msg;
     }
   }
-  // addDate(date: Date, days: number) {
-  //   let newDate = new Date();
-  //   newDate = date;
-  //   let finalDate = newDate.setDate(newDate.getDate() + days);
-  //   return finalDate;
-  // }
+  addDate(date: Date, days: number) {
+    let newDate = new Date(date);
+    let finalDate = newDate.setDate(newDate.getDate() + days);
+    return finalDate;
+  }
 }

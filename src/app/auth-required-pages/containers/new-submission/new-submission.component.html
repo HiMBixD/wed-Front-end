@@ -82,15 +82,23 @@
             </div>
         </div>
         <div class="col-12 mb-2">
-        <button type="button" class="btn btn-primary" (click)="submit()"><i class="fas fa-upload"></i>
-            Submit</button><br>
+        <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting">
+                <i class="fas fa-upload"></i> Submit
+            </span>
+            <span *ngIf="isSubmitting" style="vertical-align: baseline;" class="spinner-border spinner-border-sm" role="status"
+                aria-hidden="true"></span>
+            <span *ngIf="isSubmitting">
+                 Submitting
+            </span>
+        </button><br>
         </div>
     </form>
     <br>
     <h5><i class="fas fa-comments"></i> Feedback</h5>
     <hr>
     <section *ngIf="allComments && allComments.length > 0">
-        <div class="comments row mt-4" *ngFor="let c of allComments">
+        <div class="comments row mt-4" *ngFor="let c of allComments | paginate: { itemsPerPage: 4, currentPage: cmtPage, id: 'commentPage'}">
             <div class="col-1 d-none d-lg-block">
                 <img class="img-fluid img-thumbnail" src="https://via.placeholder.com/100" alt="">
             </div>
@@ -106,6 +114,8 @@
                 </div>
             </div>
         </div>
+        <br>
+        <pagination-controls id="commentPage" (pageChange)="cmtPage = $event"></pagination-controls>
         <br>
         <h6>New Comment</h6>
         <form>
