@@ -10,8 +10,8 @@
     <h1><i class="fas fa-list-alt"></i> Your Activities</h1>
     <hr>
     <!-- <div class="border border-primary rounded-bottom " style="background-color: grey; height: 50px; width: 100%;"></div> -->
-    <!-- <div *ngIf="roleName == `ROLE_GUEST`"> -->
-    <div>
+    <div *ngIf="roleName == 'ROLE_GUEST'">
+    <!-- <div> -->
         <h2>Guest Activities</h2>
         <div class="row mb-3">
             <div class="col-sm-6 mb-2">
@@ -27,9 +27,9 @@
         </div>
     </div>
     <!-- <p>lấy role id từ db => ngIf role = match div nào thì show div đấy</p> -->
-    <hr>
-    <!-- <div *ngIf="roleName == `ROLE_STUDENT`"> -->
-    <div>
+    <!-- <hr> -->
+    <div *ngIf="roleName == 'ROLE_STUDENT'">
+    <!-- <div> -->
         <h2>Student Activities</h2>
         <div class="row mb-3">
             <div class="col-sm-6 mb-2">
@@ -45,9 +45,9 @@
         </div>
     </div>
 
-    <hr>
-    <div>
-        <!-- <div ngIf="roleName ==`ROLE_COORDINATOR`"> -->
+    <!-- <hr> -->
+    <!-- <div> -->
+        <div *ngIf="roleName =='ROLE_COORDINATOR'">
         <h2>Marketing Coordinator Activities</h2>
         <div class="row mb-3">
             <div class="col-sm-6 mb-2">
@@ -63,9 +63,9 @@
         </div>
     </div>
 
-    <hr>
-    <div>
-        <!-- <div *ngIf="roleName ==`ROLE_MANAGER`"> -->
+    <!-- <hr> -->
+    <!-- <div> -->
+    <div *ngIf="roleName =='ROLE_MANAGER'">
         <h2>Marketing Manager</h2>
         <div class="row mb-3">
             <div class="col-sm-6 mb-2">
@@ -91,9 +91,9 @@
         </div>
     </div>
 
-    <hr>
-    <div>
-        <!-- <div *ngIf="roleName == 'ROLE_ADMIN'"> -->
+    <!-- <hr> -->
+    <!-- <div> -->
+    <div *ngIf="roleName == 'ROLE_ADMIN'">
         <h2>Administrator Activities</h2>
         <div class="row mb-3">
             <div class="col-sm-6 mb-2">
