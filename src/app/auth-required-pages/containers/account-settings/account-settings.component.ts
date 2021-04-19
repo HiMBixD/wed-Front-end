@@ -39,10 +39,14 @@ export class AccountSettingsComponent implements OnInit {
   checkPassword() {
     //check if current password match the one from db
     // this.currentPassword.value
-    if (this.newPassword.value !== this.confirmPassword.value) {
+    let newPass = this.newPassword.value;
+    let confPass = this.confirmPassword.value;
+    let m = newPass.localeCompare(confPass);
+    console.log(newPass,confPass)
+    if (newPass !== confPass) {
       this.toastrService.error('Please make sure that new password matches confirm password');
     }
-    else {
+    else if (newPass == confPass) {
       this.commonService.changePassword({
         username: this.user.userName,
         oldPassword: this.currentPassword.value,

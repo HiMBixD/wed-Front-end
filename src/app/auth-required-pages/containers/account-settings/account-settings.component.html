@@ -65,7 +65,7 @@
                 Confirm Password
             </label>
             <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password"
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" required>
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" [formControl]="confirmPassword" required>
         </div>
         <div id="errorMessage"></div>
         <button class="btn btn-primary" type="submit" (click)="checkPassword()">Save Changes</button>
