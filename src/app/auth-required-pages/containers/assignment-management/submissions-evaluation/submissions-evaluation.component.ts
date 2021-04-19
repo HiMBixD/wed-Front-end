@@ -130,7 +130,7 @@ export class SubmissionsEvaluationComponent implements OnInit {
           this.toastr.success('Comment posted successfully!');
         }
         else {
-          const message = `Failed to create comment. Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+          const message = `Failed to create comment. Error code: ` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
           this.toastr.error('Failed to create comment. Please try again')
           // console.log(message)
         }

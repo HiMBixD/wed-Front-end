@@ -137,7 +137,7 @@ export class NewAssignmentComponent implements OnInit {
         this.syncAssignments()
       }
       else {
-        const message = `Failed to create "${this.assignmentName.value}". Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+        const message = `Failed to create "${this.assignmentName.value}". Error code :` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
         this.toastrService.error(message)
         console.log(message)
       }
@@ -169,7 +169,7 @@ export class NewAssignmentComponent implements OnInit {
         this.syncAssignments()
       }
       else {
-        const message = `Failed to update "${this.assignmentName.value}". Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+        const message = `Failed to update "${this.assignmentName.value}". Error code: ` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
         this.toastrService.error(message)
         console.log(message)
       }
