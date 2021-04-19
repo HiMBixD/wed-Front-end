@@ -1,7 +1,7 @@
 /* tslint:disable:no-shadowed-variable */
 import {Component, OnInit} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
-import {Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet} from 'ng2-charts';
+import {Color, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, SingleDataSet} from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import {CommonService} from '../../services/common.service';
 import {assignment} from '../../interfaces/assignment';
@@ -14,12 +14,14 @@ import {assignment} from '../../interfaces/assignment';
 export class ManagementDashboardComponent implements OnInit {
   private facultyName: any;
   private assignmentList: any;
-  public submissionList: any;
   private assignment: assignment;
   public overDueSub = [];
   public notCommentedYet = [];
   public AcceptedSubmission = [];
   public RejectedSubmission = [];
+  public submissionList: any;
+  private facultyList = [];
+
 
   constructor(private commonService: CommonService) {
     monkeyPatchChartJsTooltip();
@@ -27,11 +29,12 @@ export class ManagementDashboardComponent implements OnInit {
   }
 
   public acceptedSubmissionPage = 1;
+  public rejectedSubmissionPage = 1;
   public overDueSubPage = 1;
   public notCommentedYetPage = 1;
-  public rejectedSubmissionPage = 1;
-  private facultyList = [];
   private currentYear = new Date().getFullYear();
+  private currentDate = new Date();
+
 
   public pieChartOptions: ChartOptions = {
     title: {
@@ -40,10 +43,10 @@ export class ManagementDashboardComponent implements OnInit {
     },
     plugins: {
       datalabels: {
-        formatter: (value, ctx) => {
+        formatter: (value, context) => {
 
           let sum = 0;
-          const dataArr: any = ctx.chart.data.datasets[0].data;
+          const dataArr: any = context.chart.data.datasets[0].data;
           dataArr.map(data => {
             sum += data;
           });
@@ -67,7 +70,7 @@ export class ManagementDashboardComponent implements OnInit {
       'rgb(134,199,243)',
       'rgb(255,226,154)',
       'rgb(113,129,201)',
-      'rgb(255,161,181)',
+      'rgb(181,255,161)',
       'rgb(205,142,66)'],
   }];
 
@@ -85,6 +88,10 @@ export class ManagementDashboardComponent implements OnInit {
   public stackedBarChartType: ChartType = 'bar';
   public stackedBarChartLegend = true;
   public stackedBarChartPlugins = [pluginDataLabels];
+  public stackedBarChartColors: Color[] = [
+    {backgroundColor: '#86c7f3'},
+    {backgroundColor: '#ffa1b5'}
+  ];
   public stackedBarChartData: ChartDataSets[] = [
     {data: [], label: 'Accepted submissions', stack: 'a'},
     {data: [], label: 'Rejected submissions', stack: 'a'}
@@ -105,13 +112,14 @@ export class ManagementDashboardComponent implements OnInit {
           }
         });
       });
-      console.log(this.pieChartData);
-      console.log(this.pieChartLabels);
-      console.log(this.stackedBarChartLabels);
+      // console.log(this.pieChartData);
+      // console.log(this.pieChartLabels);
+      // console.log(this.stackedBarChartLabels);
     }
   }
 
   ngOnInit(): void {
+
     this.commonService.searchAssignment({
       facultyId: null,
       username: '',
@@ -131,7 +139,7 @@ export class ManagementDashboardComponent implements OnInit {
           status: null
         }).subscribe(response => {
           this.submissionList = response.data;
-          console.log(this.submissionList);
+          // console.log(this.submissionList);
 
           this.submissionList.forEach(submission => {
             this.assignmentList.forEach(assignment => {
@@ -151,35 +159,36 @@ export class ManagementDashboardComponent implements OnInit {
 
           this.submissionList.forEach(submission => {
 
-            const endDate = new Date(submission.deadline.endDate);
-            const currentDate = new Date();
             const startDate = new Date(submission.deadline.startDate);
             const submissionDate = new Date(submission.submissionDate);
+            const daysOverDue = Math.floor((this.currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+            const daysSinceSubs = Math.floor((this.currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
 
-            if (startDate.getFullYear() === currentDate.getFullYear()) {
+            if (startDate.getFullYear() === this.currentDate.getFullYear()) {
 
               switch (submission.status) {
                 case 0:
-                  if (currentDate.getTime() - endDate.getTime() > 14) {
+                  if (daysOverDue > 14) {
 
-                    submission.daysOverdue = Math.floor((currentDate.getTime() - endDate.getTime()) / (1000 * 3600 * 24));
+                    submission.daysOverDue = daysOverDue;
                     this.overDueSub.push(submission);
 
-                  } else if (currentDate.getTime() - endDate.getTime() < 14) {
+                  } else if (daysOverDue < 14) {
 
-                    submission.daysSinceSubs = Math.floor((currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+                    submission.daysSinceSubs = daysSinceSubs;
                     this.notCommentedYet.push(submission);
                   }
                   break;
 
                 case 1:
                   this.AcceptedSubmission.push(submission);
-                  submission.daysSinceSubs = Math.floor((currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+                  submission.daysSinceSubs = daysSinceSubs;
+
                   break;
 
                 case 2:
                   this.RejectedSubmission.push(submission);
-                  submission.daysSinceSubs = Math.floor((currentDate.getTime() - submissionDate.getTime()) / (1000 * 3600 * 24));
+                  submission.daysSinceSubs = daysSinceSubs;
                   break;
 
                 default:
@@ -201,14 +210,13 @@ export class ManagementDashboardComponent implements OnInit {
                 rejectedSubmissionCount += 1;
               }
             }));
-            console.log(acceptedSubmissionCount);
-            console.log(rejectedSubmissionCount);
             this.stackedBarChartData[0].data.push(acceptedSubmissionCount);
             this.stackedBarChartData[1].data.push(rejectedSubmissionCount);
           });
-          console.log(this.stackedBarChartData);
-          console.log(this.AcceptedSubmission);
-          console.log(this.RejectedSubmission);
+          // console.log(this.stackedBarChartData);
+          console.log(this.pieChartData);
+          // console.log(this.AcceptedSubmission);
+          // console.log(this.RejectedSubmission);
           // console.log(this.overDueSub);
           // console.log(this.notCommentedYet);
         });

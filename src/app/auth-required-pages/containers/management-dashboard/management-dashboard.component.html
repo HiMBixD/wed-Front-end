@@ -12,83 +12,92 @@
   <hr>
   <h3>General Information</h3>
   <!-- chartJS pie chart -->
-  <div style="min-height: 500px">
-    <canvas baseChart
-            [data]="pieChartData"
-            [labels]="pieChartLabels"
-            [chartType]="pieChartType"
-            [options]="pieChartOptions"
-            [plugins]="pieChartPlugins"
-            [legend]="pieChartLegend"
-            [colors]="pieChartColors">
-    </canvas>
+  <div *ngIf="pieChartData.length || stackedBarChartData[0].data.length && stackedBarChartData[1].data.length">
+    <div *ngIf="pieChartData.length" style="min-height: 500px">
+      <canvas baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              [options]="pieChartOptions"
+              [plugins]="pieChartPlugins"
+              [legend]="pieChartLegend"
+              [colors]="pieChartColors">
+      </canvas>
+      <hr>
+    </div>
+    <div *ngIf="stackedBarChartData[0].data.length && stackedBarChartData[1].data.length"
+         style="min-height: 500px; margin: auto">
+      <canvas baseChart
+              [datasets]="stackedBarChartData"
+              [labels]="stackedBarChartLabels"
+              [options]="stackedBarChartOptions"
+              [plugins]="stackedBarChartPlugins"
+              [legend]="stackedBarChartLegend"
+              [colors]="stackedBarChartColors"
+              [chartType]="stackedBarChartType">
+      </canvas>
+      <hr>
+    </div>
   </div>
-  <hr>
-  <div style="min-height: 500px; margin: auto">
-    <canvas baseChart
-            [datasets]="stackedBarChartData"
-            [labels]="stackedBarChartLabels"
-            [options]="stackedBarChartOptions"
-            [plugins]="stackedBarChartPlugins"
-            [legend]="stackedBarChartLegend"
-            [chartType]="stackedBarChartType">
-    </canvas>
+  <div *ngIf="!pieChartData.length || !stackedBarChartData[0].data.length && !stackedBarChartData[1].data.length"
+       style="text-align: center" class="text-muted py-5">Insufficient data
   </div>
-  <hr>
   <h3>Exceptional Report</h3>
-  <h4 class="text-muted">Accepted submission:</h4>
-  <div class="table-responsive-md">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Assignment</th>
-        <th scope="col">Faculty</th>
-        <th scope="col">Student Username</th>
-        <th scope="col">Submission date</th>
-        <th scope="col">Days since submission</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr scope="row"
-          *ngFor="let submission of this.AcceptedSubmission | paginate: {id: 'acceptedSubmissionPage', itemsPerPage: 5, currentPage: acceptedSubmissionPage }">
-        <td>{{submission.assignmentName}}</td>
-        <td>{{submission.facultyName}}</td>
-        <td>{{submission.username}}</td>
-        <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
-        <td>{{submission.daysSinceSubs}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <pagination-controls id="acceptedSubmissionPage" (pageChange)="acceptedSubmissionPage = $event"></pagination-controls>
+  <!--
+    <h4 class="text-muted">Accepted submission:</h4>
+    <div class="table-responsive-md">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Assignment</th>
+          <th scope="col">Faculty</th>
+          <th scope="col">Student Username</th>
+          <th scope="col">Submission date</th>
+          <th scope="col">Days since submission</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row"
+            *ngFor="let submission of this.AcceptedSubmission | paginate: {id: 'acceptedSubmissionPage', itemsPerPage: 5, currentPage: acceptedSubmissionPage }">
+          <td>{{submission.assignmentName}}</td>
+          <td>{{submission.facultyName}}</td>
+          <td>{{submission.username}}</td>
+          <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
+          <td>{{submission.daysSinceSubs}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <pagination-controls id="acceptedSubmissionPage" (pageChange)="acceptedSubmissionPage = $event"></pagination-controls>
+    <hr>
+    <h4 class="text-muted">Rejected submission:</h4>
+    <div class="table-responsive-md">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Assignment</th>
+          <th scope="col">Faculty</th>
+          <th scope="col">Student Username</th>
+          <th scope="col">Submission date</th>
+          <th scope="col">Days since submission</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row"
+            *ngFor="let submission of this.RejectedSubmission | paginate: {id: 'rejectedSubmissionPage', itemsPerPage: 5, currentPage: rejectedSubmissionPage }">
+          <td>{{submission.assignmentName}}</td>
+          <td>{{submission.facultyName}}</td>
+          <td>{{submission.username}}</td>
+          <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
+          <td>{{submission.daysSinceSubs}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <pagination-controls id="RejectedSubmissionPage" (pageChange)="rejectedSubmissionPage = $event"></pagination-controls>
   <hr>
-  <h4 class="text-muted">Rejected submission:</h4>
-  <div class="table-responsive-md">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Assignment</th>
-        <th scope="col">Faculty</th>
-        <th scope="col">Student Username</th>
-        <th scope="col">Submission date</th>
-        <th scope="col">Days since submission</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr scope="row"
-          *ngFor="let submission of this.RejectedSubmission | paginate: {id: 'rejectedSubmissionPage', itemsPerPage: 5, currentPage: rejectedSubmissionPage }">
-        <td>{{submission.assignmentName}}</td>
-        <td>{{submission.facultyName}}</td>
-        <td>{{submission.username}}</td>
-        <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
-        <td>{{submission.daysSinceSubs}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <pagination-controls id="RejectedSubmissionPage" (pageChange)="rejectedSubmissionPage = $event"></pagination-controls>
-  <hr>
-  <h4 class="text-muted">Submissions without a comment after 14 days:</h4>
+  -->
+  <h4 class="text-muted">Submissions currently without comments after 14 days:</h4>
   <div class="table-responsive-md">
     <table class="table table-striped">
       <thead>
@@ -107,10 +116,13 @@
         <td>{{submission.facultyName}}</td>
         <td>{{submission.username}}</td>
         <td>{{submission.submissionDate | date: 'dd-MM-YYYY'}}</td>
-        <td>{{submission.daysOverdue}}</td>
+        <td>{{submission.daysOverDue}}</td>
       </tr>
       </tbody>
     </table>
+  </div>
+  <div *ngIf="!overDueSub.length" style="text-align: center" class="text-muted py-5">None of submissions are currently
+    without comments after 14 days.
   </div>
   <pagination-controls id="overDueSubPage" (pageChange)="overDueSubPage = $event"></pagination-controls>
   <hr>
@@ -137,6 +149,9 @@
       </tr>
       </tbody>
     </table>
+  </div>
+  <div *ngIf="!notCommentedYet.length" style="text-align: center" class="text-muted py-5">None of submissions are
+    currently without comment.
   </div>
   <pagination-controls id="notCommentedYetPage" (pageChange)="notCommentedYetPage = $event"></pagination-controls>
 </main>
