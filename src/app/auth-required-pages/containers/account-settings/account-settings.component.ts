@@ -39,23 +39,29 @@ export class AccountSettingsComponent implements OnInit {
   checkPassword() {
     //check if current password match the one from db
     // this.currentPassword.value
-    this.commonService.changePassword({
-      username: this.user.userName,
-      oldPassword: this.currentPassword.value,
-      newPassword: this.newPassword.value,
-    }).subscribe(value => {
-      if (value) {
-        if (value.success) {
-          this.isLoading = false;
-          this.toastrService.success('Password Changed Successfully');
+    if (this.newPassword.value !== this.confirmPassword.value) {
+      this.toastrService.error('Please make sure that new password matches confirm password');
+    }
+    else {
+      this.commonService.changePassword({
+        username: this.user.userName,
+        oldPassword: this.currentPassword.value,
+        newPassword: this.newPassword.value,
+      }).subscribe(value => {
+        if (value) {
+          if (value.success) {
+            this.isLoading = false;
+            this.toastrService.success('Password Changed Successfully');
 
-        } else {
-          this.isLoading = false;
-          const message = 'User ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
-          this.toastrService.error(message);
+          } else {
+            this.isLoading = false;
+            const message = 'User ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+            this.toastrService.error(message);
+          }
         }
-      }
-    });
+      });
+    }
+    
     //check if newPassword and Confirm password is the same
     this.errorMessage = ""
   }
