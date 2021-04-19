@@ -4,7 +4,7 @@
             <li class="breadcrumb-item"><a routerLink='/frontPage' routerLinkActive="active">Home</a></li>
             <li class="breadcrumb-item"><a routerLink='/yourActivities' routerLinkActive="active">Your Activity</a></li>
             <li class="breadcrumb-item"><a routerLink='/yourActivities/assignmentManagement' routerLinkActive="active">
-                    Assignment Management</a>
+                    Event Management</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 Evaluation Portal
@@ -71,7 +71,7 @@
             </div>
             <div class="text-muted py-5" style="text-align: center;"
                 *ngIf="initialLoading == false && submissionList.length ==0">
-                No submission found for this assignment.
+                No submission found for this event.
             </div>
             <pagination-controls id="submissionTable" (pageChange)="p = $event"></pagination-controls>
 

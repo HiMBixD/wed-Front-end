@@ -21,14 +21,14 @@
     </div>
     <hr>
     <h3><i class="fas fa-list-ul"></i>
-        Assignment List</h3>
+        Event List</h3>
     <div class="table-responsive-md">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Issues no.</th>
-                    <th>Assignment ID</th>
-                    <th>Assignment Title</th>
+                    <th>Event ID</th>
+                    <th>Event Title</th>
                     <th>Faculty</th>
                     <th>Creator</th>
                     <th>Start date</th>
@@ -57,8 +57,8 @@
         </table>
     </div>
     <div style="text-align: center;" *ngIf="assignmentList.length == 0" class="text-muted py-5">
-        Please enter an Issues number to get Assignments with corresponding Issues number, or click "Show
-        All" to get all assignments.
+        Please enter an Issues number to get Events with corresponding Issues number, or click "Show
+        All" to get all events.
     </div>
     <pagination-controls (pageChange)="assignmentPage = $event"></pagination-controls>
     <!-- //////////////////////////////////////////////////////////////////////////// -->
@@ -92,7 +92,7 @@
             </table>
         </div>
         <div *ngIf="submissionList.length ==0" style="text-align: center;" class="text-muted py-5">Please select an
-            Assignment
+            Event
             on the first table to view its submissions.
         </div>
         <pagination-controls (pageChange)="submissionPage = $event"></pagination-controls>
