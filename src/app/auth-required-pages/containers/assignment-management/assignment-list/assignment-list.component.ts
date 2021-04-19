@@ -138,25 +138,26 @@ export class AssignmentListComponent implements OnInit {
     this.description.setValue('')
   }
 
-  updateAssignment() {
-    console.log(this.toBeUpdated.assignment.assignmentId, this.assignmentName.value, this.description.value, this.deadlineSelected)
-    this.commonService.updateAssignment({
-      assignmentId: parseInt(this.toBeUpdated.assignment.assignmentId),
-      assignName: String(this.assignmentName.value),
-      description: String(this.description.value),
-      deadlineId: parseInt(this.deadlineSelected),
-    }).subscribe(value => {
-      if (value.success) {
-        this.toastrService.success(`Assignment "${this.assignmentName.value}" updated!`);
-        console.log('added!')
-      }
-      else {
-        const message = `Failed to update "${this.assignmentName.value}". Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
-        this.toastrService.error(message)
-        console.log(message)
-      }
-    })
-  }
+  // updateAssignment() {
+  //   console.log(this.toBeUpdated.assignment.assignmentId, this.assignmentName.value, this.description.value, this.deadlineSelected)
+  //   this.commonService.updateAssignment({
+  //     assignmentId: parseInt(this.toBeUpdated.assignment.assignmentId),
+  //     FacultyId: parseInt()
+  //     assignName: String(this.assignmentName.value),
+  //     description: String(this.description.value),
+  //     deadlineId: parseInt(this.deadlineSelected),
+  //   }).subscribe(value => {
+  //     if (value.success) {
+  //       this.toastrService.success(`Assignment "${this.assignmentName.value}" updated!`);
+  //       console.log('added!')
+  //     }
+  //     else {
+  //       const message = `Failed to update "${this.assignmentName.value}". Error code:` + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+  //       this.toastrService.error(message)
+  //       console.log(message)
+  //     }
+  //   })
+  // }
 
   syncAssignments() {
     this.commonService.searchAssignment({

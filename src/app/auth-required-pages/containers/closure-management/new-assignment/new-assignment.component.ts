@@ -159,6 +159,7 @@ export class NewAssignmentComponent implements OnInit {
     console.log(this.toBeUpdated.assignment.assignmentId, this.assignmentName.value, this.description.value, this.deadlineSelected)
     this.commonService.updateAssignment({
       assignmentId: parseInt(this.toBeUpdated.assignment.assignmentId),
+      facultyId: parseInt(this.faculty.value),
       assignName: String(this.assignmentName.value),
       description: String(this.description.value),
       deadlineId: parseInt(this.deadlineSelected),

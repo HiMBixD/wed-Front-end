@@ -249,6 +249,7 @@ export class CommonService {
    */
   updateAssignment(assignment: {
     assignmentId: number,
+    facultyId: number,
     assignName: string,
     description: string,
     deadlineId: number,
