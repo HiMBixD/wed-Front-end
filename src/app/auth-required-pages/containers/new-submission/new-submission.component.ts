@@ -129,7 +129,7 @@ export class NewSubmissionComponent implements OnInit {
     this.uploadService.getFilesBySub({ submissionId }).subscribe(file => {
       this.filesGot = file;
       console.log(file)
-      if (file.data != null && file.data.length > 0 ) {
+      if (file.data != null && file.data.length > 0) {
         console.log('https://docs.google.com/a/WedPj/viewer?url=' + this.url + file.data[0].fileId);
       }
       else {
@@ -147,7 +147,7 @@ export class NewSubmissionComponent implements OnInit {
     //if submission Id null
     //submit => get new id
     this.fileProgress[file.name] = 0;
-    this.uploadService.uploadFile({file, submissionId})
+    this.uploadService.uploadFile({ file, submissionId })
       .subscribe(
         event => {
           this.isSubmitting = true;
@@ -170,25 +170,32 @@ export class NewSubmissionComponent implements OnInit {
   submit() {
     //no submission details found => create new & upload file, else if found, upload files.
     // console.log(this.submissionId)
-    if (!this.submissionId) {
-      this.uploadService.submitSubmission({
-        assignmentId: this.assignment.assignmentId
-      }).subscribe(value => {
-        console.log('submit submission')
-        console.log(value);
-        this.submissionId = value.data.submissionId;
+    let today = new Date();
+    let deadline = new Date(this.assignment.deadline.endDate);
+    if (today.getDate() > deadline.getDate()) {
+      this.toastr.error('Deadline passed! Not accepting new entries.')
+    }
+    else {
+      if (!this.submissionId) {
+        this.uploadService.submitSubmission({
+          assignmentId: this.assignment.assignmentId
+        }).subscribe(value => {
+          console.log('submit submission')
+          console.log(value);
+          this.submissionId = value.data.submissionId;
+          this.files.forEach(file => {
+            this.upload(file, this.submissionId);
+          });
+          // this.isSubmitting = false;
+        });
+        this.getFiles();
+      }
+      else {
         this.files.forEach(file => {
           this.upload(file, this.submissionId);
         });
-        // this.isSubmitting = false;
-      });
-      this.getFiles();
-    }
-    else {
-      this.files.forEach(file => {
-        this.upload(file, this.submissionId);
-      });
-      this.getFiles();
+        this.getFiles();
+      }
     }
   }
 
@@ -204,8 +211,7 @@ export class NewSubmissionComponent implements OnInit {
     this.postingComment = true;
     console.log(this.submissionId);
     this.uploadService.addComment({ content: this.comment.value, submissionId: this.submissionId }).subscribe(
-      value =>
-      {
+      value => {
         if (value.success) {
           console.log('success');
           this.getComment();
