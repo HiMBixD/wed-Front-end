@@ -172,7 +172,7 @@ export class NewSubmissionComponent implements OnInit {
     // console.log(this.submissionId)
     let today = new Date();
     let deadline = new Date(this.assignment.deadline.endDate);
-    if (today.getDate() > deadline.getDate()) {
+    if (today.getDate() > deadline.getDate() && !this.submissionId) {
       this.toastr.error('Deadline passed! Not accepting new entries.')
     }
     else {
@@ -190,11 +190,14 @@ export class NewSubmissionComponent implements OnInit {
         });
         this.getFiles();
       }
-      else {
+      else if (this.submissionId && today.getDate()< deadline.setDate(deadline.getDate()+14)) {
         this.files.forEach(file => {
           this.upload(file, this.submissionId);
         });
         this.getFiles();
+      }
+      else {
+        this.toastr.error('Deadline and Final closure date passed. Not accepting any new entries or updates.')
       }
     }
   }
