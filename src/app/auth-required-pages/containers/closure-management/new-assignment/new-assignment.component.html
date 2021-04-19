@@ -86,7 +86,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let l of assignmentList | paginate: { itemsPerPage: 10, currentPage: p, id: assignmentList }">
+                <tr *ngFor="let l of assignmentList | paginate: { itemsPerPage: 10, currentPage: p, id: 'assignmentList' }">
                     <td>{{l.assignment.deadline.deadlineId}}</td>
                     <!-- <td>{{l.assignment.assignmentId}}</td> -->
                     <td>{{l.assignment.assignmentName}}</td>
