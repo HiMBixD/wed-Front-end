@@ -81,7 +81,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let s of submissionList | paginate: { itemsPerPage: 5, currentPage: submissionPage }">
+        <tr *ngFor="let s of submissionList | paginate: { itemsPerPage: 5, currentPage: submissionPage, id: 'submissionList' }">
           <td>{{s.submissionId}}</td>
           <td>{{s.username}}</td>
           <td>{{s.submissionDate}}</td>
@@ -101,7 +101,7 @@
       Event
       on the first table to view its submissions.
     </div>
-    <pagination-controls (pageChange)="submissionPage = $event"></pagination-controls>
+    <pagination-controls id='submissionList' (pageChange)="submissionPage = $event"></pagination-controls>
 
     <hr>
   </div>
